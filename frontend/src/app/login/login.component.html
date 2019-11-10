@@ -1,0 +1,30 @@
+<mat-card class="card">
+    <mat-card-header>
+        <mat-card-title>Storage Hotel</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="form-div">
+            <mat-form-field>
+                <input matInput placeholder="Email" [formControl]="email">
+                <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-flat-button color="accent" style="width: 80%;">SIGN IN</button>
+    </mat-card-actions>
+    <mat-card-actions>
+        <a routerLink="/register" mat-button color="accent">create an account</a>
+    </mat-card-actions>
+    <mat-card-footer>
+    </mat-card-footer>
+</mat-card>
+      
+  
