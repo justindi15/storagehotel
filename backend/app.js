@@ -1,17 +1,32 @@
-const express = require('express')
+//Libraries
+const express = require('express');
 const mongoose = require('mongoose');
 
-const app = express()
-const port = 3000
+const app = express();
+const port = 3000;
 
-//ROUTES
-app.get('/', (req, res) => res.send('Hello World!'))
+//middleware
+app.use(express.json());
+app.use(express.urlencoded());
 
-//CONNECT TO DATABASE (currently using a test database)
+//Import routes
+const userRoute = require('./routes/user');
+
+//Routes
+app.use('/users', userRoute);
+
+
+//Connect to database (currently using a test database)
 const url = 'mongodb://127.0.0.1:27017/storagehotel'
-mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true,});
+mongoose.connect(url,
+  {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+  });
 
-//CHECK DATABASE CONNECTION
+//Check database connection
 const db = mongoose.connection
 db.once('open', _ => {
   console.log('Database connected:', url)
