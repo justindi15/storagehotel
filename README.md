@@ -10,7 +10,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 * [Angular](https://angular.io/) - The frontend web framework
 * [Node.js](https://nodejs.org) - backend environment
-* [Express](hhttps://expressjs.com/) - backend web framework
+* [Express](https://expressjs.com/) - backend web framework
 * [MongoDB](https://www.mongodb.com/) - NoSQL database
 
 
