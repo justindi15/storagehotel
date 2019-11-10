@@ -9,21 +9,21 @@ Backend Node server that primarily serves the HQ API and triggers/responds to ev
 
 ## Installation
 
-run this command to install all dependencies
+run this command in the backend directory to install the dependencies
 
 ```
 $ npm install
 ```
 
 ### Run MongoDB
-run this command to start mongodb
+run this command in a separate terminal to start mongodb locally
 
 ```
 $ mongod
 ```
 
 ### Run Web Server
-Run this command to get a development server started:
+Run this command in the backend directory to get a development server started:
 ```
 $ npm start
 ```
