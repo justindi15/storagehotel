@@ -1,0 +1,23 @@
+.header {
+    background: white;
+    width: 100;
+    padding: 10px 40px;
+    display: flex;
+    justify-content: space-between;
+    color:  #5BBAAD;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+  }
+
+.steps-div {
+    width: 400px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.button-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+}
