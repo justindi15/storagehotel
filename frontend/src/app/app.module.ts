@@ -10,14 +10,16 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './components/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RegisterComponent } from './register/register.component';
-import { HeaderComponent } from './header/header.component';
+import { RegisterComponent } from './components/register/register.component';
+import { HeaderComponent } from './components/header/header.component';
 import { SelectComponent } from './views/select/select.component';
 import { BookComponent } from './views/book/book.component';
 import { PaymentComponent } from './views/payment/payment.component';
 import { ConfirmComponent } from './views/confirm/confirm.component';
+import { OrderCatalogComponent } from './components/order-catalog/order-catalog.component';
+import { ProductItemComponent } from './components/product-item/product-item.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { ConfirmComponent } from './views/confirm/confirm.component';
     BookComponent,
     PaymentComponent,
     ConfirmComponent,
+    OrderCatalogComponent,
+    ProductItemComponent,
   ],
   imports: [
     BrowserModule,

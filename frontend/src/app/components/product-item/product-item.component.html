@@ -1,0 +1,14 @@
+<div class="row">
+        <div class="item-icon">     
+            <img src="{{path}}">  
+        </div>
+        <div class="col">
+            <div class="item-name">{{name}}</div>
+            <div class="item-price">${{price}} /month</div>
+        </div>
+        <div class="counter-div">
+            <button mat-mini-fab color="accent" (click)="decrement()">-</button>
+            <div class="counter"><h2>{{count}}</h2></div>
+            <button mat-mini-fab color="accent" (click)="increment()">+</button>
+        </div>
+    </div>

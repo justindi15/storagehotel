@@ -1,0 +1,46 @@
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 20px 0px;
+  }
+  
+  .col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+
+.item-icon{
+    width: 100px;
+    height: 100px;
+}
+
+.item-name,
+.item-price{
+    font-size: 18px;
+    line-height: 18px;
+}
+
+.item-name{
+    font-weight: bold;
+}
+
+.counter-div{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.counter{
+  padding: 0px 20px;
+}
+
+.counter-button{
+  width: 30px;
+  height: 30px;
+}
+
+

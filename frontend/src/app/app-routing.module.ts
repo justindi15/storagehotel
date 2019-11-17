@@ -10,7 +10,8 @@ const routes: Routes = [
   { path: 'select', component: SelectComponent},
   { path: 'book', component: BookComponent},
   { path: 'payment', component: PaymentComponent},
-  { path: 'confirm', component: ConfirmComponent}
+  { path: 'confirm', component: ConfirmComponent},
+  { path: '', redirectTo: '/select',pathMatch:  'full'},
 ];
 
 @NgModule({

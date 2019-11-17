@@ -1,0 +1,22 @@
+<div class="component-wrapper">
+    <div class="row">
+        <div class="col" id="items">
+            <h1>items</h1>
+            <ng-container *ngFor="let product of products">
+                    <app-product-item *ngIf="product.category === 'items'" [product]="product"></app-product-item>
+            </ng-container>
+        </div>
+        <div class="col" id="bySize">
+            <h1>by size</h1>
+            <ng-container *ngFor="let product of products">
+                    <app-product-item *ngIf="product.category === 'size'" [product]="product"></app-product-item>
+            </ng-container>
+        </div>
+        <div class="col" id="addOns">
+            <h1>add ons</h1>
+            <div><p>Room Service</p></div>
+            <div><p>Moving Blanket</p></div>
+            <div><h3>Subtotal: ${{subtotal}}/month</h3></div>
+        </div>
+    </div>
+</div>
