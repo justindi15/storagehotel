@@ -1,24 +1,24 @@
 <mat-card class="card">
     <mat-card-header>
-        <mat-card-title>Storage Hotel</mat-card-title>
+        <mat-card-title>Log in to your account</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <div class="form-div">
+        <form class="form-div" [formGroup]="loginForm">
             <mat-form-field>
-                <input matInput placeholder="Email" [formControl]="email">
-                <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                <input matInput placeholder="Email" formControlName="email">
+                <mat-error *ngIf="loginForm.get('email').invalid">{{getErrorMessage()}}</mat-error>
             </mat-form-field>
             <mat-form-field>
-                <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'">
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                    [attr.aria-pressed]="hide">
-                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
+                    <input matInput placeholder="Password" formControlName="password" [type]="show ? 'text' : 'password'">
+                    <button mat-icon-button matSuffix (click)="show = !show" [attr.aria-label]="'Show password'"
+                        [attr.aria-pressed]="show">
+                        <mat-icon>{{show ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    </button>
             </mat-form-field>
-        </div>
+        </form>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-flat-button color="accent" style="width: 80%;">SIGN IN</button>
+        <button mat-flat-button color="accent" [disabled]="!loginForm.valid" style="width: 80%;">SIGN IN</button>
     </mat-card-actions>
     <mat-card-actions>
         <a routerLink="/register" mat-button color="accent">create an account</a>

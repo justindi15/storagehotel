@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl, Validators, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -7,7 +7,11 @@ import {FormControl, Validators} from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  email = new FormControl('', [Validators.email]);
+
+  loginForm = new FormGroup({
+    email: new FormControl('', [Validators.email, Validators.required]),
+    password: new FormControl('', [Validators.required])
+  });
 
   constructor() { }
 
@@ -15,7 +19,7 @@ export class LoginComponent implements OnInit {
   }
 
   getErrorMessage() {
-    return this.email.hasError('email') ? 'Not a valid email' :
+    return this.loginForm.get('email').hasError('email') ? 'Not a valid email' :
             '';
   }
 

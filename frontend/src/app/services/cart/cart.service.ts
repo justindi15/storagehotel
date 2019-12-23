@@ -27,7 +27,6 @@ export class CartService {
     return this.items;
   }
 
-  
   increaseSubtotal(newSubtotal: number){
     this.subtotalSource.next(newSubtotal);
   }
@@ -40,5 +39,4 @@ export class CartService {
     return this.items.filter(item => item.name == product.name).length;
   }
 
-  
 }

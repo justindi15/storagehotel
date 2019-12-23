@@ -7,6 +7,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,11 +16,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegisterComponent } from './components/register/register.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SelectComponent } from './views/select/select.component';
+import { LoginViewComponent } from './views/login-view/login-view.component';
 import { BookComponent } from './views/book/book.component';
 import { PaymentComponent } from './views/payment/payment.component';
 import { ConfirmComponent } from './views/confirm/confirm.component';
 import { OrderCatalogComponent } from './components/order-catalog/order-catalog.component';
 import { ProductItemComponent } from './components/product-item/product-item.component';
+import { RegisterViewComponent } from './views/register-view/register-view.component';
 
 @NgModule({
   declarations: [
@@ -33,9 +36,12 @@ import { ProductItemComponent } from './components/product-item/product-item.com
     ConfirmComponent,
     OrderCatalogComponent,
     ProductItemComponent,
+    LoginViewComponent,
+    RegisterViewComponent,
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
