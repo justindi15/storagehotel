@@ -16,6 +16,7 @@
                     </button>
             </mat-form-field>
         </form>
+        <mat-error id="error">{{this.loginError}}</mat-error>
     </mat-card-content>
     <mat-card-actions>
         <button mat-flat-button type="button" (click)="loginUser()" color="accent" [disabled]="!loginForm.valid" style="width: 80%;">SIGN IN</button>

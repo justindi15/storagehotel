@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, Validators, FormGroup } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -9,14 +10,16 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 })
 export class RegisterComponent implements OnInit {
 
+  registerError = "";
+
   registerForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
-    // confirmPassword: new FormControl('', [Validators.required]),
+    confirmPassword: new FormControl('', [Validators.required]),
   });
 
-  constructor(private auth: AuthenticationService) { }
+  constructor(private auth: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -30,11 +33,22 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  registerUser(){
+  registerUser() {
     const postData = this.registerForm.value;
+    if (this.passwordsMatch()) {
+      this.auth.register(postData).subscribe(() => {
+        this.router.navigateByUrl('/book');
+      }, (err) => {
+        this.registerError = err.error.message;
+      });
 
-    console.log(postData);
-    this.auth.register(postData)
+    } else {
+      this.registerError = "Passwords do not match"
+    }
+  }
+
+  private passwordsMatch(): boolean {
+    return this.registerForm.get('password').value === this.registerForm.get('confirmPassword').value;
   }
 
 }

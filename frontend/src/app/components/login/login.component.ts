@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, Validators, FormGroup} from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,12 +10,14 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 })
 export class LoginComponent implements OnInit {
 
+  loginError = "";
+
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', [Validators.required])
   });
 
-  constructor(private auth: AuthenticationService) { }
+  constructor(private auth: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -24,11 +27,15 @@ export class LoginComponent implements OnInit {
             '';
   }
 
-  loginUser(){
+  loginUser() {
     const postData = this.loginForm.value;
-
     console.log(postData);
-    this.auth.login(postData)
+
+    this.auth.login(postData).subscribe(() => {
+      this.router.navigateByUrl('/book');
+    }, (err) => {
+      this.loginError = err.error.message;
+    });
   }
 
 }

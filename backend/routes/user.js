@@ -21,15 +21,20 @@ router.post('/register', (req, res) => {
   });
 
   //TODO: check if user is already in database => don't register if already exists
-
-  newUser.save()
-  .then(function() {
-    var token;
-    token = newUser.generateJwt();
-    res.status(200);
-    res.json({"token": token});
+  User.findOne({ email: email}, (err, user) => {
+    if (err) {res.status(400).json({ message: err})}
+    if (user) {res.status(400).json({ message: "User with that email already exists"})}
+    if (!user) {
+        newUser.save()
+        .then(function() {
+          var token;
+          token = newUser.generateJwt();
+          res.status(200);
+          res.json({"token": token});
+        })
+        .catch(err => {res.status(400).json({ message: err})});
+    }
   })
-  .catch(err => {res.status(400).json({ message: err})});
 });
 
 //Validate a Login Request
