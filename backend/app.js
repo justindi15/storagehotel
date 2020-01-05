@@ -1,6 +1,7 @@
 //Libraries
 const express = require('express');
 const mongoose = require('mongoose');
+const passport = require('passport');
 
 const app = express();
 const port = 3000;
@@ -8,15 +9,24 @@ const port = 3000;
 //middleware
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(passport.initialize());
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authorization");
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+  next();
+});
 
-//Import routes
+// //Import routes
 const userRoute = require('./routes/user');
 
-//Routes
+// //Routes
 app.use('/users', userRoute);
 
+require('./config/passport');
 
 //Connect to database (currently using a test database)
+//TODO: move url to env variable
 const url = 'mongodb://127.0.0.1:27017/storagehotel'
 mongoose.connect(url,
   {

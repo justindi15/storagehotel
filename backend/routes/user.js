@@ -1,4 +1,5 @@
 const express = require('express');
+var passport = require('passport');
 const router = express.Router();
 const User = require('../models/user')
 
@@ -7,17 +8,54 @@ router.get('/', (req, res) => {
 });
 
 //Create a new user and Save it to the database
-router.post('/', (req, res) => {
-    const {email, password} = req.body;
+router.post('/register', (req, res) => {
 
-    const newUser = new User({
-        email: email,
-        password: password
-    });
+  //TODO: validate form input types
 
-    newUser.save()
-    .then(() => res.send('successfully created new user!'))
-    .catch(err => {res.status(400).json({ message: err})});
+  const {name, email, password} = req.body;
+
+  const newUser = new User({
+      name: name,
+      email: email,
+      password: password
+  });
+
+  //TODO: check if user is already in database => don't register if already exists
+
+  newUser.save()
+  .then(function() {
+    var token;
+    token = newUser.generateJwt();
+    res.status(200);
+    res.json({"token": token});
+  })
+  .catch(err => {res.status(400).json({ message: err})});
+});
+
+//Validate a Login Request
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', function (err, user, info) {
+        var token;
+
+        // If Passport throws/catches an error
+        if (err) {
+            res.status(404).json(err);
+            return;
+        }
+
+        // If a user is found
+        if (user) {
+            token = user.generateJwt();
+            res.status(200);
+            res.json({
+                "token": token
+            });
+        } else {
+            // If user is not found
+            res.status(401).json(info);
+        }
+    })(req, res, next);
+
 });
 
 module.exports = router;

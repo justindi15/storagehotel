@@ -18,7 +18,7 @@
         </form>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-flat-button color="accent" [disabled]="!loginForm.valid" style="width: 80%;">SIGN IN</button>
+        <button mat-flat-button type="button" (click)="loginUser()" color="accent" [disabled]="!loginForm.valid" style="width: 80%;">SIGN IN</button>
     </mat-card-actions>
     <mat-card-actions>
         <a routerLink="/register" mat-button color="accent">create an account</a>

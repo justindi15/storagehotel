@@ -18,14 +18,24 @@ export interface TokenPayload {
 })
 export class AuthenticationService {
 
-  url = `http://httpbin.org/post`;
+  url = `http://localhost:3000/users/register`;
 
   constructor(private http: HttpClient, private router: Router) { }
 
   public register(user: TokenPayload) {
     this.http.post(this.url, user).toPromise()
     .then((data: any) => {
-      console.log(JSON.stringify(data.json));
+      console.log(JSON.stringify(data));
+    })
+    .catch(error => {
+      console.log("error: " + error);
+    })
+  }
+
+  public login(user: any){
+    this.http.post(`http://localhost:3000/users/login`, user).toPromise()
+    .then((data: any) => {
+      console.log(JSON.stringify(data));
     })
     .catch(error => {
       console.log("error: " + error);
