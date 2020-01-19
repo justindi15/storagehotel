@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {FormControl, Validators, FormGroup} from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+  @Output() hasNoAccount = new EventEmitter<boolean>();
   loginError = "";
 
   loginForm = new FormGroup({
@@ -38,4 +39,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  private goToRegister(){
+    this.hasNoAccount.emit();
+  }
 }

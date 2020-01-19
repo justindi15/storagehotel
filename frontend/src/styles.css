@@ -3,3 +3,9 @@
 
 html, body { height: 100%; background-color: #F8F8F8;}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.pac-container:after {
+    /* Disclaimer: not needed to show 'powered by Google' if also a Google Map is shown */
+
+    background-image: none !important;
+    height: 0px;
+}

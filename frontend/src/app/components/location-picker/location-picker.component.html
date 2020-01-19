@@ -1,0 +1,29 @@
+<div class="main-wrapper">
+    <form [hidden]="confirmed" class="form-div" [formGroup]="locationForm">
+        <mat-form-field>
+            <input matInput placeholder="Address" formControlName="address" ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Apt/Unit/Floor/House" formControlName="address2" id="address2-input">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="City" formControlName="city" id="city-input">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Postal Code" formControlName="postalcode" id="postalcode-input">
+        </mat-form-field>
+    </form>
+    <div [hidden]="!confirmed" class="confirmed-div">
+        <h2 align="center" >To be picked up at:</h2>
+        <h3 align="center">{{locationForm.get('address2').value}}
+            <br>{{locationForm.get('address').value}}
+            <br>{{locationForm.get('city').value}}, BC
+            <br>Canada {{locationForm.get('postalcode').value}}
+        </h3>
+    </div>
+    <div class="button-div">
+        <button mat-flat-button [hidden]="confirmed" (click)="handleClick()" color="accent" type="button" [disabled]="!locationForm.valid">Confirm</button>
+        <button mat-flat-button [hidden]="!confirmed" (click)="handleClick()" color="accent" type="button">Change</button>
+    </div>
+</div>
+

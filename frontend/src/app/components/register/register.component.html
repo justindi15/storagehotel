@@ -28,7 +28,7 @@
         <button mat-flat-button type="button" (click)="registerUser()" [disabled]="!registerForm.valid" color="accent" style="width: 80%;">REGISTER</button>
     </mat-card-actions>
     <mat-card-actions>
-        <a routerLink="/login" mat-button color="accent">already have an account?</a>
+        <button mat-button color="accent" (click)="goToLogin()">already have an account?</button>
     </mat-card-actions>
     <mat-card-footer>
     </mat-card-footer>

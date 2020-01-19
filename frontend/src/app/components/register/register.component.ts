@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {FormControl, Validators, FormGroup } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
 
+  @Output() hasAccount = new EventEmitter<boolean>();
   registerError = "";
 
   registerForm = new FormGroup({
@@ -49,6 +50,10 @@ export class RegisterComponent implements OnInit {
 
   private passwordsMatch(): boolean {
     return this.registerForm.get('password').value === this.registerForm.get('confirmPassword').value;
+  }
+
+  private goToLogin(){
+    this.hasAccount.emit();
   }
 
 }

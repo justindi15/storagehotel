@@ -1,1 +1,13 @@
 <app-header></app-header>
+<div class="main">
+    <div class="summary-div">
+        <span>Order Summary</span>
+    </div>
+    <div class="vertical-line"></div>
+    <div class="forms-div">
+        <app-login *ngIf="hasAccount; else elseBlock" (hasNoAccount)="hasAccount = false"></app-login>
+        <ng-template #elseBlock>
+            <app-register (hasAccount)="hasAccount = true"></app-register>
+        </ng-template>
+    </div>
+</div>

@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConfirmComponent implements OnInit {
 
+  hasAccount = false;
+
   constructor() { }
 
   ngOnInit() {
