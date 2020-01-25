@@ -15,3 +15,8 @@
     flex-basis: 100%;
     flex: 1;
   }
+
+  mat-card {
+    padding: 50px;
+    border-radius: 25px;
+  }

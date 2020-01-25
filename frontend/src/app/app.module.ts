@@ -7,6 +7,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import {MatTableModule} from '@angular/material/table';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -22,7 +24,6 @@ import { RegisterComponent } from './components/register/register.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SelectComponent } from './views/select/select.component';
 import { BookComponent } from './views/book/book.component';
-import { PaymentComponent } from './views/payment/payment.component';
 import { ConfirmComponent } from './views/confirm/confirm.component';
 import { OrderCatalogComponent } from './components/order-catalog/order-catalog.component';
 import { ProductItemComponent } from './components/product-item/product-item.component';
@@ -37,7 +38,6 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
     HeaderComponent,
     SelectComponent,
     BookComponent,
-    PaymentComponent,
     ConfirmComponent,
     OrderCatalogComponent,
     ProductItemComponent,
@@ -53,6 +53,7 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
     BrowserAnimationsModule,
     MatCardModule,
     MatFormFieldModule,
+    MatTableModule,
     MatIconModule,
     MatSelectModule,
     MatInputModule,
@@ -60,6 +61,7 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
     MatDividerModule,
     MatDatepickerModule,
     MatMomentDateModule,
+    MatProgressSpinnerModule,
     GooglePlaceModule,
   ],
   providers: [],

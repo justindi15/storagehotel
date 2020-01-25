@@ -1,50 +1,57 @@
-export const products = [
+export interface product {
+  name: string;
+  category: string;
+  path: string;
+  space: number;
+}
+
+export const PRODUCTS: product[] = [
     {
       name: 'Skis',
-      price: 15,
       category: 'items',
-      path: 'assets/svg/Skis.svg'
+      path: 'assets/svg/Skis.svg',
+      space: 3
     },
     {
       name: 'Snowboard',
-      price: 15,
       category: 'items',
-      path: 'assets/svg/Snowboard.svg'
+      path: 'assets/svg/Snowboard.svg',
+      space: 3
     },
     {
       name: 'Bicycle',
-      price: 30,
       category: 'items',
-      path: 'assets/svg/Bicycle.svg'
+      path: 'assets/svg/Bicycle.svg',
+      space: 8,
     },
     {
       name: 'Small',
-      price: 12,
       category: 'size',
-      path: 'assets/svg/Small.svg'
+      path: 'assets/svg/Small.svg',
+      space: 2,
     },
     {
       name: 'Medium',
-      price: 15,
       category: 'size',
-      path: 'assets/svg/Medium.svg'
+      path: 'assets/svg/Medium.svg',
+      space: 4,
     },
     {
       name: 'Large',
-      price: 22,
       category: 'size',
-      path: 'assets/svg/Large.svg'
+      path: 'assets/svg/Large.svg',
+      space: 6,
     },
     {
       name: 'XL',
-      price: 28,
       category: 'size',
-      path: 'assets/svg/XL.svg'
+      path: 'assets/svg/XL.svg',
+      space: 8,
     },
     {
       name: 'XXL',
-      price: 38,
       category: 'size',
-      path: 'assets/svg/XXL.svg'
+      path: 'assets/svg/XXL.svg',
+      space: 10,
     },
   ];

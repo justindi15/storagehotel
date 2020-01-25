@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { products } from 'src/app/products';
-import { CartService } from 'src/app/services/cart/cart.service';
+import { PRODUCTS, product } from 'src/app/products';
+import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 
 @Component({
   selector: 'app-order-catalog',
@@ -8,11 +8,12 @@ import { CartService } from 'src/app/services/cart/cart.service';
   styleUrls: ['./order-catalog.component.css']
 })
 export class OrderCatalogComponent implements OnInit {
-  products = products;
-  subtotal: number;
+  products = PRODUCTS;
+  spaceEstimate: number;
+  cart: product[] = [];
 
-  constructor( private cartService: CartService ) {
-    this.cartService.currentSubtotal.subscribe(newSubtotal => this.subtotal = newSubtotal);
+  constructor( private cartService: CheckoutService ) {
+    this.cartService.currentspaceEstimate.subscribe(newspaceEstimate => this.spaceEstimate = newspaceEstimate);
    }
 
   ngOnInit() {

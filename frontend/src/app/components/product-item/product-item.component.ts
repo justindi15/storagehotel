@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CartService } from 'src/app/services/cart/cart.service';
+import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 
 @Component({
   selector: 'app-product-item',
@@ -9,33 +9,35 @@ import { CartService } from 'src/app/services/cart/cart.service';
 export class ProductItemComponent implements OnInit {
   @Input() product: any;
   name: string;
-  price: number;
+  space: number;
   path: string;
   count: number;
-  subtotal: number;
+  spaceEstimate: number;
 
-  constructor( private cartService: CartService ) {
-    this.cartService.currentSubtotal.subscribe(newSubtotal => this.subtotal = newSubtotal);
+  constructor( private cartService: CheckoutService ) {
+    this.cartService.currentspaceEstimate.subscribe(newspaceEstimate => this.spaceEstimate = newspaceEstimate);
   }
 
   ngOnInit() {
-    this.count = 0;
     this.name = this.product.name;
-    this.price = this.product.price;
+    this.space = this.product.space;
     this.path = this.product.path;
+    this.count = this.cartService.counters[this.name] || 0;
   }
 
   increment() {
     this.count++;
     this.cartService.addToCart(this.product);
-    this.cartService.increaseSubtotal(this.subtotal + this.price);
+    this.cartService.increasespaceEstimate(this.spaceEstimate + this.space);
+    this.cartService.counters[this.name] = this.count;
   }
 
   decrement() {
     if(this.count >= 1){
       this.count--;
       this.cartService.removeFromCart(this.product);
-      this.cartService.decreaseSubtotal(this.subtotal - this.price);
+      this.cartService.decreasespaceEstimate(this.spaceEstimate - this.space);
+      this.cartService.counters[this.name] = this.count;
     }
   }
 }

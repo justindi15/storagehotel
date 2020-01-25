@@ -1,9 +1,0 @@
-.footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    padding-bottom: 50px;
-    width: 95%;
-    display: flex;
-    justify-content: flex-end;
-  }

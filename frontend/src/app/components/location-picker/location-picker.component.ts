@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormControl, Validators, FormGroup } from '@angular/forms';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
+import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 
 
 @Component({
@@ -26,7 +27,12 @@ export class LocationPickerComponent implements OnInit {
     postalcode: new FormControl('', [Validators.required]),
   })
 
-  constructor() { }
+  constructor( private cartService: CheckoutService ) { 
+    if(this.cartService.address) {
+      this.locationForm = this.cartService.address;
+      this.handleClick();
+    }
+  }
 
   ngOnInit() {
 
@@ -68,6 +74,7 @@ export class LocationPickerComponent implements OnInit {
     city: city,
     postalcode: postalcode
   })
+  this.cartService.address = this.locationForm;
 }
 
 }

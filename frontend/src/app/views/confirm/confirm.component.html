@@ -1,13 +1,60 @@
 <app-header></app-header>
 <div class="main">
     <div class="summary-div">
-        <span>Order Summary</span>
+        <h1>Order Summary</h1>
+        <div class="table-div">
+        <table mat-table [dataSource]="cart">
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>ITEM</th>
+                <td mat-cell *matCellDef="let item">
+                    <div id="item-div">
+                        <img id="item-icon" [src]="item.img"/>
+                        <h2 id="item-name">{{item.name}}</h2>
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="qty">
+                <th mat-header-cell *matHeaderCellDef>QUANTITY</th>
+                <td mat-cell *matCellDef="let item"><h3>{{item.qty}}</h3></td>
+            </ng-container>
+
+            <ng-container matColumnDef="space">
+                <th mat-header-cell *matHeaderCellDef>SPACE</th>
+                <td mat-cell *matCellDef="let item"><h3>{{item.space * item.qty}}</h3></td>
+            </ng-container>
+
+            <ng-container matColumnDef="noRecord">
+                <td mat-footer-cell *matFooterCellDef>There are no items in your cart</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <ng-template [ngIf]="cart.length === 0">
+                <tr mat-footer-row *matFooterRowDef="['noRecord']"></tr>
+            </ng-template>
+        </table>
+        </div>
+        <div class="cubic-feet-div">
+            <div>Total Cubic Feet</div>
+            <div>{{getTotalSpace()}}</div>
+        </div>
+        <div class="price-div">
+            <div class="price-text">
+                <div>Subtotal</div>
+                <div>GST</div>
+                <div>Total</div>
+            </div>
+            <div class="price-numbers">
+                <div>$100</div>
+                <div>$10</div>
+                <div>$110</div>
+            </div>
+        </div>
     </div>
     <div class="vertical-line"></div>
     <div class="forms-div">
-        <app-login *ngIf="hasAccount; else elseBlock" (hasNoAccount)="hasAccount = false"></app-login>
-        <ng-template #elseBlock>
-            <app-register (hasAccount)="hasAccount = true"></app-register>
-        </ng-template>
+            <app-register></app-register>
     </div>
 </div>

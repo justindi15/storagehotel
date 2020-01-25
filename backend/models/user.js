@@ -7,7 +7,8 @@ const SALT_WORK_FACTOR = 10;
 const UserSchema = new Schema({
     name: { type: String, required: true},
     email: { type: String, required: true, index: { unique: true } },
-    password: { type: String, required: true }
+    password: { type: String, required: true},
+    stripe_id: { type: String, required: true},
 });
 
 //hash passwords before documents are saved to MongoDB
@@ -47,6 +48,7 @@ UserSchema.methods.generateJwt =  function() {
       _id: this._id,
       email: this.email,
       name: this.name,
+      stripe_id: this.stripe_id,
       exp: parseInt(expiry.getTime() / 1000),
     }, "MY_SECRET"); // TODO: move secret key to ENV variable
 }
