@@ -1,15 +1,27 @@
 mat-card {
     border-radius: 25px;
-    width: 50vh;
 }
 
 mat-card-header {
     border-bottom: 1px solid #E0E0E0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 30px;
 }
 
 mat-card-actions, mat-card-header {
     display: flex;
     justify-content: center;
+}
+
+.time-div{
+    width: 80%;
+}
+
+.place-div {
+    width: 80%;
 }
 
 .form-div{
@@ -25,9 +37,12 @@ mat-card-actions, mat-card-header {
     justify-content: center;
 }
 
-mat-form-field,
-textarea {
+mat-form-field {
     width: 80%;
+}
+
+mat-card-content {
+    padding-top: 20px;
 }
 
 #error {

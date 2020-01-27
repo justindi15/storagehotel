@@ -63,6 +63,10 @@
     align-items: center;
 }
 
+app-register {
+    width: 75%;
+}
+
  .vertical-line {
     width: 0px;
     height: 600px;

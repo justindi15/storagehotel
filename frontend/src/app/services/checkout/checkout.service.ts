@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject }    from 'rxjs';
 import { PRODUCTS, product } from 'src/app/products';
 import { FormGroup } from '@angular/forms';
+import { Moment } from 'moment';
 
 export interface CounterMap {
   [key: string] : number;
@@ -14,14 +15,15 @@ export class CheckoutService {
   items: product[] = [];
   counters: CounterMap = {};
   address: FormGroup;
-  time: Date;
+  date: Moment;
+  time: string;
 
   private spaceEstimateSource = new BehaviorSubject(0);
   currentspaceEstimate = this.spaceEstimateSource.asObservable();
 
   constructor() { }
 
-  addToCart(product: product) {
+  addTocheckout(product: product) {
     for(let i=0; i < this.items.length; i++){
       if( this.items[i].name == product.name){
         return;
@@ -31,7 +33,7 @@ export class CheckoutService {
     //TODO: test this
   }
 
-  removeFromCart(product: product) {
+  removeFromcheckout(product: product) {
     for(let i=0; i < this.items.length; i++){
       if( this.items[i].name == product.name){
         this.items.splice(i, 1);

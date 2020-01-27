@@ -10,10 +10,10 @@ import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 export class OrderCatalogComponent implements OnInit {
   products = PRODUCTS;
   spaceEstimate: number;
-  cart: product[] = [];
+  checkout: product[] = [];
 
-  constructor( private cartService: CheckoutService ) {
-    this.cartService.currentspaceEstimate.subscribe(newspaceEstimate => this.spaceEstimate = newspaceEstimate);
+  constructor( private checkoutService: CheckoutService ) {
+    this.checkoutService.currentspaceEstimate.subscribe(newspaceEstimate => this.spaceEstimate = newspaceEstimate);
    }
 
   ngOnInit() {

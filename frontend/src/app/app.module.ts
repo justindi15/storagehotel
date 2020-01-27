@@ -24,7 +24,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SelectComponent } from './views/select/select.component';
 import { BookComponent } from './views/book/book.component';
-import { ConfirmComponent } from './views/confirm/confirm.component';
+import { CheckoutComponent } from './views/checkout/checkout.component';
 import { OrderCatalogComponent } from './components/order-catalog/order-catalog.component';
 import { ProductItemComponent } from './components/product-item/product-item.component';
 import { LocationPickerComponent } from './components/location-picker/location-picker.component';
@@ -38,7 +38,7 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
     HeaderComponent,
     SelectComponent,
     BookComponent,
-    ConfirmComponent,
+    CheckoutComponent,
     OrderCatalogComponent,
     ProductItemComponent,
     LocationPickerComponent,

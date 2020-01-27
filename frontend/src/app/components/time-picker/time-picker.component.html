@@ -1,4 +1,15 @@
 <div class="calendar-wrapper">
     <mat-calendar #calendar [(selected)]="selectedDate" (selectedChange)="dateChanged()" [minDate]="today">
     </mat-calendar>
+    <div class="time-picker">
+          <mat-form-field>
+            <mat-label >Pickup time</mat-label>
+            <mat-select [(value)]="time" (selectionChange)="timeChanged()" disableRipple>
+              <mat-option value="10:00am to 12:00pm">10:00am to 12:00pm</mat-option>
+              <mat-option value="1:00pm to 3:00pm">1:00pm to 3:00pm</mat-option>
+              <mat-option value="4:00pm to 6:00pm">4:00pm to 6:00pm</mat-option>
+              <mat-option value="7:00pm to 9:00pm">7:00pm to 9:00pm</mat-option>
+            </mat-select>
+          </mat-form-field>
+    </div>
 </div>

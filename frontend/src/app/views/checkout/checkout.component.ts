@@ -10,18 +10,18 @@ export interface OrderItem {
 }
 
 @Component({
-  selector: 'app-confirm',
-  templateUrl: './confirm.component.html',
-  styleUrls: ['./confirm.component.css']
+  selector: 'app-checkout',
+  templateUrl: './checkout.component.html',
+  styleUrls: ['./checkout.component.css']
 })
-export class ConfirmComponent implements OnInit {
+export class CheckoutComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'qty', 'space'];
-  cart: OrderItem[] = [];
+  checkout: OrderItem[] = [];
 
-  constructor( private cartService: CheckoutService ) { 
-    this.cart = cartService.getItems().map(item => {
-      return {img: item.path, name: item.name, qty: cartService.counters[item.name], space: item.space}
+  constructor( private checkoutService: CheckoutService ) { 
+    this.checkout = checkoutService.getItems().map(item => {
+      return {img: item.path, name: item.name, qty: checkoutService.counters[item.name], space: item.space}
     })
 
   }
@@ -31,7 +31,7 @@ export class ConfirmComponent implements OnInit {
 
   getTotalSpace() {
     let result = 0
-    this.cart.map(item => {
+    this.checkout.map(item => {
       result += item.qty * item.space
     })
     return result;

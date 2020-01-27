@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { CheckoutService } from './checkout.service';
 
-describe('CartService', () => {
+describe('checkoutService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {

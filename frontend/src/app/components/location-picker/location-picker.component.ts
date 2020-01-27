@@ -27,9 +27,9 @@ export class LocationPickerComponent implements OnInit {
     postalcode: new FormControl('', [Validators.required]),
   })
 
-  constructor( private cartService: CheckoutService ) { 
-    if(this.cartService.address) {
-      this.locationForm = this.cartService.address;
+  constructor( private checkoutService: CheckoutService ) { 
+    if(this.checkoutService.address) {
+      this.locationForm = this.checkoutService.address;
       this.handleClick();
     }
   }
@@ -74,7 +74,7 @@ export class LocationPickerComponent implements OnInit {
     city: city,
     postalcode: postalcode
   })
-  this.cartService.address = this.locationForm;
+  this.checkoutService.address = this.locationForm;
 }
 
 }

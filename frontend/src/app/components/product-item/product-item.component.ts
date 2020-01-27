@@ -14,30 +14,30 @@ export class ProductItemComponent implements OnInit {
   count: number;
   spaceEstimate: number;
 
-  constructor( private cartService: CheckoutService ) {
-    this.cartService.currentspaceEstimate.subscribe(newspaceEstimate => this.spaceEstimate = newspaceEstimate);
+  constructor( private checkoutService: CheckoutService ) {
+    this.checkoutService.currentspaceEstimate.subscribe(newspaceEstimate => this.spaceEstimate = newspaceEstimate);
   }
 
   ngOnInit() {
     this.name = this.product.name;
     this.space = this.product.space;
     this.path = this.product.path;
-    this.count = this.cartService.counters[this.name] || 0;
+    this.count = this.checkoutService.counters[this.name] || 0;
   }
 
   increment() {
     this.count++;
-    this.cartService.addToCart(this.product);
-    this.cartService.increasespaceEstimate(this.spaceEstimate + this.space);
-    this.cartService.counters[this.name] = this.count;
+    this.checkoutService.addTocheckout(this.product);
+    this.checkoutService.increasespaceEstimate(this.spaceEstimate + this.space);
+    this.checkoutService.counters[this.name] = this.count;
   }
 
   decrement() {
     if(this.count >= 1){
       this.count--;
-      this.cartService.removeFromCart(this.product);
-      this.cartService.decreasespaceEstimate(this.spaceEstimate - this.space);
-      this.cartService.counters[this.name] = this.count;
+      this.checkoutService.removeFromcheckout(this.product);
+      this.checkoutService.decreasespaceEstimate(this.spaceEstimate - this.space);
+      this.checkoutService.counters[this.name] = this.count;
     }
   }
 }

@@ -22,14 +22,27 @@ export class RegisterComponent implements AfterViewInit {
   loading = false;
   stripe: any;
   card: any;
+  time: string;
+  date: string;
+  address: FormGroup;
 
   registerForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
   });
 
-  constructor(private auth: AuthenticationService, private router: Router, private cart: CheckoutService) { 
+  constructor(private auth: AuthenticationService, private router: Router, private checkout: CheckoutService) { 
+    if(this.checkout.date){
+      this.date = this.checkout.date.format("MMM. D, YYYY");
+    }
 
+    if(this.checkout.time){
+      this.time = this.checkout.time;
+    }
+
+    if(this.checkout.address){
+      this.address = this.checkout.address;
+    }
   }
 
   ngAfterViewInit() {

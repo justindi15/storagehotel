@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Moment } from 'moment';
 import { TimePickerComponent } from 'src/app/components/time-picker/time-picker.component';
+import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 
 @Component({
   selector: 'app-book',
@@ -11,13 +12,12 @@ export class BookComponent implements OnInit {
   @ViewChild('calendar', {static: false})
   calendar: TimePickerComponent;
 
-  constructor() { }
+  constructor(private checkout: CheckoutService) { }
 
   ngOnInit() {
   }
  
   dateSelected(value: Moment) {
-    console.log(value);
   }
 
 }

@@ -1,5 +1,23 @@
 <mat-card class="card">
     <mat-card-header>
+        <div class="place-div">
+            <p>Pickup Location:</p>
+            <strong *ngIf="address; else noAddress">
+                <div *ngIf="(address.get('address2').value != '')">{{address.get('address2').value || ''}}<br></div>
+                {{address.get('address').value}}, {{address.get('city').value}}, BC
+                <br>Canada {{address.get('postalcode').value}}
+            </strong>
+            <ng-template #noAddress>
+                <strong>You forgot to set a pickup address!</strong>
+            </ng-template>
+        </div>
+        <div class="time-div">
+            <p>Pickup Date & Time:</p>
+            <h4 *ngIf="(time && date); else noTime">{{date}} from {{time}}</h4>
+            <ng-template #noTime>
+                    <strong>You forgot to set a pickup date & time!</strong>
+            </ng-template>
+        </div>
     </mat-card-header>
     <mat-card-content>
         <form class="form-div" [formGroup]="registerForm" action="/charge" method="post" id="payment-form">
@@ -19,8 +37,8 @@
             <mat-error id="error">{{errorMessage}}</mat-error>
     </mat-card-content>
     <mat-card-actions>
-        <mat-spinner *ngIf="loading; else elseBlock" color="accent" diameter="50"></mat-spinner>
-        <ng-template #elseBlock>
+        <mat-spinner *ngIf="loading; else payButtonTemplate" color="accent" diameter="50"></mat-spinner>
+        <ng-template #payButtonTemplate>
             <button mat-flat-button id="payment-button" type="button" (click)="onSubmit()" [disabled]="!(registerForm.valid && paymentCardComplete)" color="accent" style="width: 80%;">PAY ${{total_price}}</button>
         </ng-template>
     </mat-card-actions>

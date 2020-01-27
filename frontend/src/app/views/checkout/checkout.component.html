@@ -3,7 +3,7 @@
     <div class="summary-div">
         <h1>Order Summary</h1>
         <div class="table-div">
-        <table mat-table [dataSource]="cart">
+        <table mat-table [dataSource]="checkout">
 
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef>ITEM</th>
@@ -26,12 +26,12 @@
             </ng-container>
 
             <ng-container matColumnDef="noRecord">
-                <td mat-footer-cell *matFooterCellDef>There are no items in your cart</td>
+                <td mat-footer-cell *matFooterCellDef>There are no items in your checkout</td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            <ng-template [ngIf]="cart.length === 0">
+            <ng-template [ngIf]="checkout.length === 0">
                 <tr mat-footer-row *matFooterRowDef="['noRecord']"></tr>
             </ng-template>
         </table>
