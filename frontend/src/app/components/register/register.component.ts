@@ -3,7 +3,6 @@ import {FormControl, Validators, FormGroup } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { Router } from '@angular/router';
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 declare var Stripe: any;
 
 
@@ -96,7 +95,6 @@ export class RegisterComponent implements AfterViewInit {
     const postData = {
       name: form.get('name').value,
       email: form.get('email').value,
-      password: 'test', //TODO: change this
       payment_method: paymentMethodId,
     }
     this.auth.register(postData).subscribe(() => {
@@ -104,6 +102,7 @@ export class RegisterComponent implements AfterViewInit {
       alert('successfully subscribed!')
       this.loading = false;
     }, (err) => {
+      console.log(err);
       this.errorMessage = err.error.message;
       this.loading = false
     });

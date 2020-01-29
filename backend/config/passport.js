@@ -16,6 +16,9 @@ passport.use(new LocalStrategy({
         });
       }
 
+      //Return if user is not activated yet
+      if(!user.activated) { return done(null, false, {message: 'User has not been activated'})}
+
       user.comparePassword(password, function(err, isMatch){
         if (err) throw err;
         if(isMatch) return done(null, user); //If credentials are correct, return the user object

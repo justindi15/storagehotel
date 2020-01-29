@@ -10,7 +10,7 @@ import { Token } from '@angular/compiler/src/ml_parser/lexer';
 export interface TokenPayload {
   name: string;
   email: string;
-  password: string;
+  payment_method: any;
 }
 
 export interface UserDetails {

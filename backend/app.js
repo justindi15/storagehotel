@@ -2,6 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
+require('dotenv').config()
 
 const app = express();
 const port = 3000;
@@ -26,8 +27,7 @@ app.use('/users', userRoute);
 require('./config/passport');
 
 //Connect to database (currently using a test database)
-//TODO: move url to env variable
-const url = 'mongodb://127.0.0.1:27017/storagehotel'
+const url = process.env.DATABASE_URL
 mongoose.connect(url,
   {
     useNewUrlParser: true,
@@ -45,5 +45,6 @@ db.once('open', _ => {
 db.on('error', err => {
   console.error('connection error:', err)
 })
+
 
 app.listen(port, () => console.log(`listening on port ${port}!`))
