@@ -39,7 +39,7 @@
     <mat-card-actions>
         <mat-spinner *ngIf="loading; else payButtonTemplate" color="accent" diameter="50"></mat-spinner>
         <ng-template #payButtonTemplate>
-            <button mat-flat-button id="payment-button" type="button" (click)="onSubmit()" [disabled]="!(registerForm.valid && paymentCardComplete)" color="accent" style="width: 80%;">PAY ${{total_price}}</button>
+            <button mat-flat-button id="payment-button" type="button" (click)="onSubmit()" [disabled]="!(registerForm.valid && paymentCardComplete && address && time && date && items)" color="accent" style="width: 80%;">PAY ${{total_price}}</button>
         </ng-template>
     </mat-card-actions>
     <mat-card-actions>

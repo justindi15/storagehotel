@@ -14,6 +14,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -29,6 +31,10 @@ import { OrderCatalogComponent } from './components/order-catalog/order-catalog.
 import { ProductItemComponent } from './components/product-item/product-item.component';
 import { LocationPickerComponent } from './components/location-picker/location-picker.component';
 import { TimePickerComponent } from './components/time-picker/time-picker.component';
+import { SigninComponent } from './views/signin/signin.component';
+import { DashboardComponent } from './views/dashboard/dashboard.component';
+import { ActivateComponent } from './views/activate/activate.component';
+import { AuthGuardService } from './services/authguard/authguard.service';
 
 @NgModule({
   declarations: [
@@ -43,6 +49,9 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
     ProductItemComponent,
     LocationPickerComponent,
     TimePickerComponent,
+    SigninComponent,
+    DashboardComponent,
+    ActivateComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,8 +72,10 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
     MatMomentDateModule,
     MatProgressSpinnerModule,
     GooglePlaceModule,
+    MatSnackBarModule,
+    MatTabsModule,
   ],
-  providers: [],
+  providers: [AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

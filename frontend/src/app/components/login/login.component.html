@@ -1,15 +1,29 @@
+<mat-card *ngIf="emailDisabled; else elseBlock" class="card">
+<mat-card-header>
+    <mat-card-title>First time logging in?</mat-card-title>
+        <p style="text-align: center;">we've sent you an email that contains a link to complete your registration.</p>
+</mat-card-header>
+<mat-card-content>
+    <div class="justify-centre">
+        <button mat-flat-button type="button" color="accent" style="width: 80%;">Resend Activation Email</button>
+    </div>
+</mat-card-content>
+</mat-card>
+<ng-template #elseBlock>
 <mat-card class="card">
     <mat-card-header>
         <mat-card-title>Log in to your account</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <form class="form-div" [formGroup]="loginForm">
-            <mat-form-field>
-                <input matInput placeholder="Email" formControlName="email">
-                <mat-error *ngIf="loginForm.get('email').invalid">{{getErrorMessage()}}</mat-error>
+        <form class="form-div">
+            <mat-form-field *ngIf="!emailVerified" appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="johnsmith@example.com" [formControl]="email">
+                <mat-error *ngIf="email.hasError">{{getErrorMessage()}}</mat-error>
             </mat-form-field>
-            <mat-form-field>
-                    <input matInput placeholder="Password" formControlName="password" [type]="show ? 'text' : 'password'">
+            <mat-form-field *ngIf="emailVerified" appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput placeholder="****** " [formControl]="password" [type]="show ? 'text' : 'password'">
                     <button mat-icon-button matSuffix (click)="show = !show" [attr.aria-label]="'Show password'"
                         [attr.aria-pressed]="show">
                         <mat-icon>{{show ? 'visibility' : 'visibility_off'}}</mat-icon>
@@ -19,13 +33,12 @@
         <mat-error id="error">{{this.loginError}}</mat-error>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-flat-button type="button" (click)="loginUser()" color="accent" [disabled]="!loginForm.valid" style="width: 80%;">SIGN IN</button>
-    </mat-card-actions>
-    <mat-card-actions>
-        <button mat-button color="accent" (click)="goToRegister()">create an account</button>
+        <button *ngIf="!emailVerified" mat-flat-button type="button" (click)="verifyEmail()" color="accent" [disabled]="!email.valid" style="width: 80%;">NEXT</button>
+        <button *ngIf="emailVerified" mat-flat-button type="button" (click)="loginUser()" color="accent" [disabled]="!password.valid" style="width: 80%;">LOGIN</button>
     </mat-card-actions>
     <mat-card-footer>
     </mat-card-footer>
 </mat-card>
+</ng-template>
       
   

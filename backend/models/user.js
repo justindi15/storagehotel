@@ -10,7 +10,8 @@ const UserSchema = new Schema({
     password: { type: String},
     stripe_id: { type: String, required: true},
     activated: { type: Boolean},
-    activationToken: { type: String }, //TODO: handle activation token
+    activationToken: { type: String },
+    items: [{name: String, status: String, path: String, space: Number}],
 });
 
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
@@ -28,6 +29,7 @@ UserSchema.methods.generateJwt =  function() {
       _id: this._id,
       email: this.email,
       name: this.name,
+      items: this.item,
       stripe_id: this.stripe_id,
       exp: parseInt(expiry.getTime() / 1000),
     }, process.env.PRIVATE_KEY);

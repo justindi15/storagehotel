@@ -6,14 +6,20 @@ const User = require('../models/user')
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
 var nodemailer = require('nodemailer');
+var jwt = require('express-jwt');
 const uuidv4 = require('uuid/v4');
+var auth = jwt({
+    secret: process.env.PRIVATE_KEY,
+    userProperty: 'payload'
+  });
 
 let mailOptions = function(email, activationToken){
     return {
         from: process.env.EMAIL,
         to: email,
         subject: 'Storagehotel Account Activation',
-        text: 'Your activation token is ' + activationToken,
+        text: 'Follow this link to finish creating your account ' 
+        + `http://localhost:4200/activate/${email}/${activationToken}`,
     }
 }
 
@@ -26,7 +32,10 @@ router.post('/register', (req, res) => {
 
   //TODO: validate form input types
 
-  const {name, email, payment_method} = req.body;
+  const {name, email, payment_method, address, items } = req.body;
+  const {line1, line2, city, postalcode} = address;
+  
+  
 
   //check if user with email already exists
   User.findOne({ email: email}, (err, user) => {
@@ -38,13 +47,24 @@ router.post('/register', (req, res) => {
         stripe.customers.create({
             name: name,
             email: email,
+            address: {
+                "line1": line1,
+                "city": city,
+                "country": "CA",
+                "line2": line2,
+                "postal_code": postalcode,
+                "state": "BC",
+            },
             payment_method: payment_method,
             invoice_settings: {
                 default_payment_method: payment_method,
               },
           }, function(err, customer){
               //send a failed response if stripe api call fails
-              if(err) {res.status(400).json({ message: err})}
+              if(err) {
+                  console.log(err);
+                  res.status(400).json({ message: "stripe api call failed"})
+                }
 
               //save user with stripe customer id to database if stripe call succeeds
               const newUser = new User({
@@ -53,6 +73,12 @@ router.post('/register', (req, res) => {
                   stripe_id: customer.id,
                   activated: false,
                   activationToken: uuidv4(),
+                  items: items.map((item) => (
+                      {name: item.name,
+                        path: item.path,
+                        space: item.space,
+                        status: "In Storage",
+                    }))
               })
 
               newUser.save()
@@ -93,6 +119,25 @@ router.post('/register', (req, res) => {
   })
 });
 
+
+router.post('/verifyEmail', (req, res, next) => {
+    const { email } = req.body;
+    console.log('verfied email: ' + email);
+
+    User.findOne({ email: email}, (err, user) => {
+        if (err) {res.status(400).json({ message: err})}
+        if (!user) {res.status(400).json({ message: "User with that email does not exist"})}
+        if (user) {
+            if(user.activated){
+                res.status(200);
+                res.json({message: "success"})
+            }else{
+                {res.status(401).json({message: "You have not activated your account yet"})}
+            }
+        }
+    })
+});
+
 //Activate a registered user
 router.post('/activate', (req, res, next) => {
 
@@ -105,7 +150,7 @@ router.post('/activate', (req, res, next) => {
         if (user) {
             //check if user account is already enabled
             if(user.activated){
-                {res.status(400).json({ message: "This user account is already activated"})}
+                {res.status(400).json({ message: "This user account has already been activated"})}
             }
             //if user exists, is not yet enabled, and the activation token matches, then add a salted password and activate it
             if((user.activated == false) && user.activationToken == activationToken){
@@ -159,5 +204,19 @@ router.post('/login', (req, res, next) => {
     })(req, res, next);
 
 });
+
+router.get('/profile', auth, (req, res) => {
+    if (!req.payload._id) {
+        res.status(401).json({
+          "message" : "UnauthorizedError: private profile"
+        });
+      } else {
+        User
+          .findById(req.payload._id)
+          .exec(function(err, user) {
+            res.status(200).json(user);
+          });
+      }
+})
 
 module.exports = router;

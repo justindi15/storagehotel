@@ -24,6 +24,7 @@ export class RegisterComponent implements AfterViewInit {
   time: string;
   date: string;
   address: FormGroup;
+  items = [];
 
   registerForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -41,6 +42,10 @@ export class RegisterComponent implements AfterViewInit {
 
     if(this.checkout.address){
       this.address = this.checkout.address;
+    }
+
+    if(this.checkout.items){
+      this.items = this.checkout.items;
     }
   }
 
@@ -96,6 +101,14 @@ export class RegisterComponent implements AfterViewInit {
       name: form.get('name').value,
       email: form.get('email').value,
       payment_method: paymentMethodId,
+      address: {
+        line1: this.address.get('address').value,
+        line2: this.address.get('address2').value,
+        city: this.address.get('city').value,
+        postalcode: this.address.get('postalcode').value,
+      },
+      items: this.items,
+      //TODO: add items, booking time
     }
     this.auth.register(postData).subscribe(() => {
       //TODO: handle successful payment 

@@ -9,3 +9,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background-image: none !important;
     height: 0px;
 }
+.mat-tab-body-wrapper{
+    flex-grow: 1;
+  }

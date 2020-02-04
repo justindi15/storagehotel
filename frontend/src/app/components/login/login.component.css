@@ -7,9 +7,21 @@ mat-card-title {
     padding-top: 20px;
 }
 
-mat-card-actions, mat-card-header {
+mat-card-header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+mat-card-actions{
     display: flex;
     justify-content: center;
+}
+
+.justify-centre {
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 .form-div{

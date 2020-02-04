@@ -10,13 +10,12 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  @Output() hasNoAccount = new EventEmitter<boolean>();
+  email = new FormControl('', [Validators.required, Validators.email]);
+  password = new FormControl('', [Validators.required]);
   loginError = "";
+  emailVerified: boolean = false;
+  emailDisabled: boolean;
 
-  loginForm = new FormGroup({
-    email: new FormControl('', [Validators.email, Validators.required]),
-    password: new FormControl('', [Validators.required])
-  });
 
   constructor(private auth: AuthenticationService, private router: Router) { }
 
@@ -24,22 +23,36 @@ export class LoginComponent implements OnInit {
   }
 
   getErrorMessage() {
-    return this.loginForm.get('email').hasError('email') ? 'Not a valid email' :
+    return this.email.hasError('email') ? 'Not a valid email' :
             '';
   }
 
   loginUser() {
-    const postData = this.loginForm.value;
+    const postData = {
+      email: this.email.value,
+      password: this.password.value,
+    };
     console.log(postData);
 
     this.auth.login(postData).subscribe(() => {
-      this.router.navigateByUrl('/book');
+      this.router.navigateByUrl('/dashboard');
     }, (err) => {
       this.loginError = err.error.message;
     });
   }
 
-  private goToRegister(){
-    this.hasNoAccount.emit();
+  verifyEmail() {
+    
+    this.auth.verifyEmail(this.email.value).subscribe((res)=>{
+      console.log(res);
+      this.emailVerified = true;
+    }, (err) => {
+      if(err.status == 401){
+        this.emailDisabled = true;
+      }
+      console.log(err);
+      this.loginError = err.error.message;
+    })
   }
+
 }

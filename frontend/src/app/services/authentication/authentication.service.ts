@@ -7,16 +7,35 @@ import { Token } from '@angular/compiler/src/ml_parser/lexer';
 
 //interfaces go here
 
-export interface TokenPayload {
+export interface Address {
+  line1: string;
+  line2: string;
+  city: string;
+  postalcode: string;
+}
+
+export interface RegisterPayload {
   name: string;
   email: string;
   payment_method: any;
+  address: Address;
+}
+
+export interface LoginPayload {
+  email: string;
+  password: string;
 }
 
 export interface UserDetails {
   _id: string;
   email: string;
   name: string;
+  items: {
+    name: string;
+    path: string;
+    status: string;
+    space: number;
+  }
   exp: number;
 }
 
@@ -59,36 +78,60 @@ export class AuthenticationService {
   public isLoggedIn(): boolean {
     const user = this.getUserDetails();
     if (user) {
+      console.log(user);
       return user.exp > Date.now() / 1000;
     } else {
       return false;
     }
   }
 
-  private request(type: 'login'|'register'|'profile', user: TokenPayload): Observable<any> {
-    let base = this.http.post(`http://localhost:3000/users/${type}`, user);
-  
+  private request(method: 'post'|'get', type: 'login'|'register'|'profile', user?: RegisterPayload | LoginPayload): Observable<any> {
+    let base;
+
+    if (method === 'post') {
+      base = this.http.post(`http://localhost:3000/users/${type}`, user);
+    } else {
+      base = this.http.get(`http://localhost:3000/users/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+    }
+
     const request = base.pipe(
       map((data: TokenResponse) => {
         if (data.token) {
           this.saveToken(data.token);
         }
-        console.log(JSON.stringify(data));
         return data;
       },
       (error) => {
         //TODO: HANDLE REQUEST ERRORS (not sure how to do this properly)
       })
     );
-  
+
     return request;
   }
 
-  public login(user: TokenPayload): Observable<any> {
-    return this.request('login', user);
+  public login(user: LoginPayload): Observable<any> {
+    return this.request('post', 'login', user);
   }
 
-  public register(user: TokenPayload): Observable<any> {
-    return this.request('register', user);
+  public register(user: RegisterPayload): Observable<any> {
+    return this.request('post', 'register', user);
+  }
+
+  public profile(): Observable<any> {
+    return this.request('get', 'profile');
+  }
+
+  public verifyEmail(email: string): Observable<any> {
+    const postData = { email: email }
+    return this.http.post(`http://localhost:3000/users/verifyEmail`, postData);
+  }
+
+  public activate(email: string, token: string, password: string): Observable<any> {
+    const postData = {
+      email: email,
+      password: password,
+      activationToken: token,
+    }
+    return this.http.post(`http://localhost:3000/users/activate`, postData);
   }
 }
