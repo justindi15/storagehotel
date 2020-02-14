@@ -10,7 +10,7 @@
 
   <mat-tab>
       <ng-template mat-tab-label>
-        <h2>Stored Items</h2>
+        <h3>Stored Items</h3>
       </ng-template>
       <div class="content">
         <app-stored-items [items]=items [email]=email (bookingSuccessful)="onBookingSuccess($event)"></app-stored-items>
@@ -19,7 +19,7 @@
   
     <mat-tab>
       <ng-template mat-tab-label>
-        <h2>Appointments</h2>
+        <h3>Appointments</h3>
       </ng-template>
       <div class="content">
         <app-appointments [appointments]=appointments [email]=email (deletedAppointment)="onDeletedAppointment($event)"></app-appointments>
@@ -28,12 +28,12 @@
   
       <mat-tab>
         <ng-template mat-tab-label>
-          <h2>Account</h2>
+          <h3>Account</h3>
         </ng-template>
         <div class="content">
             <div class="account">
               <div class="profile"></div>
-              <h1>Profile</h1>
+              <h2>Profile</h2>
               <div class="profile-row">
                 <div class="profile-field">Name</div>
                 <div class="profile-value">{{name || "-"}}</div>
@@ -48,7 +48,7 @@
               </div>
               <div class="account-row">
                   <div class="account-address">
-                    <h1>Address</h1>
+                    <h2>Address</h2>
                     <p class="address-value" *ngIf="(address === '-'); else elseBlock">
                       -
                     </p>
@@ -61,7 +61,7 @@
                     </ng-template>
                   </div>
                   <div class="account-payments">
-                    <h1>Payments</h1>
+                    <h2>Payments</h2>
                   </div>
               </div>
             </div>

@@ -33,7 +33,7 @@ export interface UserDetails {
     name: string;
     path: string;
     status: string;
-    space: number;
+    price: number;
   }
   exp: number;
 }

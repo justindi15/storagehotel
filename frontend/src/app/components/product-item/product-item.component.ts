@@ -9,18 +9,18 @@ import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 export class ProductItemComponent implements OnInit {
   @Input() product: any;
   name: string;
-  space: number;
+  price: number;
   path: string;
   count: number;
-  spaceEstimate: number;
+  priceEstimate: number;
 
   constructor( private checkoutService: CheckoutService ) {
-    this.checkoutService.currentspaceEstimate.subscribe(newspaceEstimate => this.spaceEstimate = newspaceEstimate);
+    this.checkoutService.currentpriceEstimate.subscribe(newpriceEstimate => this.priceEstimate = newpriceEstimate);
   }
 
   ngOnInit() {
     this.name = this.product.name;
-    this.space = this.product.space;
+    this.price = this.product.price;
     this.path = this.product.path;
     this.count = this.checkoutService.counters[this.name] || 0;
   }
@@ -28,7 +28,7 @@ export class ProductItemComponent implements OnInit {
   increment() {
     this.count++;
     this.checkoutService.addTocheckout(this.product);
-    this.checkoutService.increasespaceEstimate(this.spaceEstimate + this.space);
+    this.checkoutService.increasepriceEstimate(this.priceEstimate + this.price);
     this.checkoutService.counters[this.name] = this.count;
   }
 
@@ -36,7 +36,7 @@ export class ProductItemComponent implements OnInit {
     if(this.count >= 1){
       this.count--;
       this.checkoutService.removeFromcheckout(this.product);
-      this.checkoutService.decreasespaceEstimate(this.spaceEstimate - this.space);
+      this.checkoutService.decreasepriceEstimate(this.priceEstimate - this.price);
       this.checkoutService.counters[this.name] = this.count;
     }
   }

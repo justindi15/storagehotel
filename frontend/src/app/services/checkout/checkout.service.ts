@@ -18,8 +18,8 @@ export class CheckoutService {
   date: Moment;
   time: string;
 
-  private spaceEstimateSource = new BehaviorSubject(0);
-  currentspaceEstimate = this.spaceEstimateSource.asObservable();
+  private priceEstimateSource = new BehaviorSubject(0);
+  currentpriceEstimate = this.priceEstimateSource.asObservable();
 
   constructor() { }
 
@@ -45,12 +45,12 @@ export class CheckoutService {
     return this.items;
   }
 
-  increasespaceEstimate(newspaceEstimate: number){
-    this.spaceEstimateSource.next(newspaceEstimate);
+  increasepriceEstimate(newpriceEstimate: number){
+    this.priceEstimateSource.next(newpriceEstimate);
   }
 
-  decreasespaceEstimate(amount: number){
-    this.spaceEstimateSource.next(amount);
+  decreasepriceEstimate(amount: number){
+    this.priceEstimateSource.next(amount);
   }
 
 }

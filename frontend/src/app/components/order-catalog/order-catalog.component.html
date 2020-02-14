@@ -1,23 +1,24 @@
 <div class="component-wrapper">
     <div class="row">
-        <div class="col" id="items">
-            <h1>items</h1>
+        <div class="col">
+        <h1>Oversized items</h1>
+        <div class="col" id="col-1">
             <ng-container *ngFor="let product of products">
-                    <app-product-item *ngIf="product.category === 'items'" [product]="product"></app-product-item>
+                    <app-product-item *ngIf="product.col === '1'" [product]="product"></app-product-item>
             </ng-container>
         </div>
-        <div class="col" id="bySize">
-            <h1>by size</h1>
+        <div class="col" id="col-2">
             <ng-container *ngFor="let product of products">
-                    <app-product-item *ngIf="product.category === 'size'" [product]="product"></app-product-item>
+                    <app-product-item *ngIf="product.col === '2'" [product]="product"></app-product-item>
             </ng-container>
+        </div>
         </div>
         <div class="col">
             <mat-card>
-                <h1>Storage Space Calculator</h1>
+                <h1>Storage Price Calculator</h1>
                 <mat-card-subtitle><p>As you add the items you want to store, your cubic estimate will calculate.</p></mat-card-subtitle>
                 <mat-card-actions>
-                    <h2>Total Cubic Feet Estimate: {{spaceEstimate}}</h2>
+                    <h2>Total Cubic Feet Estimate: {{priceEstimate}}</h2>
                 </mat-card-actions>
             </mat-card>
         </div>

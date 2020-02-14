@@ -1,16 +1,17 @@
 .items-div{
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: 50%;
     margin: auto;
     height: 100%;
 }
 
 .items-header{
-    padding-top: 50px;
+    padding-top: 2vh;
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #E0E0E0;
+    font-size: small;
 }
 
 .list-item {
@@ -21,14 +22,10 @@
     flex-wrap: wrap;
     margin-top: 20px;
     margin-bottom: 20px;
-    border-radius: 25px;
+    border-radius: 15px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     padding-top: 10px;
     padding-bottom: 10px;
-}
-
-app-stored-items {
-    width: 100%;
 }
 
 .date-col{
@@ -44,13 +41,13 @@ app-stored-items {
 
 .month-div{
     display: flex;
-    font-size: x-large;
+    font-size: larger;
     justify-content: center;
 }
 
 .day-div{
     display: flex;
-    font-size: xx-large;
+    font-size: x-large;
     justify-content: center;
 }
 
@@ -58,13 +55,13 @@ app-stored-items {
     padding-top: 20px;
     display: flex;
     justify-content: center;
+    font-size: small;
 }
 
 .appointment-details {
     flex-direction: column;
     width: 70%;
-    padding-left: 50px;
-    padding-bottom: 10px;
+    padding-left: 2%;
 }
 
 .details-row {
@@ -72,8 +69,11 @@ app-stored-items {
     flex-direction: row;
 }
 
+.detail-title {
+    font-size: small;
+}
+
 .appointment-type {
-    font-size: large;
     color: grey;
 }
 
@@ -86,9 +86,13 @@ app-stored-items {
 }
 
 .cancel-button {
-    width: 25%;
+    width: 30%;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-left: 20px;
+}
+
+.detail-value {
+    font-size: small;
+    font-weight: bold;
 }

@@ -1,57 +1,57 @@
 export interface product {
   name: string;
-  category: string;
+  col: string;
   path: string;
-  space: number;
+  price: number;
 }
 
 export const PRODUCTS: product[] = [
     {
-      name: 'Skis',
-      category: 'items',
+      name: 'Skis/Snowboard',
+      col: '1',
       path: 'assets/svg/Skis.svg',
-      space: 3
+      price: 3
     },
     {
-      name: 'Snowboard',
-      category: 'items',
+      name: 'Carry-On Suitcase',
+      col: '1',
       path: 'assets/svg/Snowboard.svg',
-      space: 3
+      price: 3
     },
     {
       name: 'Bicycle',
-      category: 'items',
+      col: '1',
       path: 'assets/svg/Bicycle.svg',
-      space: 8,
+      price: 8,
     },
     {
-      name: 'Small',
-      category: 'size',
+      name: 'Check-In Suitcase',
+      col: '1',
       path: 'assets/svg/Small.svg',
-      space: 2,
+      price: 2,
     },
     {
-      name: 'Medium',
-      category: 'size',
+      name: 'Duffle Bag',
+      col: '2',
       path: 'assets/svg/Medium.svg',
-      space: 4,
+      price: 4,
     },
     {
-      name: 'Large',
-      category: 'size',
+      name: 'Large Duffle Bag',
+      col: '2',
       path: 'assets/svg/Large.svg',
-      space: 6,
+      price: 6,
     },
     {
-      name: 'XL',
-      category: 'size',
+      name: 'Cube Mini Fridge',
+      col: '2',
       path: 'assets/svg/XL.svg',
-      space: 8,
+      price: 8,
     },
     {
-      name: 'XXL',
-      category: 'size',
+      name: 'Mini Fridge',
+      col: '2',
       path: 'assets/svg/XXL.svg',
-      space: 10,
+      price: 10,
     },
   ];

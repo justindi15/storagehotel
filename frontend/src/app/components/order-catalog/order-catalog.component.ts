@@ -9,11 +9,11 @@ import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 })
 export class OrderCatalogComponent implements OnInit {
   products = PRODUCTS;
-  spaceEstimate: number;
+  priceEstimate: number;
   checkout: product[] = [];
 
   constructor( private checkoutService: CheckoutService ) {
-    this.checkoutService.currentspaceEstimate.subscribe(newspaceEstimate => this.spaceEstimate = newspaceEstimate);
+    this.checkoutService.currentpriceEstimate.subscribe(newpriceEstimate => this.priceEstimate = newpriceEstimate);
    }
 
   ngOnInit() {

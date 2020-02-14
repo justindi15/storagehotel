@@ -18,23 +18,23 @@
           </div>
           <div class="appointment-details">
             <div class="appointment-type">
-              <h3>{{appointment.appointmentType}}</h3>
+              <h3 style="margin-top: 0.5em; margin-bottom: 0.5em;">{{appointment.appointmentType}}</h3>
             </div>
             <div class="details-row">
               <div class="appointment-items">
-                <span>ITEMS</span>
+                <span class="detail-title">ITEMS</span>
                 <ul style="list-style-type:none; padding-left: 0px;">
-                  <li *ngFor="let item of appointment.items">
-                    <strong>{{ item }}</strong>
+                  <li *ngFor="let item of appointment.items" class="detail-value">
+                    {{ item }}
                   </li>
                 </ul>
               </div>
               <div class="appointment-address">
-                <span>ADDRESS</span>
-                <h4>{{appointment.address}}</h4>
+                <span class="detail-title">ADDRESS</span>
+                <p class="detail-value">{{appointment.address}}</p>
               </div>
               <div class="cancel-button">
-                <button mat-stroked-button (click)="onClickCancel(appointment._id)">CANCEL APPOINTMENT</button>
+                <button mat-stroked-button (click)="onClickCancel(appointment._id)">CANCEL</button>
               </div>
             </div>
           </div>

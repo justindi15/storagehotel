@@ -6,7 +6,7 @@ export interface OrderItem {
   img: string;
   name: string;
   qty: number;
-  space: number;
+  price: number;
 }
 
 @Component({
@@ -16,12 +16,12 @@ export interface OrderItem {
 })
 export class CheckoutComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'qty', 'space'];
+  displayedColumns: string[] = ['name', 'qty', 'price'];
   checkout: OrderItem[] = [];
 
   constructor( private checkoutService: CheckoutService ) { 
     this.checkout = checkoutService.getItems().map(item => {
-      return {img: item.path, name: item.name, qty: checkoutService.counters[item.name], space: item.space}
+      return {img: item.path, name: item.name, qty: checkoutService.counters[item.name], price: item.price}
     })
 
   }
@@ -29,10 +29,10 @@ export class CheckoutComponent implements OnInit {
   ngOnInit() {
   }
 
-  getTotalSpace() {
+  getTotalPrice() {
     let result = 0
     this.checkout.map(item => {
-      result += item.qty * item.space
+      result += item.qty * item.price
     })
     return result;
   }
