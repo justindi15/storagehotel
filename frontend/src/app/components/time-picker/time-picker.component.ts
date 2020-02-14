@@ -3,6 +3,7 @@ import { Moment } from 'moment';
 import * as moment from 'moment';
 import { MatCalendar } from '@angular/material';
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
+import { MatCalendarCellCssClasses } from '@angular/material';
 
 
 @Component({
@@ -55,6 +56,22 @@ export class TimePickerComponent implements AfterViewInit {
 
   timeChanged() {
     this.checkout.time = this.time;
+  }
+
+  myFilter = (d: Moment | null): boolean => {
+    const day = d.day();
+    // Prevent Saturday and Sunday from being selected.
+    return day !== 0 && day !== 6 ;
+  }
+
+  dateClass = (d: Moment): MatCalendarCellCssClasses => {
+    //if date is disabled then don't provide special styling
+    if(d < moment() || !this.myFilter(d)) return ''
+
+    const date = d.date();
+
+    // Highlight the 1st and 20th day of each month.
+    return (date === 1 || date === 20) ? 'free-pickup-date' : 'custom-date';
   }
 
 }

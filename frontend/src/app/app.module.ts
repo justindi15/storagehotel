@@ -16,6 +16,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatStepperModule} from '@angular/material/stepper';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -35,6 +39,9 @@ import { SigninComponent } from './views/signin/signin.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { ActivateComponent } from './views/activate/activate.component';
 import { AuthGuardService } from './services/authguard/authguard.service';
+import { StoredItemsComponent } from './components/stored-items/stored-items.component';
+import { AppointmentsComponent } from './components/appointments/appointments.component';
+import { RetrieveModalComponent } from './components/retrieve-modal/retrieve-modal.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +59,12 @@ import { AuthGuardService } from './services/authguard/authguard.service';
     SigninComponent,
     DashboardComponent,
     ActivateComponent,
+    StoredItemsComponent,
+    AppointmentsComponent,
+    RetrieveModalComponent,
+  ],
+  entryComponents: [
+    RetrieveModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,6 +87,10 @@ import { AuthGuardService } from './services/authguard/authguard.service';
     GooglePlaceModule,
     MatSnackBarModule,
     MatTabsModule,
+    MatDialogModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatStepperModule,
   ],
   providers: [AuthGuardService],
   bootstrap: [AppComponent]

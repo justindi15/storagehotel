@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { Router } from '@angular/router';
-import { Token } from '@angular/compiler/src/ml_parser/lexer';
 
 //interfaces go here
 
@@ -52,15 +51,20 @@ export class AuthenticationService {
   constructor(private http: HttpClient, private router: Router) { }
 
   private saveToken(token: string): void {
-    localStorage.setItem('user-token', token);
+    sessionStorage.setItem('user-token', token);
     this.token = token;
   }
 
   private getToken(): string {
     if (!this.token) {
-      this.token = localStorage.getItem('user-token');
+      this.token = sessionStorage.getItem('user-token');
     }
     return this.token;
+  }
+
+  public logout(): void {
+    sessionStorage.clear()
+    this.token = null;
   }
 
   public getUserDetails(): UserDetails {
@@ -133,5 +137,22 @@ export class AuthenticationService {
       activationToken: token,
     }
     return this.http.post(`http://localhost:3000/users/activate`, postData);
+  }
+
+  public addAppointment(email: string, appointment: any): Observable<any> {
+    const postData = {
+      email: email,
+      appointment: appointment
+    }
+    return this.http.post(`http://localhost:3000/users/appointment`, postData);
+  }
+
+  public deleteAppointment(email: string, appointmentId: string): Observable<any> {
+    const postData = {
+      email: email,
+      appointmentId: appointmentId
+    }
+    console.log(postData);
+    return this.http.post(`http://localhost:3000/users/deleteappointment`, postData);
   }
 }

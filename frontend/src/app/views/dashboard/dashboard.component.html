@@ -2,63 +2,69 @@
     <h1 class="title">storagehotel</h1>
 
     <div class="button-div">
-        <button mat-stroked-button>Log out</button>
+        <button mat-stroked-button type="button" (click)="logout()">Log out</button>
     </div>
 </div>
 
 <mat-tab-group class="tab" mat-align-tabs="center" color="accent" animationDuration="0ms" disableRipple="true">
-    <mat-tab>
+
+  <mat-tab>
       <ng-template mat-tab-label>
         <h2>Stored Items</h2>
       </ng-template>
       <div class="content">
-        <div class="items-div">
-          <div class="items-header">
-            <p>ITEMS</p>
-            <button mat-flat-button color="accent">  retrieve items  </button>
-          </div>
-
-          <div class="items-list">
-            <ng-container *ngFor="let item of items">
-              <div class="item">
-                
-                  <div class="item-icon">     
-                      <img src="{{item.path}}">  
-                  </div>
-                  <div class="col">
-                      <h2>{{item.name}}</h2>
-                      <div class="item-status">STATUS: <strong class="value">{{item.status}}</strong></div>
-                  </div>
-                  <div class="col">
-                    <div class="item-size">
-                      SIZE: <strong class="value">{{item.space}} cu ft</strong>
-                    </div>
-                  </div>
-
-
-
-              </div>
-            </ng-container>
-          </div>
-        </div>
+        <app-stored-items [items]=items [email]=email (bookingSuccessful)="onBookingSuccess($event)"></app-stored-items>
       </div>
-    </mat-tab>
+      </mat-tab>
   
     <mat-tab>
-        <ng-template mat-tab-label>
-          <h2>Appointments</h2>
-        </ng-template>
-        <div class="content">
-            content 2
-          </div>
-      </mat-tab>
+      <ng-template mat-tab-label>
+        <h2>Appointments</h2>
+      </ng-template>
+      <div class="content">
+        <app-appointments [appointments]=appointments [email]=email (deletedAppointment)="onDeletedAppointment($event)"></app-appointments>
+      </div>
+    </mat-tab>
   
       <mat-tab>
         <ng-template mat-tab-label>
           <h2>Account</h2>
         </ng-template>
         <div class="content">
-            content 3
+            <div class="account">
+              <div class="profile"></div>
+              <h1>Profile</h1>
+              <div class="profile-row">
+                <div class="profile-field">Name</div>
+                <div class="profile-value">{{name || "-"}}</div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-field">Phone</div>
+                <div class="profile-value">{{phone || "-"}}</div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-field">Email</div>
+                <div class="profile-value">{{email || "-"}}</div>
+              </div>
+              <div class="account-row">
+                  <div class="account-address">
+                    <h1>Address</h1>
+                    <p class="address-value" *ngIf="(address === '-'); else elseBlock">
+                      -
+                    </p>
+                    <ng-template #elseBlock>
+                      <div class="address-value">
+                        <div *ngIf="(address.line2 != '')">{{address.line2}}<br></div>
+                        {{address.line1}}, {{address.city}}, BC
+                        <br>Canada {{address.postalcode}}
+                      </div>
+                    </ng-template>
+                  </div>
+                  <div class="account-payments">
+                    <h1>Payments</h1>
+                  </div>
+              </div>
+            </div>
           </div>
       </mat-tab>
   </mat-tab-group>

@@ -1,5 +1,5 @@
 <div class="calendar-wrapper">
-    <mat-calendar #calendar [(selected)]="selectedDate" (selectedChange)="dateChanged()" [minDate]="today">
+    <mat-calendar #calendar [(selected)]="selectedDate" (selectedChange)="dateChanged()" [minDate]="today" [dateFilter]="myFilter" [dateClass]="dateClass">
     </mat-calendar>
     <div class="time-picker">
           <mat-form-field>

@@ -12,3 +12,32 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-tab-body-wrapper{
     flex-grow: 1;
   }
+
+.free-pickup-date {
+    background: orange;
+    border-radius: 100%;
+}
+
+.free-pickup-date:before {
+    content: "FREE";
+    display: block;
+    -webkit-transform: translateY(20px);
+    -moz-transform: translateY(20px);
+    -ms-transform: translateY(20px);
+    transform: translateY(15px);
+    z-index: 100;
+}
+
+.custom-date:before{
+    content: "$45";
+    display: block;
+    -webkit-transform: translateY(20px);
+    -moz-transform: translateY(20px);
+    -ms-transform: translateY(20px);
+    transform: translateY(15px);
+    z-index: 100;
+}
+
+.custom-dialog-container .mat-dialog-container {
+    border-radius: 25px;
+}

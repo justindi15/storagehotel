@@ -1,0 +1,77 @@
+<mat-dialog-content>
+  <mat-vertical-stepper linear>
+    <mat-step [stepControl]="itemCheckboxes">
+      <ng-template matStepLabel>Choose which items</ng-template>
+      <ul style="list-style-type:none; padding-left: 0px;">
+        <li *ngFor="let item of items">
+          <mat-checkbox (change)="onCheckboxChange($event, item.name)">{{ item.name }}</mat-checkbox>
+        </li>
+      </ul>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Fill out your address</ng-template>
+      <mat-form-field appearance="outline">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="address" placeholder="Ex. 1 Main St, New York, NY">
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+      </form>
+    </mat-step>
+
+
+    <mat-step [stepControl]="thirdFormGroup">
+      <ng-template matStepLabel>Pick a date and time</ng-template>
+      <mat-radio-group [(ngModel)]="deliveryMethod">
+        <mat-radio-button value="1">FREE delivery date</mat-radio-button>
+        <mat-radio-button value="2">Custom Date (+$45)</mat-radio-button>
+      </mat-radio-group>
+      <form [formGroup]="thirdFormGroup">
+      <div *ngIf="deliveryMethod==1">
+        <mat-form-field>
+          <mat-label>Select a FREE Delivery Date</mat-label>
+          <mat-select formControlName="date">
+            <mat-option [value]="'April 1, 2020'">April 1, 2020</mat-option>
+            <mat-option [value]="'April 2, 2020'">April 2, 2020</mat-option>
+            <mat-option [value]="'April 3, 2020'">April 3, 2020</mat-option>
+            <mat-option [value]="'April 4, 2020'">April 4, 2020</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="deliveryMethod==2">
+        <mat-form-field>
+          <mat-label>Choose a date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <mat-form-field>
+        <mat-label>Delivery time</mat-label>
+        <mat-select formControlName="time" disableRipple>
+          <mat-option value="10:00am to 12:00pm">10:00am to 12:00pm</mat-option>
+          <mat-option value="1:00pm to 3:00pm">1:00pm to 3:00pm</mat-option>
+          <mat-option value="4:00pm to 6:00pm">4:00pm to 6:00pm</mat-option>
+          <mat-option value="7:00pm to 9:00pm">7:00pm to 9:00pm</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-button type="button" matStepperPrevious>Back</button>
+      </div>
+      <div class="submit-button">
+        <button mat-flat-button color="accent" (click)="onSubmit()" [disabled]="!thirdFormGroup.valid">Submit</button>
+      </div>
+    </form>
+    </mat-step>
+  </mat-vertical-stepper>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button (click)="closeDialog()">Cancel</button>
+</mat-dialog-actions>

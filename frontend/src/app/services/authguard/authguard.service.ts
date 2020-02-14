@@ -10,7 +10,7 @@ export class AuthGuardService implements CanActivate {
   canActivate() {
     if (!this.auth.isLoggedIn()) {
       console.log("guard failed");
-      this.router.navigateByUrl('/');
+      this.router.navigateByUrl('/signin');
       return false;
     }
     console.log("guard passed");

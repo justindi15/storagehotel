@@ -32,7 +32,6 @@ export class LoginComponent implements OnInit {
       email: this.email.value,
       password: this.password.value,
     };
-    console.log(postData);
 
     this.auth.login(postData).subscribe(() => {
       this.router.navigateByUrl('/dashboard');
@@ -44,13 +43,11 @@ export class LoginComponent implements OnInit {
   verifyEmail() {
     
     this.auth.verifyEmail(this.email.value).subscribe((res)=>{
-      console.log(res);
       this.emailVerified = true;
     }, (err) => {
       if(err.status == 401){
         this.emailDisabled = true;
       }
-      console.log(err);
       this.loginError = err.error.message;
     })
   }

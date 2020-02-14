@@ -1,0 +1,44 @@
+<div class="items-div">
+    <div class="items-header">
+      <p>UPCOMING APPOINTMENTS</p>
+    </div>
+    <div class="items-list">
+      <ng-container *ngFor="let appointment of appointments">
+        <div class="list-item">
+          <div class="date-col">
+            <div class="month-div">
+              {{getMonth(appointment)}}
+            </div>
+            <div class="day-div">
+              <strong>{{getDayOfMonth(appointment)}}</strong>
+            </div>
+            <div class="time">
+              <strong>{{appointment.time}}</strong>
+            </div>
+          </div>
+          <div class="appointment-details">
+            <div class="appointment-type">
+              <h3>{{appointment.appointmentType}}</h3>
+            </div>
+            <div class="details-row">
+              <div class="appointment-items">
+                <span>ITEMS</span>
+                <ul style="list-style-type:none; padding-left: 0px;">
+                  <li *ngFor="let item of appointment.items">
+                    <strong>{{ item }}</strong>
+                  </li>
+                </ul>
+              </div>
+              <div class="appointment-address">
+                <span>ADDRESS</span>
+                <h4>{{appointment.address}}</h4>
+              </div>
+              <div class="cancel-button">
+                <button mat-stroked-button (click)="onClickCancel(appointment._id)">CANCEL APPOINTMENT</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>

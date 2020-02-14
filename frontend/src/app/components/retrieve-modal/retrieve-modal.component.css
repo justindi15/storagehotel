@@ -1,0 +1,30 @@
+mat-form-field {
+    padding-top: 10px;
+    width: 100%
+}
+
+mat-radio-button {
+    padding-right: 30px;
+    padding-bottom: 30px;
+}
+
+mat-vertical-stepper {
+    height: 100%;
+}
+
+mat-dialog-content {
+    height: 100%;
+}
+
+mat-dialog-actions {
+    border-top: 1px solid #E0E0E0;
+}
+
+.submit-button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-self: flex-end;
+    padding-top: 20px;
+}
+

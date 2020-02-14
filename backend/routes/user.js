@@ -35,8 +35,6 @@ router.post('/register', (req, res) => {
   const {name, email, payment_method, address, items } = req.body;
   const {line1, line2, city, postalcode} = address;
   
-  
-
   //check if user with email already exists
   User.findOne({ email: email}, (err, user) => {
     if (err) {res.status(400).json({ message: err})}
@@ -71,6 +69,7 @@ router.post('/register', (req, res) => {
                   name: customer.name,
                   email: customer.email,
                   stripe_id: customer.id,
+                  address: address,
                   activated: false,
                   activationToken: uuidv4(),
                   items: items.map((item) => (
@@ -204,6 +203,39 @@ router.post('/login', (req, res, next) => {
     })(req, res, next);
 
 });
+
+//add an appointment to a user
+router.post('/appointment', (req, res, next) => {
+
+    const { email, appointment} = req.body;
+
+    User.findOne({ email: email}, (err, user)=>{
+        if (err) {res.status(400).json({ message: err})}
+        if (!user) {res.status(400).json({ message: "User with that email does not exist"})}
+        if (user) {
+            user.appointments.push(appointment);
+            user.save().then(() => {
+                res.status(200).json("Successfully added appointment");
+            })
+        }
+    })
+})
+
+//remove an appointment from a user
+//add an appointment to a user
+router.post('/deleteappointment', (req, res, next) => {
+
+    const { email, appointmentId } = req.body;
+
+    User.updateOne(
+        { email: email },
+        { $pull: { appointments: { _id: appointmentId } } }
+    ).then(() => {
+        res.status(200).json("Successfully deleted appointment");
+    }).catch(err => {
+        console.log(err);
+    })
+})
 
 router.get('/profile', auth, (req, res) => {
     if (!req.payload._id) {

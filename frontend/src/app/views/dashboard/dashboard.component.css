@@ -16,65 +16,66 @@
 
 .tab {
     background: white;
-    height: calc(100vh - 160px);
+    height: calc(100% - 100px);
 }
 
-.content{
-    background: #F8F8F8;
+.content {
+    background-color: #F8F8F8;
+    height: 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
+    overflow: auto;
+}
+
+app-stored-items, app-appointments{
     height: 100%;
-}
-
-.items-div{
-    display: flex;
-    flex-direction: column;
-    width: 60%;
-    margin: auto;
-    height: 100%;
-    padding-top: 50px;
-}
-
-.items-header{
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #E0E0E0;
-}
-
-button {
-    height: 35px;
-    border-radius: 30px;
-}
-
-.col {
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-    justify-content: flex-end;
-    margin-bottom: 10px;
-  }
-
-.item {
     width: 100%;
-    background: white;
+}
+
+.account {
+    margin-top: 50px;
+    width: 50%;
+    height: 500px;
+    margin-left: 300px;
+    border-left: 1px solid #E0E0E0;
+    display: flex;
+    flex-direction: column;
+    padding-left: 50px;
+}
+
+.profile-row {
+    font-size: large;
+    padding-top: 20px;
+    padding-bottom: 20px;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border-radius: 25px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    padding-top: 10px;
-    padding-bottom: 10px;
 }
 
-.item-icon {
+.profile-field {
+    color: grey;
     width: 20%;
-    display: flex;
-    justify-content: center;
 }
 
-.value {
-    font-size: larger;
+.account-row {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.account-address {
+    width: 20%;
+}
+
+.address-value {
+    font-size: large;
+    color: darkslategray;
+    line-height: 30px;
+}
+
+.account-payments {
+    width: 50%;
 }
 
