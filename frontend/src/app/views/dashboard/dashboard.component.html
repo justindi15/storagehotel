@@ -55,7 +55,8 @@
                     <ng-template #elseBlock>
                       <div class="address-value">
                         <div *ngIf="(address.line2 != '')">{{address.line2}}<br></div>
-                        {{address.line1}}, {{address.city}}, BC
+                        {{address.line1}}, 
+                        <br>{{address.city}}, BC
                         <br>Canada {{address.postalcode}}
                       </div>
                     </ng-template>

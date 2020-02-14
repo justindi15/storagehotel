@@ -29,7 +29,7 @@ export class StoredItemsComponent implements OnInit {
         items: this.items,
         email: this.email,
       },
-      width: '35%',
+      width: '40%',
       panelClass: 'custom-dialog-container'
     })
 
