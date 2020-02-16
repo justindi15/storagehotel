@@ -3,11 +3,16 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
 import * as moment from 'moment';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper'
 
 @Component({
   selector: 'app-retrieve-modal',
   templateUrl: './retrieve-modal.component.html',
-  styleUrls: ['./retrieve-modal.component.css']
+  styleUrls: ['./retrieve-modal.component.css'],
+  providers: [{
+    provide: STEPPER_GLOBAL_OPTIONS,
+    useValue: { displayDefaultIndicatorType: false }
+  }]
 })
 export class RetrieveModalComponent implements OnInit {
 

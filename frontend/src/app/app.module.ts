@@ -30,7 +30,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SelectComponent } from './views/select/select.component';
 import { BookComponent } from './views/book/book.component';
-import { CheckoutComponent } from './views/checkout/checkout.component';
+import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
 import { OrderCatalogComponent } from './components/order-catalog/order-catalog.component';
 import { ProductItemComponent } from './components/product-item/product-item.component';
 import { LocationPickerComponent } from './components/location-picker/location-picker.component';
@@ -42,6 +42,7 @@ import { AuthGuardService } from './services/authguard/authguard.service';
 import { StoredItemsComponent } from './components/stored-items/stored-items.component';
 import { AppointmentsComponent } from './components/appointments/appointments.component';
 import { RetrieveModalComponent } from './components/retrieve-modal/retrieve-modal.component';
+import { CheckoutComponent } from './views/checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,7 @@ import { RetrieveModalComponent } from './components/retrieve-modal/retrieve-mod
     HeaderComponent,
     SelectComponent,
     BookComponent,
-    CheckoutComponent,
+    OrderSummaryComponent,
     OrderCatalogComponent,
     ProductItemComponent,
     LocationPickerComponent,
@@ -62,6 +63,7 @@ import { RetrieveModalComponent } from './components/retrieve-modal/retrieve-mod
     StoredItemsComponent,
     AppointmentsComponent,
     RetrieveModalComponent,
+    CheckoutComponent,
   ],
   entryComponents: [
     RetrieveModalComponent,
