@@ -9,13 +9,23 @@
 
 .title {
     margin-bottom: 0px;
+    color: #024638;
 }
 
 .button-div {
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    width: 180px;
+    width: 80px;
+}
+
+button {
+    border-radius: 20px;
+    color: #a8a8a8;
+    font-size: 12px;
+    width: 80px;
+    height: 30px;
+    line-height: 0px;
 }
 
 .tab {
@@ -50,8 +60,8 @@ app-stored-items, app-appointments{
 
 .profile-row {
     font-size: large;
-    padding-top: 2vh;
-    padding-bottom: 2vh;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
     display: flex;
     flex-direction: row;
     font-size: smaller;
@@ -71,16 +81,91 @@ app-stored-items, app-appointments{
 }
 
 .account-address {
-    width: 40%;
+    width: 100%;
 }
 
 .address-value {
     font-size: smaller;
     color: darkslategray;
-    line-height: 30px;
+    line-height: 20px;
 }
 
 .account-payments {
-    width: 50%;
+    width: 100%;
 }
 
+/* MEDIA QUERIES */
+
+@media only screen and (max-width: 576px) {
+    .header {
+        background: white;
+        padding: 0px 25px;
+        display: flex;
+        justify-content: space-between;
+        color:  #5BBAAD;
+        box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+      }
+    .button-div {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        width: 70px;
+    }
+    button {
+        border-radius: 20px;
+        color: #a8a8a8;
+        font-size: 11px;
+        width: 100px;
+        height: 30px;
+        line-height: 0px;
+    }
+    .tab h3 {
+        font-size: 14px;
+    }
+    .tab {
+        padding-top: 10px;
+    }
+    .title {
+        font-size: 28px;
+    }
+    .account {
+        margin-top: 1vh;
+        width: 80%;
+        height: 50vh;
+        margin-left: 0vh;
+        border-left: 0px solid #E0E0E0;
+        display: flex;
+        flex-direction: column;
+        padding-left: 0px;
+    }
+    .profile-row {
+        font-size: large;
+        padding-top: 0vh;
+        padding-bottom: 1vh;
+        display: flex;
+        flex-direction: row;
+        font-size: smaller;
+    }
+    .profile-field {
+        color: grey;
+        width: 20%;
+    }
+    .account-row {
+        margin-top: 1vh;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .account-address {
+        width: 60%;
+    }
+    .address-value {
+        font-size: smaller;
+        color: darkslategray;
+        line-height: auto;
+    }
+    .account-payments {
+        width: 40%;
+    }
+}

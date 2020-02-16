@@ -1,7 +1,7 @@
 <div class="items-div">
     <div class="items-header">
       <p>ITEMS</p>
-      <button mat-flat-button (click)="openDialog()" color="accent">  retrieve items  </button>
+      <button mat-flat-button (click)="openDialog()">  retrieve items  </button>
     </div>
     <div class="items-list">
       <ng-container *ngFor="let item of items">
@@ -16,7 +16,7 @@
             </div>
             <div class="col">
               <div class="item-size">
-                PRICE: <strong class="value">{{item.price}} cu ft</strong>
+                PRICE: <strong class="value">${{item.price}}15/mo.</strong>
               </div>
             </div>
         </div>

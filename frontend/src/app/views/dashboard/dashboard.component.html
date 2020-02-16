@@ -10,7 +10,7 @@
 
   <mat-tab>
       <ng-template mat-tab-label>
-        <h3>Stored Items</h3>
+        <h3>Inventory</h3>
       </ng-template>
       <div class="content">
         <app-stored-items [items]=items [email]=email (bookingSuccessful)="onBookingSuccess($event)"></app-stored-items>
@@ -62,7 +62,10 @@
                     </ng-template>
                   </div>
                   <div class="account-payments">
-                    <h2>Payments</h2>
+                    <h2>Billing</h2>
+                      <div class="address-value" id="billing-placeholder">
+                        **** 4242 &nbsp; 09/2021
+                      </div>
                   </div>
               </div>
             </div>

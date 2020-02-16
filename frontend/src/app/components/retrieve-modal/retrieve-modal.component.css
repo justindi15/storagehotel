@@ -1,11 +1,11 @@
 mat-form-field {
-    padding-top: 10px;
+    padding-top: 0px;
     width: 100%
 }
 
 mat-radio-button {
     padding-right: 30px;
-    padding-bottom: 30px;
+    padding-bottom: 20px;
 }
 
 mat-vertical-stepper {
@@ -28,3 +28,41 @@ mat-dialog-actions {
     padding-top: 20px;
 }
 
+.submit-button button {
+    border: 1px solid #E18A65;
+    border-radius: 20px;
+    background-color: #E18A65;
+    color: #FFF;
+}
+
+.mat-button, .mat-icon-button, .mat-stroked-button {
+    border: 1px solid #E18A65;
+    border-radius: 20px;
+    color: #E18A65;
+    line-height: 26px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* MEDIA QUERIES */
+
+@media only screen and (max-width: 576px) {
+    .mat-step-label-selected {
+        font-size: 12px;
+    }
+    .mat-button, .mat-icon-button, .mat-stroked-button {
+        border: 1px solid #E18A65;
+        border-radius: 20px;
+        color: #E18A65;
+        line-height: 22px;
+        font-size: 14px;
+    }
+    mat-radio-button {
+        padding-top: 20px;
+        padding-right: 0px;
+        padding-bottom: 0px;
+    }
+    mat-form-field {
+        padding-top: 10px;
+    }
+}

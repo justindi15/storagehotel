@@ -1,4 +1,4 @@
-.items-div{
+.items-div {
     display: flex;
     flex-direction: column;
     width: 50%;
@@ -11,12 +11,15 @@
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #E0E0E0;
-    font-size: small;
+    font-size: 12px;
 }
 
 button {
-    height: 35px;
+    height: 30px;
     border-radius: 30px;
+    background-color: #E18A65;
+    color: #FFF;
+    line-height: 0px;
 }
 
 .col {
@@ -52,7 +55,8 @@ button {
 }
 
 .item-status, .item-size {
-    font-size: smaller;
+    font-size: 12px;
+    color: #a8a8a8;
 }
 
 .item-size {
@@ -62,5 +66,53 @@ button {
 }
 
 .value {
-    font-size: medium;
+    font-size: 14px;
+    color: #000;
+}
+
+
+/* MEDIA QUERIES */
+
+@media only screen and (max-width: 576px) {
+    .items-div {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        margin: auto;
+        height: 100%;
+    }
+    .items-header{
+        padding-top: 2vh;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #E0E0E0;
+        font-size: 11px;
+    }
+    button {
+        height: 25px;
+        border-radius: 30px;
+        font-size: 11px;
+        line-height: 0px;
+    }
+    .item-icon {
+        width: 25%;
+    }
+    .item-icon img {
+        width: 100%;
+    }
+    .item-name {
+        margin-top: 0px;
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+    .item-status, .item-size {
+        font-size: 10px;
+    }
+    .value {
+        font-size: 11px;
+    }
+    .item-size {
+        height: 42px;
+        margin-left: 30px;
+    }
 }

@@ -12,6 +12,9 @@
             <div class="day-div">
               <strong>{{getDayOfMonth(appointment)}}</strong>
             </div>
+            <div class="preferred-time">
+              <span class="detail-preferred-time">Preferred Time:</span>
+            </div>
             <div class="time">
               <strong>{{appointment.time}}</strong>
             </div>
@@ -33,9 +36,14 @@
                 <span class="detail-title">ADDRESS</span>
                 <p class="detail-value">{{appointment.address}}</p>
               </div>
+                <div class="appointment-actions-col">
               <div class="cancel-button">
-                <button mat-stroked-button (click)="onClickCancel(appointment._id)">CANCEL</button>
+                <button mat-stroked-button (click)="onClickCancel(appointment._id)">Cancel</button>
               </div>
+              <div class="reschedule-button">
+                <button mat-stroked-button (click)="onClickCancel(appointment._id)">Reschedule</button>
+              </div>
+                </div>
             </div>
           </div>
         </div>

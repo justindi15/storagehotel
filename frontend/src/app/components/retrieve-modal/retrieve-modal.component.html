@@ -1,7 +1,7 @@
 <mat-dialog-content>
   <mat-vertical-stepper linear>
     <mat-step [stepControl]="itemCheckboxes">
-      <ng-template matStepLabel>Choose which items</ng-template>
+      <ng-template matStepLabel>Which items would you like to retrieve?</ng-template>
       <ul style="list-style-type:none; padding-left: 0px;">
         <li *ngFor="let item of items">
           <mat-checkbox (change)="onCheckboxChange($event, item.name)">{{ item.name }}</mat-checkbox>
@@ -14,13 +14,13 @@
 
     <mat-step [stepControl]="secondFormGroup">
       <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Fill out your address</ng-template>
+      <ng-template matStepLabel>Where would you like them delivered?</ng-template>
       <mat-form-field appearance="outline">
         <mat-label>Address</mat-label>
         <input matInput formControlName="address" placeholder="Ex. 1 Main St, New York, NY">
       </mat-form-field>
       <div>
-        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperPrevious style="margin-right: 10px;">Back</button>
         <button mat-button matStepperNext>Next</button>
       </div>
       </form>
@@ -28,7 +28,7 @@
 
 
     <mat-step [stepControl]="thirdFormGroup">
-      <ng-template matStepLabel>Pick a date and time</ng-template>
+      <ng-template matStepLabel>When would you like them delivered?</ng-template>
       <mat-radio-group [(ngModel)]="deliveryMethod">
         <mat-radio-button value="1">FREE delivery date</mat-radio-button>
         <mat-radio-button value="2">Custom Date (+$45)</mat-radio-button>
