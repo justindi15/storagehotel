@@ -69,3 +69,48 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding-top: 24px;
     padding-bottom: 18px !important;
 }
+
+.mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+    background-color: #E18A65;
+}
+
+.mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: #E18A65!important;
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    background-color: #E18A65!important;
+    border-color: rgba(0,0,0,.54)!important;
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle, .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple), .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple, .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+    background-color: #E18A65!important;
+    border-color: rgba(0,0,0,.54)!important;
+}
+
+mat-ink-bar {
+    background-color: #E18A65!important;
+}
+
+/* MEDIA QUERIES */
+
+@media only screen and (max-width: 576px) {
+    .cdk-overlay-pane {
+        width: 100%!important;
+    }
+    .mat-step-header {
+        padding: 10px 5px 10px 5px!important;
+    }
+    .mat-step-label-selected, .mat-step-label, .mat-step-label-active {
+        font-size: 14px;
+        white-space: normal!important;
+        overflow: auto!important;
+        line-height: 18px;
+    }
+    .mat-checkbox-layout .mat-checkbox-label {
+        font-size: 14px;
+    }
+    .mat-dialog-content {
+        padding: 0px 15px 0px 15px!important;
+    }
+}
