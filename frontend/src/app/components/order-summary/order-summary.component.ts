@@ -10,7 +10,7 @@ export interface OrderItem {
 }
 
 @Component({
-  selector: 'app-checkout',
+  selector: 'app-order-summary',
   templateUrl: './order-summary.component.html',
   styleUrls: ['./order-summary.component.css']
 })

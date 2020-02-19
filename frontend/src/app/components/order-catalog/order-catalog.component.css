@@ -1,5 +1,5 @@
 .component-wrapper {
-    padding: 40px 100px 0px;
+    padding: 40px 0px;
 }
 
 .row {
@@ -16,7 +16,22 @@
     flex: 1;
   }
 
+  .items-col {
+    width: 60vw;
+  }
+
+  .calculator-col {
+    width: 20vw;
+    padding-left: 3vw;
+    position: sticky;
+    top: 0;
+  }
+
   mat-card {
     padding: 50px;
     border-radius: 25px;
+  }
+
+  .note {
+    font-size: small;
   }

@@ -1,32 +1,31 @@
-<app-header></app-header>
 <div class="main">
     <div class="summary-div">
-        <h1>Order Summary</h1>
+        <h2>Order Summary</h2>
         <div class="table-div">
-        <table mat-table [dataSource]="checkout">
+        <table mat-table [dataSource]="checkout" class="table-div">
 
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef>ITEM</th>
                 <td mat-cell *matCellDef="let item">
                     <div id="item-div">
                         <img id="item-icon" [src]="item.img"/>
-                        <h2 id="item-name">{{item.name}}</h2>
+                        <h4 id="item-name">{{item.name}}</h4>
                     </div>
                 </td>
             </ng-container>
 
             <ng-container matColumnDef="qty">
                 <th mat-header-cell *matHeaderCellDef>QUANTITY</th>
-                <td mat-cell *matCellDef="let item"><h3>{{item.qty}}</h3></td>
+                <td mat-cell *matCellDef="let item"><h4>{{item.qty || ''}}</h4></td>
             </ng-container>
 
             <ng-container matColumnDef="price">
                 <th mat-header-cell *matHeaderCellDef>PRICE</th>
-                <td mat-cell *matCellDef="let item"><h3>{{item.price * item.qty}}</h3></td>
+                <td mat-cell *matCellDef="let item"><h4>${{item.price * item.qty}}/mo</h4></td>
             </ng-container>
 
             <ng-container matColumnDef="noRecord">
-                <td mat-footer-cell *matFooterCellDef>There are no items in your checkout</td>
+                <td mat-footer-cell *matFooterCellDef>There are no items in your cart</td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -35,10 +34,6 @@
                 <tr mat-footer-row *matFooterRowDef="['noRecord']"></tr>
             </ng-template>
         </table>
-        </div>
-        <div class="cubic-feet-div">
-            <div>Total Cubic Feet</div>
-            <div>{{getTotalPrice()}}</div>
         </div>
         <div class="price-div">
             <div class="price-text">
@@ -53,7 +48,6 @@
             </div>
         </div>
     </div>
-    <div class="vertical-line"></div>
     <div class="forms-div">
             <app-register></app-register>
     </div>

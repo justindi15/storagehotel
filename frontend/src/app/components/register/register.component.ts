@@ -22,7 +22,7 @@ export class RegisterComponent implements AfterViewInit {
   stripe: any;
   card: any;
   time: string;
-  date: string;
+  date: Date;
   address: FormGroup;
   items = [];
 
@@ -33,7 +33,7 @@ export class RegisterComponent implements AfterViewInit {
 
   constructor(private auth: AuthenticationService, private router: Router, private checkout: CheckoutService) { 
     if(this.checkout.date){
-      this.date = this.checkout.date.format("MMM. D, YYYY");
+      this.date = this.checkout.date;
     }
 
     if(this.checkout.time){

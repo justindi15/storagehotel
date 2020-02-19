@@ -27,7 +27,7 @@ export class ProductItemComponent implements OnInit {
 
   increment() {
     this.count++;
-    this.checkoutService.addTocheckout(this.product);
+    this.checkoutService.addToCart(this.product);
     this.checkoutService.increasepriceEstimate(this.priceEstimate + this.price);
     this.checkoutService.counters[this.name] = this.count;
   }
@@ -35,7 +35,7 @@ export class ProductItemComponent implements OnInit {
   decrement() {
     if(this.count >= 1){
       this.count--;
-      this.checkoutService.removeFromcheckout(this.product);
+      this.checkoutService.removeFromCart(this.product);
       this.checkoutService.decreasepriceEstimate(this.priceEstimate - this.price);
       this.checkoutService.counters[this.name] = this.count;
     }

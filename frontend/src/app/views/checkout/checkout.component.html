@@ -1,34 +1,54 @@
 <h1 class="logo">storagehotel</h1>
-<mat-horizontal-stepper labelPosition="bottom">
+<mat-horizontal-stepper labelPosition="bottom" #stepper>
     <mat-step>
         <ng-template matStepLabel>Select</ng-template>
         <div class="content">
-            content
-            <div class="buttons-div">
-                <button mat-button matStepperNext>Next</button>
+                <app-order-catalog></app-order-catalog>
+                <div class="calculator-col">
+                    <mat-card>
+                        <strong>Item Plan Summary</strong>
+                        <mat-card-subtitle><p>As you add the items you want to store, your subtotal will calculate.</p></mat-card-subtitle>
+                        <mat-card-actions>
+                            <strong>Subtotal: ${{priceEstimate}}</strong>
+                        </mat-card-actions>
+                        <mat-card-actions>
+                            <button mat-flat-button color="accent" matStepperNext>Next</button>
+                        </mat-card-actions>
+                    </mat-card>
+                    <div class="contact-info">
+                        <h3>Questions?</h3>
+                        <p>Contact us
+                            <br>778-820-0377
+                            <br>info@storagehotel.ca
+                            <br>Chat
+                        </p>
+                    </div>
+                </div>
+        </div>
+    </mat-step>
+
+    <mat-step #Book>
+        <ng-template matStepLabel>Book</ng-template>
+        <div class="content">
+            <div class="book-row">
+                <div class="book-col">
+                    <h3>Pickup Location</h3>
+                    <p>Where would you like us to pickup your belongings from?</p>
+                    <app-location-picker></app-location-picker>
+                </div>
+                <div class="book-col">
+                    <h3>Pickup Date</h3>
+                    <p>When would you like us to pickup your belongings?</p>
+                    <app-time-picker></app-time-picker>
+                </div>
             </div>
         </div>
     </mat-step>
 
-    <mat-step >
-        <ng-template matStepLabel>Book</ng-template>
-        <div class="content">
-            content
-            <div class="buttons-div">
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
-              </div>
-        </div>
-    </mat-step>
-
-    <mat-step>
+    <mat-step #Checkout>
       <ng-template matStepLabel>Checkout</ng-template>
-      <div class="content">
-          content
-          <div class="buttons-div">
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button (click)="stepper.reset()">Reset</button>
-          </div>
-      </div>
+        <ng-container *ngIf="stepper.selected == Checkout">
+                <app-order-summary></app-order-summary>
+        </ng-container>
     </mat-step>
   </mat-horizontal-stepper>

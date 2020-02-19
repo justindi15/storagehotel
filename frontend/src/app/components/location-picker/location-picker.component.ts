@@ -21,6 +21,8 @@ export class LocationPickerComponent implements OnInit {
 
 
   locationForm = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    phone: new FormControl('', [Validators.required]),
     address: new FormControl('', [Validators.required]),
     address2: new FormControl(''),
     city: new FormControl('', [Validators.required]),

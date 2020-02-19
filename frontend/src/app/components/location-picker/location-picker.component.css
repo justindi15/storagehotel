@@ -1,6 +1,6 @@
 .main-wrapper {
-    width: 450px;
-    height: 435.38px;
+    width: 400px;
+    height: 404px;
     border-radius: 25px;
     background-color: white;
     display: flex;
@@ -14,8 +14,18 @@
     padding: 20px 30px 40px;
 }
 
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.row-field {
+    width: 48%;
+}
+
 .confirmed-div{
-    width: 450px;
+    width: 400px;
     height: 319.33px;
     display: flex;
     flex-direction: column;

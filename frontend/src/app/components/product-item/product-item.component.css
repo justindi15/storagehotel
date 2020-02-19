@@ -7,7 +7,7 @@
   }
   
   .col {
-    width: 30%;
+    width: 40%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -44,4 +44,22 @@
   height: 30px;
 }
 
+.storagebox-name,
+.storagebox-price {
+  font-size: 24px;
+  line-height: 24px;
+}
 
+.storagebox-name {
+  font-weight: bold;
+}
+
+.storagebox-icon {
+  width: 150px;
+  height: 150px;
+}
+
+#storagebox {
+  transform: translateX(-20px);
+  width: 75%;
+}

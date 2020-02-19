@@ -9,8 +9,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
@@ -27,9 +27,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegisterComponent } from './components/register/register.component';
-import { HeaderComponent } from './components/header/header.component';
-import { SelectComponent } from './views/select/select.component';
-import { BookComponent } from './views/book/book.component';
 import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
 import { OrderCatalogComponent } from './components/order-catalog/order-catalog.component';
 import { ProductItemComponent } from './components/product-item/product-item.component';
@@ -43,15 +40,13 @@ import { StoredItemsComponent } from './components/stored-items/stored-items.com
 import { AppointmentsComponent } from './components/appointments/appointments.component';
 import { RetrieveModalComponent } from './components/retrieve-modal/retrieve-modal.component';
 import { CheckoutComponent } from './views/checkout/checkout.component';
+import { from } from 'rxjs';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    HeaderComponent,
-    SelectComponent,
-    BookComponent,
     OrderSummaryComponent,
     OrderCatalogComponent,
     ProductItemComponent,
@@ -84,7 +79,6 @@ import { CheckoutComponent } from './views/checkout/checkout.component';
     MatButtonModule,
     MatDividerModule,
     MatDatepickerModule,
-    MatMomentDateModule,
     MatProgressSpinnerModule,
     GooglePlaceModule,
     MatSnackBarModule,
@@ -93,6 +87,7 @@ import { CheckoutComponent } from './views/checkout/checkout.component';
     MatCheckboxModule,
     MatRadioModule,
     MatStepperModule,
+    MatNativeDateModule,
   ],
   providers: [AuthGuardService],
   bootstrap: [AppComponent]

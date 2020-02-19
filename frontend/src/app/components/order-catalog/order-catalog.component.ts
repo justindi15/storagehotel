@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PRODUCTS, product } from 'src/app/products';
+import { PRODUCTS, product, storagebox } from 'src/app/products';
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 
 @Component({
@@ -9,8 +9,8 @@ import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 })
 export class OrderCatalogComponent implements OnInit {
   products = PRODUCTS;
+  storagebox = storagebox;
   priceEstimate: number;
-  checkout: product[] = [];
 
   constructor( private checkoutService: CheckoutService ) {
     this.checkoutService.currentpriceEstimate.subscribe(newpriceEstimate => this.priceEstimate = newpriceEstimate);

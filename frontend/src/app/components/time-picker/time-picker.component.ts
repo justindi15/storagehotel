@@ -1,9 +1,12 @@
-import { Component, Output, EventEmitter, ViewChild, Renderer2, AfterViewInit } from '@angular/core';
-import { Moment } from 'moment';
-import * as moment from 'moment';
-import { MatCalendar } from '@angular/material';
+import { Component, AfterViewInit } from '@angular/core';
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 import { MatCalendarCellCssClasses } from '@angular/material';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
+export interface PickupDate {
+  value: Date,
+  label: string,
+}
 
 
 @Component({
@@ -12,66 +15,47 @@ import { MatCalendarCellCssClasses } from '@angular/material';
   styleUrls: ['./time-picker.component.css']
 })
 export class TimePickerComponent implements AfterViewInit {
-  @Output()
-  dateSelected: EventEmitter<Moment> = new EventEmitter();
  
-  @Output()
-  selectedDate = moment();
- 
-  @ViewChild('calendar', {static: false})
-  calendar: MatCalendar<Moment>
- 
-  today = new Date();
-  time: string;
+  index: number;
+  FreePickupDates: PickupDate[] = [
+    {value: new Date(2020, 3, 1), label: 'April 1, 2020'},
+    {value: new Date(2020, 3, 2), label: 'April 2, 2020'},
+    {value: new Date(2020, 3, 3), label: 'April 3, 2020'},
+    {value: new Date(2020, 3, 4), label: 'April 4, 2020'},
+  ]
+  preferredTimes = [
+    '10:00am to 12:00pm',
+    '1:00pm to 3:00pm',
+    '4:00pm to 6:00pm',
+    '7:00pm to 9:00pm',
+  ]
 
-  constructor(private renderer: Renderer2, private checkout: CheckoutService) { 
+  SupplyDropForm = new FormGroup({
+    deliveryMethod: new FormControl('FREE', Validators.required),
+    date: new FormControl('', Validators.required),
+    preferredTime: new FormControl('', Validators.required),
+  })
+
+  PickupForm = new FormGroup({
+    deliveryMethod: new FormControl('FREE', Validators.required),
+    date: new FormControl('', Validators.required),
+    preferredTime: new FormControl('', Validators.required),
+  })
+
+  constructor(private checkout: CheckoutService) { 
   }
 
   ngAfterViewInit() {
-    const buttons = document.querySelectorAll('.mat-calendar-previous-button, .mat-calendar-next-button');
- 
-    if (buttons) {
-      Array.from(buttons).forEach(button => {
-        this.renderer.listen(button, 'click', () => {
-          console.log('Arrow buttons clicked');
-        });
-      });
-    }
-
-    if(this.checkout.date){
-      this.calendar.selected = this.checkout.date;
-      this.calendar.activeDate = this.checkout.date;
-    }
-
-    if(this.checkout.time){
-      this.time = this.checkout.time;
-    }
   }
 
-  dateChanged() {
-    this.calendar.activeDate = this.selectedDate;
-    this.checkout.date = this.selectedDate;
-    this.dateSelected.emit(this.selectedDate);
-  }
-
-  timeChanged() {
-    this.checkout.time = this.time;
-  }
-
-  myFilter = (d: Moment | null): boolean => {
-    const day = d.day();
+  myFilter = (d: Date | null): boolean => {
+    const day = d.getDay();
     // Prevent Saturday and Sunday from being selected.
     return day !== 0 && day !== 6 ;
   }
 
-  dateClass = (d: Moment): MatCalendarCellCssClasses => {
-    //if date is disabled then don't provide special styling
-    if(d < moment() || !this.myFilter(d)) return ''
-
-    const date = d.date();
-
-    // Highlight the 1st and 20th day of each month.
-    return (date === 1 || date === 20) ? 'free-pickup-date' : 'custom-date';
+  onNext(){
+    console.log(this.SupplyDropForm.value);
   }
 
 }
