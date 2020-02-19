@@ -6,6 +6,10 @@
     height: 100%;
 }
 
+h3 {
+    font-family: "Gilroy-Medium";
+}
+
 .items-header{
     padding-top: 2vh;
     display: flex;
@@ -17,9 +21,14 @@
 button {
     height: 30px;
     border-radius: 30px;
-    background-color: #E18A65;
+    background-color: #E18A65!important;
     color: #FFF;
     line-height: 0px;
+    font-family: "Gilroy-Medium";
+}
+
+button:hover {
+    background-color: #F4AE82!important;
 }
 
 .col {
@@ -55,8 +64,9 @@ button {
 }
 
 .item-status, .item-size {
-    font-size: 12px;
-    color: #a8a8a8;
+    font-size: 11px;
+    color: #B3B3B3;
+    font-family: "Gilroy-Regular";
 }
 
 .item-size {
@@ -68,8 +78,9 @@ button {
 .value {
     font-size: 14px;
     color: #000;
+    padding-left: 8px;
+    font-family: "Gilroy-Regular";
 }
-
 
 /* MEDIA QUERIES */
 
@@ -106,10 +117,11 @@ button {
         font-size: 16px;
     }
     .item-status, .item-size {
-        font-size: 10px;
+        font-size: 9px;
     }
     .value {
-        font-size: 11px;
+        font-size: 12px;
+        padding-left: 8px;
     }
     .item-size {
         height: 42px;

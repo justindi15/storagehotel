@@ -1,7 +1,10 @@
 <div class="main">
 <mat-card>
+    <div class="header">
+    <h1 class="title">storagehotel</h1>
+    </div>
     <mat-card-header>
-        <mat-card-title><h2 class="mat-h2">Create a password to activate your account</h2></mat-card-title>
+        <mat-card-title>Create a password to activate your account</mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <form (ngSubmit)="activateAccount()" [formGroup]="passwordForm">
