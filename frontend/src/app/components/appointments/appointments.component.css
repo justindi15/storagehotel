@@ -82,7 +82,8 @@
 }
 
 .detail-title {
-    font-size: small;
+    font-size: 11px;
+    color: #B3B3B3;
 }
 
 .appointment-type {
@@ -90,12 +91,14 @@
 }
 
 .appointment-items {
-    width: 33%;
+    width: 30%;
+    padding-right: 10px;
 }
 
 .appointment-address {
-    width: 48%;
-    padding-right: 20px;
+    width: 55%;
+    padding-right: 0px;
+    padding-left: 20px;
 }
 
 .appointment-actions-col {
@@ -104,10 +107,11 @@
 }
 
 .cancel-button {
-    width: 100%;
+    width: 30%;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
     margin-bottom: 5px;
 }
 
@@ -189,6 +193,7 @@
     }
     .appointment-address {
         width: 100%;
+        padding-left: 0px;
     }
     .appointment-actions-col {
         width: 100%;

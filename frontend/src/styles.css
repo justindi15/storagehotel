@@ -1,8 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+@font-face {
+font-family: 'Gilroy-Bold';
+font-style: normal;
+font-weight: normal;
+src: url("https://s3.ca-central-1.amazonaws.com/storagehotel.ca/assets/fonts/Gilroy-Bold.woff") format('woff');
+}
+
+
+@font-face {
+font-family: 'Gilroy-Heavy';
+font-style: normal;
+font-weight: normal;
+src: url("https://s3.ca-central-1.amazonaws.com/storagehotel.ca/assets/fonts/Gilroy-Heavy.woff") format('woff');
+}
+
+
+@font-face {
+font-family: 'Gilroy-Light';
+font-style: normal;
+font-weight: normal;
+src: url("https://s3.ca-central-1.amazonaws.com/storagehotel.ca/assets/fonts/Gilroy-Light.woff") format('woff');
+}
+
+
+@font-face {
+font-family: 'Gilroy-Medium';
+font-style: normal;
+font-weight: normal;
+src: url("https://s3.ca-central-1.amazonaws.com/storagehotel.ca/assets/fonts/Gilroy-Medium.woff") format('woff');
+}
+
+
+@font-face {
+font-family: 'Gilroy-Regular';
+font-style: normal;
+font-weight: normal;
+src: url("https://s3.ca-central-1.amazonaws.com/storagehotel.ca/assets/fonts/Gilroy-Regular.woff") format('woff');
+}
+
 html, body { height: 100%; background-color: #F8F8F8;}
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+body {
+    margin: 0; 
+}
+
 .pac-container:after {
     /* Disclaimer: not needed to show 'powered by Google' if also a Google Map is shown */
 
@@ -90,6 +133,33 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 mat-ink-bar {
     background-color: #E18A65!important;
+}
+
+.mat-form-field-wrapper {
+    padding: 0px!important;
+}
+
+.mat-form-field-infix {
+    padding: 0.8em 0em 0.8em 0em!important;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+    top: 0.8em!important;
+}
+
+/* FONTS */
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: "Gilroy-Bold";
+    font-weight: normal;
+}
+
+.mat-card {
+    font-family: "Gilroy-Regular";
+}
+
+p {
+    font-family: "Gilroy-Regular";
 }
 
 /* MEDIA QUERIES */

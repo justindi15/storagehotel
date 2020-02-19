@@ -1,16 +1,19 @@
 <mat-card *ngIf="emailDisabled; else elseBlock" class="card">
 <mat-card-header>
     <mat-card-title>First time logging in?</mat-card-title>
-        <p style="text-align: center;">we've sent you an email that contains a link to complete your registration.</p>
+        <p style="text-align: center;">We've sent you an email that contains a link to complete your registration.</p>
 </mat-card-header>
 <mat-card-content>
-    <div class="justify-centre">
+    <div class="justify-center">
         <button mat-flat-button type="button" color="accent" style="width: 80%;">Resend Activation Email</button>
     </div>
 </mat-card-content>
 </mat-card>
 <ng-template #elseBlock>
 <mat-card class="card">
+    <div class="header">
+    <h1 class="title">storagehotel</h1>
+    </div>
     <mat-card-header>
         <mat-card-title>Log in to your account</mat-card-title>
     </mat-card-header>
@@ -33,12 +36,11 @@
         <mat-error id="error">{{this.loginError}}</mat-error>
     </mat-card-content>
     <mat-card-actions>
-        <button *ngIf="!emailVerified" mat-flat-button type="button" (click)="verifyEmail()" color="accent" [disabled]="!email.valid" style="width: 80%;">NEXT</button>
-        <button *ngIf="emailVerified" mat-flat-button type="button" (click)="loginUser()" color="accent" [disabled]="!password.valid" style="width: 80%;">LOGIN</button>
+        <button *ngIf="!emailVerified" mat-flat-button type="button" (click)="verifyEmail()" color="accent" [disabled]="!email.valid">Next</button>
+        <button *ngIf="emailVerified" mat-flat-button type="button" (click)="loginUser()" color="accent" [disabled]="!password.valid">Login</button>
     </mat-card-actions>
     <mat-card-footer>
     </mat-card-footer>
 </mat-card>
 </ng-template>
-      
-  
+       

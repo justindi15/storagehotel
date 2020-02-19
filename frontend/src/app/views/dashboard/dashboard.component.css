@@ -12,6 +12,10 @@
     color: #024638;
 }
 
+.title h1 {
+    font-family: "Gilroy-Bold";
+}
+
 .button-div {
     display: flex;
     align-items: flex-end;
@@ -26,6 +30,7 @@ button {
     width: 80px;
     height: 30px;
     line-height: 0px;
+    font-family: "Gilroy-Medium";
 }
 
 .tab {
@@ -92,6 +97,10 @@ app-stored-items, app-appointments{
 
 .account-payments {
     width: 100%;
+}
+
+h3 {
+    font-family: "Gilroy-Medium";
 }
 
 /* MEDIA QUERIES */
