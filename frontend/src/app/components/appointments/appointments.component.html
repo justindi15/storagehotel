@@ -31,7 +31,12 @@
               </div>
               <div class="appointment-address">
                 <span class="detail-title">ADDRESS</span>
-                <p class="detail-value">{{appointment.address}}</p>
+                <div class="detail-value">
+                  <div *ngIf="(appointment.address.line2 != '')">{{appointment.address.line2}}<br></div>
+                  {{appointment.address.line1}}, 
+                  <br>{{appointment.address.city}}, BC
+                  <br>Canada {{appointment.address.postal_code}}
+                </div>
               </div>
               <div class="cancel-button">
                 <button mat-stroked-button (click)="onClickCancel(appointment._id)">CANCEL</button>

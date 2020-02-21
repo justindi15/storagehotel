@@ -1,9 +1,13 @@
 import { Component, OnInit, Inject, EventEmitter, Output } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
-import * as moment from 'moment';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper'
+
+export interface PickupDate {
+  value: Date,
+  label: string,
+}
 
 @Component({
   selector: 'app-retrieve-modal',
@@ -19,13 +23,23 @@ export class RetrieveModalComponent implements OnInit {
   @Output()
   success: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  items = []
+  FreePickupDates: PickupDate[] = [
+    {value: new Date(2020, 3, 1), label: 'April 1, 2020'},
+    {value: new Date(2020, 3, 2), label: 'April 2, 2020'},
+    {value: new Date(2020, 3, 3), label: 'April 3, 2020'},
+    {value: new Date(2020, 3, 4), label: 'April 4, 2020'},
+  ]
+
+  items = [{"name": "skis"}]
   deliveryMethod = "1";
   email = "";
   itemCheckboxes = new FormArray([], Validators.required);
 
   secondFormGroup = new FormGroup({
-    address: new FormControl('6071 Dunsmuir Cres. Richmond, BC, Canada V7C 5T7', Validators.required)
+    line1: new FormControl('', Validators.required),
+    line2: new FormControl(''),
+    city: new FormControl('', Validators.required),
+    postal_code: new FormControl('', Validators.required)
   })
   thirdFormGroup = new FormGroup({
     date: new FormControl('', Validators.required),
@@ -34,8 +48,9 @@ export class RetrieveModalComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<RetrieveModalComponent> ,@Inject(MAT_DIALOG_DATA) public data: any, private auth: AuthenticationService) {
     if(data){
-      this.items = data.items;
       this.email = data.email;
+      let {line1, line2, city, postal_code} = data.address
+      this.secondFormGroup.setValue({line1: line1, line2: line2, city: city, postal_code: postal_code});
     }
   }
 
@@ -47,17 +62,11 @@ export class RetrieveModalComponent implements OnInit {
   }
 
   onSubmit() {
-    let stringDate: String;
-    if(moment.isMoment(this.thirdFormGroup.get('date').value)){
-      let momentDate = this.thirdFormGroup.get('date').value
-      stringDate = momentDate.format("MMMM D, YYYY")
-    }else{
-      stringDate = this.thirdFormGroup.get('date').value
-    }
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
       const appointment = {
         items: this.itemCheckboxes.value,
-        address: this.secondFormGroup.get('address').value,
-        date: stringDate,
+        address: this.secondFormGroup.value,
+        date: this.thirdFormGroup.get('date').value.toLocaleDateString("en-US", options),
         time: this.thirdFormGroup.get('time').value,
         appointmentType: "DELIVERY",
       }

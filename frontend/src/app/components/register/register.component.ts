@@ -1,6 +1,5 @@
 import { Component, AfterViewInit, Output, ViewChild, ElementRef } from '@angular/core';
 import {FormControl, Validators, FormGroup } from '@angular/forms';
-import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { Router } from '@angular/router';
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 declare var Stripe: any;
@@ -17,35 +16,28 @@ export class RegisterComponent implements AfterViewInit {
 
   errorMessage = "";
   paymentCardComplete = false;
-  total_price = 100.00; //TODO: get actual cost
+  price: number;
   loading = false;
   stripe: any;
   card: any;
-  time: string;
-  date: Date;
+  supplyDropForm: FormGroup;
+  pickupForm: FormGroup;
   address: FormGroup;
-  items = [];
+  email = new FormControl('', [Validators.required, Validators.email])
 
-  registerForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-  });
 
-  constructor(private auth: AuthenticationService, private router: Router, private checkout: CheckoutService) { 
-    if(this.checkout.date){
-      this.date = this.checkout.date;
+  constructor(private router: Router, private checkout: CheckoutService) { 
+    this.checkout.currentpriceEstimate.subscribe(newpriceEstimate => this.price = newpriceEstimate);
+    if(this.checkout.supplyDropForm){
+      this.supplyDropForm = this.checkout.supplyDropForm;
     }
 
-    if(this.checkout.time){
-      this.time = this.checkout.time;
+    if(this.checkout.pickupForm){
+      this.pickupForm = this.checkout.pickupForm;
     }
 
     if(this.checkout.address){
       this.address = this.checkout.address;
-    }
-
-    if(this.checkout.items){
-      this.items = this.checkout.items;
     }
   }
 
@@ -70,15 +62,6 @@ export class RegisterComponent implements AfterViewInit {
     });
   }
 
-  getErrorMessage(input) {
-    switch (input) {
-      case 'email':
-        return this.registerForm.get('email').hasError('required') ? 'You must enter a value' :
-          this.registerForm.get('email').hasError('email') ? 'Not a valid email' :
-            '';
-    }
-  }
-
   onSubmit(){
     console.log('form submitted!')
     event.preventDefault();
@@ -90,35 +73,25 @@ export class RegisterComponent implements AfterViewInit {
         this.errorMessage = result.error.message;
       } else {
         this.loading = true;
-        this.registerUser(result.paymentMethod.id);
+        this.checkout.paymentMethodId = result.paymentMethod.id;
+        this.checkout.email = this.email.value;
+        this.checkout.pay().subscribe(() => {
+          alert('successfully subscribed!')
+          this.loading = false;
+        }, (err) => {
+          console.log(err);
+          this.errorMessage = err.error.message;
+          this.loading = false
+        });
       }
     });
   }
 
-  registerUser(paymentMethodId: any) {
-    let form = this.registerForm;
-    const postData = {
-      name: form.get('name').value,
-      email: form.get('email').value,
-      payment_method: paymentMethodId,
-      address: {
-        line1: this.address.get('address').value,
-        line2: this.address.get('address2').value,
-        city: this.address.get('city').value,
-        postalcode: this.address.get('postalcode').value,
-      },
-      items: this.items,
-      //TODO: add items, booking time
+  getDate(form: FormGroup): String{
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    if(form){
+      let date = form.get('date').value
+      return date.toLocaleDateString("en-US", options);
     }
-    this.auth.register(postData).subscribe(() => {
-      //TODO: handle successful payment 
-      alert('successfully subscribed!')
-      this.loading = false;
-    }, (err) => {
-      console.log(err);
-      this.errorMessage = err.error.message;
-      this.loading = false
-    });
   }
-
 }

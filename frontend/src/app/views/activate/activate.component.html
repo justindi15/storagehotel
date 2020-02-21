@@ -24,7 +24,7 @@
                 </mat-error>  
             </mat-form-field>
             <mat-error id="error">{{this.activateError}}</mat-error>
-            <button mat-flat-button [disabled]="!passwordForm.valid" color="accent">Activate account</button>
+            <button mat-flat-button type="submit" [disabled]="!passwordForm.valid" color="accent">Activate account</button>
         </form>
     </mat-card-content>
 </mat-card>

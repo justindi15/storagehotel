@@ -13,7 +13,7 @@
         <h3>Stored Items</h3>
       </ng-template>
       <div class="content">
-        <app-stored-items [items]=items [email]=email (bookingSuccessful)="onBookingSuccess($event)"></app-stored-items>
+        <app-stored-items [address]=address [items]=items [email]=email (bookingSuccessful)="onBookingSuccess($event)"></app-stored-items>
       </div>
       </mat-tab>
   
@@ -57,12 +57,9 @@
                         <div *ngIf="(address.line2 != '')">{{address.line2}}<br></div>
                         {{address.line1}}, 
                         <br>{{address.city}}, BC
-                        <br>Canada {{address.postalcode}}
+                        <br>Canada {{address.postal_code}}
                       </div>
                     </ng-template>
-                  </div>
-                  <div class="account-payments">
-                    <h2>Payments</h2>
                   </div>
               </div>
             </div>

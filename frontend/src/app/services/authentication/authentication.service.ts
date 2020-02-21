@@ -130,9 +130,8 @@ export class AuthenticationService {
     return this.http.post(`http://localhost:3000/users/verifyEmail`, postData);
   }
 
-  public activate(email: string, token: string, password: string): Observable<any> {
+  public activate(token: string, password: string): Observable<any> {
     const postData = {
-      email: email,
       password: password,
       activationToken: token,
     }

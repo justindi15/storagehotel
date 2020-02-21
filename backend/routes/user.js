@@ -12,16 +12,17 @@ var auth = jwt({
     secret: process.env.PRIVATE_KEY,
     userProperty: 'payload'
   });
+var mailOptions = ('emailOptions.js');
 
-let mailOptions = function(email, activationToken){
-    return {
-        from: process.env.EMAIL,
-        to: email,
-        subject: 'Storagehotel Account Activation',
-        text: 'Follow this link to finish creating your account ' 
-        + `http://localhost:4200/activate/${email}/${activationToken}`,
-    }
-}
+// let mailOptions = function(activationToken){
+//     return {
+//         from: process.env.EMAIL,
+//         to: email,
+//         subject: 'Storagehotel Account Activation',
+//         text: 'Follow this link to finish creating your account ' 
+//         + `http://localhost:4200/activate/${activationToken}`,
+//     }
+// }
 
 router.get('/', (req, res) => {
     res.send('we are on users')
@@ -32,7 +33,7 @@ router.post('/register', (req, res) => {
 
   //TODO: validate form input types
 
-  const {name, email, payment_method, address, items } = req.body;
+  const {name, email, payment_method, address, subscriptions, startdate, phone } = req.body;
   const {line1, line2, city, postalcode} = address;
   
   //check if user with email already exists
@@ -45,6 +46,7 @@ router.post('/register', (req, res) => {
         stripe.customers.create({
             name: name,
             email: email,
+            phone: phone,
             address: {
                 "line1": line1,
                 "city": city,
@@ -66,30 +68,29 @@ router.post('/register', (req, res) => {
 
               //save user with stripe customer id to database if stripe call succeeds
               const newUser = new User({
-                  name: customer.name,
                   email: customer.email,
                   stripe_id: customer.id,
-                  address: address,
                   activated: false,
                   activationToken: uuidv4(),
-                  items: items.map((item) => (
-                      {name: item.name,
-                        path: item.path,
-                        space: item.space,
-                        status: "In Storage",
-                    }))
               })
 
               newUser.save()
-              .then(stripe.subscriptions.create({
+              .then(stripe.subscriptionSchedules.create({
                     customer: customer.id,
-                    items: [{ plan: 'plan_GYos3iNQoLNUNv', quantity: 5 }],
-                    expand: ['latest_invoice.payment_intent']
+                    start_date: startdate,
+                    phases: [
+                        {
+                            plans: subscriptions,
+                            default_tax_rates: ['txr_1GEQ8iJ9qNaYrnZunLqjMhC1']
+                        }
+
+                    ]
                   }, function(err, subscription){
+                    if(err) console.log(err);
+                    if(subscription) console.log(subscription);
                         var token;
                         token = newUser.generateJwt();
                         var activationToken = newUser.activationToken;
-
                         //send activation email TODO: refactor this out
                         var transporter = nodemailer.createTransport({
                             host: 'smtp.zoho.com',
@@ -101,7 +102,7 @@ router.post('/register', (req, res) => {
                             }
                         });
                         
-                        transporter.sendMail(mailOptions(email, activationToken), function (error, info) {
+                        transporter.sendMail(mailOptions(activationToken), function (error, info) {
                           if (error) {
                               console.log(error);
                           } else {
@@ -109,8 +110,7 @@ router.post('/register', (req, res) => {
                           }
                         });
 
-                        res.status(200);
-                        res.json({"token": token, "subscription": subscription.status});
+                        res.status(200).json({"token": token, "subscription": subscription.status});
                   }))
               .catch(err => {res.status(400).json({ message: err})});
           });
@@ -128,8 +128,7 @@ router.post('/verifyEmail', (req, res, next) => {
         if (!user) {res.status(400).json({ message: "User with that email does not exist"})}
         if (user) {
             if(user.activated){
-                res.status(200);
-                res.json({message: "success"})
+                res.status(200).json({message: "success"})
             }else{
                 {res.status(401).json({message: "You have not activated your account yet"})}
             }
@@ -140,10 +139,10 @@ router.post('/verifyEmail', (req, res, next) => {
 //Activate a registered user
 router.post('/activate', (req, res, next) => {
 
-    const { email, password, activationToken } = req.body;
+    const { password, activationToken } = req.body;
 
     //check if user exists
-    User.findOne({ email: email}, (err, user) => {
+    User.findOne({ activationToken: activationToken}, (err, user) => {
         if (err) {res.status(400).json({ message: err})}
         if (!user) {res.status(400).json({ message: "User with that email does not exist"})}
         if (user) {
@@ -167,8 +166,7 @@ router.post('/activate', (req, res, next) => {
                         user.activated = true;
                         user.activationToken = undefined;
                         user.save().then(() => {
-                            res.status(200);
-                            res.json({ "message": "successfully activated account"})
+                            res.status(200).json({ "message": "successfully activated account"})
                         })
                     });
                 });
@@ -192,10 +190,7 @@ router.post('/login', (req, res, next) => {
         // If a user is found
         if (user) {
             token = user.generateJwt();
-            res.status(200);
-            res.json({
-                "token": token
-            });
+            res.status(200).json({"token": token});
         } else {
             // If user is not found
             res.status(401).json(info);
@@ -244,10 +239,42 @@ router.get('/profile', auth, (req, res) => {
         });
       } else {
         User
-          .findById(req.payload._id)
-          .exec(function(err, user) {
-            res.status(200).json(user);
-          });
+          .findOne({email: req.payload.email}, (err, user)=>{
+            if (err) {res.status(400).json({ message: err})}
+            stripe.customers.retrieve(
+                user.stripe_id,
+                function(err, customer) {
+                    if (err) {res.status(400).json({ message: err})}
+                    stripe.subscriptionSchedules.list(
+                        {customer: user.stripe_id},
+                        function(err, subscriptions){
+                            if (err) {res.status(400).json({ message: err})}
+                            let items = [];
+                            subscriptions.data.forEach(subscription => {
+                                subscription.phases.forEach(phase =>{
+                                    phase.plans.forEach(plan =>{
+                                        items.push({
+                                            "plan_id": plan.plan,
+                                            "quantity": plan.quantity,
+                                            "status": subscription.status,
+                                            "startdate": phase.start_date,
+                                        })
+                                    })
+                                })
+                            });
+                            res.status(200).json({
+                                "name": customer.name,
+                                "phone": customer.phone,
+                                "email": customer.email,
+                                "address": customer.address,
+                                "items": items,
+                                "appointments": user.appointments
+                            });
+                        }
+                    )
+                }
+              );
+          })
       }
 })
 

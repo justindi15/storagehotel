@@ -20,6 +20,16 @@ mat-dialog-actions {
     border-top: 1px solid #E0E0E0;
 }
 
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.row-field {
+    width: 48%;
+}
+
 .submit-button {
     width: 100%;
     display: flex;

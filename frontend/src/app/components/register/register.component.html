@@ -12,21 +12,24 @@
             </ng-template>
         </div>
         <div class="time-div">
+            <p>Supply Dropoff Date & Time:</p>
+            <h4 *ngIf="(supplyDropForm); else noTime">{{getDate(supplyDropForm)}} from {{supplyDropForm.get('time').value}}</h4>
+            <ng-template #noTime>
+                    <strong>You forgot to set a pickup date & time!</strong>
+            </ng-template>
+        </div>
+        <div class="time-div">
             <p>Pickup Date & Time:</p>
-            <h4 *ngIf="(time && date); else noTime">{{date}} from {{time}}</h4>
+            <h4 *ngIf="(pickupForm); else noTime">{{getDate(pickupForm)}} from {{pickupForm.get('time').value}}</h4>
             <ng-template #noTime>
                     <strong>You forgot to set a pickup date & time!</strong>
             </ng-template>
         </div>
     </mat-card-header>
     <mat-card-content>
-        <form class="form-div" [formGroup]="registerForm" action="/charge" method="post" id="payment-form">
+        <form class="form-div" action="/charge" method="post" id="payment-form">
                 <mat-form-field>
-                    <input matInput placeholder="Full Name" formControlName="name">
-                </mat-form-field>
-                <mat-form-field>
-                    <input matInput placeholder="Email" formControlName="email">
-                    <mat-error *ngIf="registerForm.get('email').invalid">{{getErrorMessage("email")}}</mat-error>
+                    <input matInput placeholder="Email" [formControl]="email">
                 </mat-form-field>
                 <mat-form-field>
                     <span #cardElement>
@@ -39,7 +42,14 @@
     <mat-card-actions>
         <mat-spinner *ngIf="loading; else payButtonTemplate" color="accent" diameter="50"></mat-spinner>
         <ng-template #payButtonTemplate>
-            <button mat-flat-button id="payment-button" type="button" (click)="onSubmit()" [disabled]="!(registerForm.valid && paymentCardComplete && address && time && date && items)" color="accent" style="width: 80%;">PAY ${{total_price}}</button>
+            <button mat-flat-button 
+                    id="payment-button" 
+                    type="button" 
+                    (click)="onSubmit()" 
+                    [disabled]="!(email.valid && paymentCardComplete && address && supplyDropForm && pickupForm)" 
+                    color="accent" style="width: 80%;">
+                    PAY ${{price * 1.05}}
+            </button>
         </ng-template>
     </mat-card-actions>
     <mat-card-actions>

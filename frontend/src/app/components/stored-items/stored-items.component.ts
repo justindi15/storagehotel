@@ -18,6 +18,9 @@ export class StoredItemsComponent implements OnInit {
   @Input()
   email = ""
 
+  @Input()
+  address = ""
+
   constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -28,6 +31,7 @@ export class StoredItemsComponent implements OnInit {
       data: {
         items: this.items,
         email: this.email,
+        address: this.address,
       },
       width: '40%',
       panelClass: 'custom-dialog-container'

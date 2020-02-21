@@ -17,28 +17,42 @@
     <mat-card-header>
         <mat-card-title>Log in to your account</mat-card-title>
     </mat-card-header>
+
+    <form  *ngIf="!emailVerified">
     <mat-card-content>
-        <form class="form-div">
+        <div class="form-div">
             <mat-form-field *ngIf="!emailVerified" appearance="outline">
                 <mat-label>Email</mat-label>
-                <input matInput placeholder="johnsmith@example.com" [formControl]="email">
+                <input matInput placeholder="johnsmith@example.com" [formControl]="email" cdkFocusInitial>
                 <mat-error *ngIf="email.hasError">{{getErrorMessage()}}</mat-error>
             </mat-form-field>
-            <mat-form-field *ngIf="emailVerified" appearance="outline">
+        </div>
+        <mat-error id="error">{{this.loginError}}</mat-error>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-flat-button type="submit" (click)="verifyEmail()" color="accent" [disabled]="!email.valid">Next</button>
+    </mat-card-actions>
+    </form>
+
+    <form *ngIf="emailVerified">
+    <mat-card-content>
+        <div class="form-div">
+            <mat-form-field appearance="outline">
                     <mat-label>Password</mat-label>
-                    <input matInput placeholder="****** " [formControl]="password" [type]="show ? 'text' : 'password'">
-                    <button mat-icon-button matSuffix (click)="show = !show" [attr.aria-label]="'Show password'"
+                    <input matInput appAutofocus placeholder="****** " [formControl]="password" [type]="show ? 'text' : 'password'">
+                    <button mat-icon-button matSuffix (click)="show = !show" type="button" [attr.aria-label]="'Show password'"
                         [attr.aria-pressed]="show">
                         <mat-icon>{{show ? 'visibility' : 'visibility_off'}}</mat-icon>
                     </button>
             </mat-form-field>
-        </form>
+        </div>
         <mat-error id="error">{{this.loginError}}</mat-error>
     </mat-card-content>
     <mat-card-actions>
-        <button *ngIf="!emailVerified" mat-flat-button type="button" (click)="verifyEmail()" color="accent" [disabled]="!email.valid">Next</button>
-        <button *ngIf="emailVerified" mat-flat-button type="button" (click)="loginUser()" color="accent" [disabled]="!password.valid">Login</button>
+        <button mat-flat-button type="submit" (click)="loginUser()" color="accent" [disabled]="!password.valid">Login</button>
     </mat-card-actions>
+    </form>
+
     <mat-card-footer>
     </mat-card-footer>
 </mat-card>

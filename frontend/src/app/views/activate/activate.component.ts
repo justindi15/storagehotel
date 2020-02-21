@@ -35,7 +35,6 @@ export class ActivateComponent implements OnInit {
   constructor(private route: ActivatedRoute, private auth: AuthenticationService, private router: Router, private snackbar: MatSnackBar) { }
 
   ngOnInit() {
-  this.email = this.route.snapshot.paramMap.get("email");
   this.token = this.route.snapshot.paramMap.get("token")
   }
 
@@ -48,10 +47,9 @@ export class ActivateComponent implements OnInit {
 
   activateAccount(){
       const password = this.passwordForm.get('password').value;
-      const email = this.email;
       const token = this.token;
 
-    this.auth.activate(email, token, password).subscribe((res)=>{
+    this.auth.activate(token, password).subscribe((res)=>{
       this.router.navigateByUrl('/signin');
       this.openSnackBar("Your account has been activated")
     }, (err) => {

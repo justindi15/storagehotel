@@ -30,12 +30,13 @@ export class DashboardComponent implements OnInit {
 
   getUserData() {
     this.auth.profile().subscribe(user => {
-      this.items = (user.items || []);
+      // this.items = (user.items || []);
       this.email = (user.email || "-");
       this.name = (user.name || "-");
       this.address = (user.address || "-");
       this.phone = (user.phone || "-");
       this.appointments = (user.appointments || []);
+      console.log(user);
     }, (err) => {
       console.error(err);
     });

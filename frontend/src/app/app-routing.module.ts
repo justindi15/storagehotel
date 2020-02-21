@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'ordersummary', component: OrderSummaryComponent},
   { path: 'checkout', component: CheckoutComponent},
   { path: 'signin', component: SigninComponent},
-  { path: 'activate/:email/:token', component: ActivateComponent},
+  { path: 'activate/:token', component: ActivateComponent},
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService]},
   { path: '', redirectTo: '/select',pathMatch:  'full'},
 ];

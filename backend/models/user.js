@@ -7,15 +7,12 @@ const SALT_WORK_FACTOR = 10;
 var Address = {line1: String, line2: String, city: String, postalcode: String}
 
 const UserSchema = new Schema({
-    name: { type: String, required: true},
     email: { type: String, required: true, index: { unique: true } },
     password: { type: String},
     stripe_id: { type: String, required: true},
-    address: { type: Address, required: true},
     activated: { type: Boolean},
     activationToken: { type: String },
-    items: [{name: String, status: String, path: String, space: Number}],
-    appointments: [{items: [String], address: String, date: String, time: String, appointmentType: String}],
+    appointments: [{items: [String], address: {line1: String, line2: String, city: String, postal_code: String}, date: String, time: String, appointmentType: String}],
 });
 
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {

@@ -2,10 +2,10 @@
     <form [hidden]="confirmed" class="form-div" [formGroup]="locationForm">
         <div class="row">
             <mat-form-field class="row-field">
-                <input matInput placeholder="Full Name" formControlName="name">
+                <input matInput placeholder="Full Name" [formControl]="name">
             </mat-form-field>
             <mat-form-field class="row-field">
-                <input matInput placeholder="Phone" formControlName="phone">
+                <input matInput placeholder="Phone" [formControl]="phone">
             </mat-form-field>
         </div>
         <mat-form-field>
@@ -32,7 +32,7 @@
         </h3>
     </div>
     <div class="button-div">
-        <button mat-flat-button [hidden]="confirmed" (click)="handleClick()" color="accent" type="button" [disabled]="!locationForm.valid">Confirm</button>
+        <button mat-flat-button [hidden]="confirmed" (click)="handleClick()" color="accent" type="button" [disabled]="!(locationForm.valid && name.valid && phone.valid)">Confirm</button>
         <button mat-flat-button [hidden]="!confirmed" (click)="handleClick()" color="accent" type="button">Change</button>
     </div>
 </div>

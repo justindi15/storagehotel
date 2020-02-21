@@ -19,10 +19,10 @@ export class LocationPickerComponent implements OnInit {
     types: ['address'],
   }
 
+  name = new FormControl('', Validators.required);
+  phone = new FormControl('', Validators.required);
 
   locationForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    phone: new FormControl('', [Validators.required]),
     address: new FormControl('', [Validators.required]),
     address2: new FormControl(''),
     city: new FormControl('', [Validators.required]),
@@ -41,42 +41,45 @@ export class LocationPickerComponent implements OnInit {
   }
 
   handleClick(){
-    this.confirmed = !this.confirmed;
+    if(this.confirmed){
+      this.confirmed = !this.confirmed;
+    }else{
+      this.checkoutService.address = this.locationForm;
+      this.checkoutService.name = this.name.value;
+      this.checkoutService.phone = this.phone.value;
+      this.confirmed = !this.confirmed;
+    }
   }
     
   public handleAddressChange(address: any) {
-  console.log(address);
-  let streetnumber: string;
-  let streetname: string;
-  let city: string
-  let postalcode: string;
+    let streetnumber: string;
+    let streetname: string;
+    let city: string
+    let postalcode: string;
 
-  address.address_components.forEach(component => {
-    switch(component.types[0]){
-      case "street_number":
-        streetnumber = component.long_name;
-        break;
-      case "route":
-        streetname = component.long_name;
-        break;
-      case "locality":
-        city = component.long_name;
-        break;
-      case "postal_code":
-        postalcode = component.long_name;
-        break;
-      default:
-        break;
-    }
-  });
-
-  console.log({streetnumber, streetname, city, postalcode});
-  this.locationForm.patchValue({
-    address: streetnumber + " " + streetname,
-    city: city,
-    postalcode: postalcode
-  })
-  this.checkoutService.address = this.locationForm;
-}
+    address.address_components.forEach(component => {
+      switch (component.types[0]) {
+        case "street_number":
+          streetnumber = component.long_name;
+          break;
+        case "route":
+          streetname = component.long_name;
+          break;
+        case "locality":
+          city = component.long_name;
+          break;
+        case "postal_code":
+          postalcode = component.long_name;
+          break;
+        default:
+          break;
+      }
+    });
+    this.locationForm.patchValue({
+      address: streetnumber + " " + streetname,
+      city: city,
+      postalcode: postalcode
+    })
+  }
 
 }

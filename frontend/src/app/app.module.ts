@@ -40,7 +40,7 @@ import { StoredItemsComponent } from './components/stored-items/stored-items.com
 import { AppointmentsComponent } from './components/appointments/appointments.component';
 import { RetrieveModalComponent } from './components/retrieve-modal/retrieve-modal.component';
 import { CheckoutComponent } from './views/checkout/checkout.component';
-import { from } from 'rxjs';
+import { AutofocusDirective } from './directives/autofocus.directive';
 
 @NgModule({
   declarations: [
@@ -59,6 +59,7 @@ import { from } from 'rxjs';
     AppointmentsComponent,
     RetrieveModalComponent,
     CheckoutComponent,
+    AutofocusDirective,
   ],
   entryComponents: [
     RetrieveModalComponent,
