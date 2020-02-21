@@ -32,11 +32,38 @@
     justify-content: center;
 }
 
+.confirmed-div h2 {
+    font-family: "Gilroy-Regular";
+    font-size: 16px;
+}
+
+.confirmed-div h3 {
+    font-family: "Gilroy-Bold";
+    font-size: 18px;
+}
+
 .button-div {
     display: flex;
     justify-content: center;
 }
 
+button {
+    background-color: #E18A65!important;
+    border-radius: 20px;
+    font-size: 16px;
+    padding: 0px 30px;
+    font-family: "Gilroy-Medium";
+}
+
+button:hover {
+    background-color: #F4AE82!important;
+}
+
 [hidden] { display: none !important;}
 
-
+@media only screen and (max-width: 576px) {
+    .main-wrapper {
+        width: 90%;
+        margin-left: 20px;
+    }
+}

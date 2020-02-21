@@ -1,3 +1,7 @@
+.logo {
+    color: #024638;
+}
+
 mat-horizontal-stepper{
     width: 100%;
     height: 100%;
@@ -25,26 +29,123 @@ mat-horizontal-stepper{
 }
 
 .calculator-col {
-    width: 20vw;
+    width: 25vw;
     position: sticky;
     top: 0;
     padding: 40px 0px;
     padding-left: 1vw;
   }
 
-  mat-card {
-    padding: 50px;
+.calculator-col button {
+    background-color: #E18A65;
+    border-radius: 20px;
+    font-size: 16px;
+    padding: 0px 30px;
+    box-shadow: 0px 2px 5px #cecece;
+    font-family: "Gilroy-Medium";
+    margin-top: 10px;
+}
+
+.calculator-col button:hover {
+    background-color: #F4AE82;
+    box-shadow: 0px 0px;
+}
+
+.mat-card-actions {
+    margin: 0px!important;
+}
+
+mat-card {
+    padding: 30px 40px;
     border-radius: 25px;
-  }
+}
 
-  .book-row {
-      padding-top: 3%;
-      display: flex;
-      flex-direction: row;
-      width: 62%;
-      justify-content: space-between;
-  }
+.book-row {
+    padding-top: 3%;
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    justify-content: space-between;
+}
 
-  .book-col {
-      height: 60vh;
-  }
+.book-col {
+    height: 60vh;
+}
+
+.contact-info {
+    margin: 30px 0px 0px 20px;
+}
+
+.contact-info h3 {
+    font-size: 23px;
+    padding: 0px;
+    margin: 0px 0px 10px 0px;
+}
+
+.contact-info p {
+    font-size: 16px;
+    padding: 0px;
+    margin: 0px;
+}
+
+@media only screen and (max-width: 576px) {
+    .logo {
+        text-align: center!important;
+        position: static!important;
+        background-color: #FFF!important;
+        margin: 0px;
+        padding: 20px 0px 10px 0px;
+        display: none;
+    }
+    mat-horizontal-stepper {
+        margin-top: 0px!important;
+        height: auto;
+        position: fixed!important;
+        padding-top: 10px!important;
+    }
+    .content {
+        display: block!important;
+    }
+    .calculator-col {
+        width: 100vw;
+        position: fixed!important;
+        left: 0;
+        bottom: 0;
+        top: auto!important;
+        padding: 0px 0px 0px 0px;
+    }
+    mat-card {
+        border-radius: 0px;
+        font-size: 16px;
+        padding: 20px 40px;
+    }
+    mat-card-subtitle {
+        display: none;
+    }
+    .contact-info {
+        display: none;
+    }
+    .mat-horizontal-stepper-header {
+        padding: 0px 30px 0px 30px;
+    }
+    
+    .book-row {
+        padding-top: 3%;
+        display: block;
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .book-col {
+        height: 60vh;
+        margin-bottom:88px;
+    }
+    
+    .book-col h3 {
+        padding: 0px 20px 0px 20px;
+    }
+    
+    .book-col p {
+        padding: 0px 20px 0px 20px;
+    }
+}

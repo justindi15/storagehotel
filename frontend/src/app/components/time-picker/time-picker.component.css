@@ -33,3 +33,23 @@ mat-tab-group {
     justify-content: center;
     align-items: center;
 }
+
+button {
+    background-color: #E18A65!important;
+    border-radius: 20px;
+    font-size: 16px;
+    padding: 0px 30px;
+    font-family: "Gilroy-Medium";
+    color: #FFF;
+}
+
+button:hover {
+    background-color: #F4AE82!important;
+}
+
+@media only screen and (max-width: 576px) {
+    .wrapper {
+        width: 90%;
+        margin-left: 20px;
+    }
+}

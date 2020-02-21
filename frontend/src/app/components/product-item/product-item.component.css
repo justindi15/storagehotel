@@ -35,8 +35,30 @@
     flex-grow: 1;
 }
 
+button {
+    background-color: #E54744!important;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.mat-mini-fab {
+    padding: 0px!important;
+    line-height: 0px!important;
+}
+
 .counter{
-  padding: 0px 20px;
+  padding: 0px 7px;
+}
+
+.counter h2 {
+    font-size: 16px;
+    font-family: "Gilroy-Regular";
+    background-color: #FFF;
+    padding: 4px 8px 0px 8px;
+    border: 1px solid #b5b5b5;
+    border-radius: 5px;
 }
 
 .counter-button{
@@ -62,4 +84,27 @@
 #storagebox {
   transform: translateX(-20px);
   width: 75%;
+}
+
+@media only screen and (max-width: 576px) {
+    #storagebox {
+        width: 100%;
+    }
+    .row {
+        flex-wrap: nowrap;
+    }
+    .counter-div{
+        justify-content: flex-end;
+        margin-left: 10px;
+    }
+    .storagebox-name,
+    .storagebox-price {
+        font-size: 16px;
+        line-height: 20px;
+    }
+    .item-name,
+    .item-price{
+        font-size: 16px;
+        line-height: 20px;
+    }
 }
