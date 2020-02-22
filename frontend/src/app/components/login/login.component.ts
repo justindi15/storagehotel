@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {FormControl, Validators, FormGroup} from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { Router } from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
   emailDisabled: boolean;
 
 
-  constructor(private auth: AuthenticationService, private router: Router) { }
+  constructor(private auth: AuthenticationService, private router: Router, private snackbar: MatSnackBar) { }
 
   ngOnInit() {
   }
@@ -50,6 +51,23 @@ export class LoginComponent implements OnInit {
       }
       this.loginError = err.error.message;
     })
+  }
+
+  resendActivationEmail() {
+    if((this.email.valid) && (this.email.value !== '')){
+      this.auth.resendActivationEmail(this.email.value).subscribe((res)=>{
+          this.openSnackBar('Resent Activation Email to ' + this.email.value);
+      }, (err)=>{
+        this.openSnackBar(err.error.message)
+      });
+    }
+  }
+
+  openSnackBar(message: string) {
+    this.snackbar.open(message, null, {
+      duration: 2000,
+      verticalPosition: 'top'
+    });
   }
 
 }

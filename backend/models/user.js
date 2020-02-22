@@ -8,6 +8,7 @@ var Address = {line1: String, line2: String, city: String, postalcode: String}
 
 const UserSchema = new Schema({
     email: { type: String, required: true, index: { unique: true } },
+    name: { type: String, required: true},
     password: { type: String},
     stripe_id: { type: String, required: true},
     activated: { type: Boolean},

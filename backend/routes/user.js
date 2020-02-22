@@ -58,6 +58,7 @@ router.post('/register', (req, res) => {
               //save user with stripe customer id to database if stripe call succeeds
               const newUser = new User({
                   email: customer.email,
+                  name: customer.name,
                   stripe_id: customer.id,
                   activated: false,
                   activationToken: uuidv4(),
@@ -109,7 +110,6 @@ router.post('/register', (req, res) => {
 
 router.post('/verifyEmail', (req, res, next) => {
     const { email } = req.body;
-    console.log('verfied email: ' + email);
 
     User.findOne({ email: email}, (err, user) => {
         if (err) {res.status(400).json({ message: err})}
@@ -119,6 +119,39 @@ router.post('/verifyEmail', (req, res, next) => {
                 res.status(200).json({message: "success"})
             }else{
                 {res.status(401).json({message: "You have not activated your account yet"})}
+            }
+        }
+    })
+});
+
+router.post('/resendEmail', (req, res, next) => {
+    const { email } = req.body;
+
+    User.findOne({ email: email}, (err, user) => {
+        if (err) {res.status(400).json({ message: err})}
+        if (!user) {res.status(400).json({ message: "User with that email does not exist"})}
+        if (user) {
+            if(user.activated){
+                res.status(400).json({message: "Account Already Activated"})
+            }else{
+                var transporter = nodemailer.createTransport({
+                    host: 'smtp.zoho.com',
+                    port: 465,
+                    secure: true, // use SSL
+                    auth: {
+                        user: process.env.EMAIL,
+                        pass: process.env.PASSWORD,
+                    }
+                });
+                
+                transporter.sendMail(mailOptions(email, user.activationToken, user.name), function (error, info) {
+                  if (error) {
+                      console.log(error);
+                  } else {
+                      console.log('Email sent: ' + info.response);
+                  }
+                });
+                res.status(200).json({message: "Activation Email Resent"});
             }
         }
     })

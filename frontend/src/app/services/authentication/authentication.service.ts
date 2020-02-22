@@ -130,6 +130,11 @@ export class AuthenticationService {
     return this.http.post(`http://localhost:3000/users/verifyEmail`, postData);
   }
 
+  public resendActivationEmail(email: string): Observable<any> {
+    const postData = { email: email }
+    return this.http.post(`http://localhost:3000/users/resendEmail`, postData);
+  }
+
   public activate(token: string, password: string): Observable<any> {
     const postData = {
       password: password,
