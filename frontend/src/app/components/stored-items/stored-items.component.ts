@@ -21,7 +21,7 @@ export class StoredItemsComponent implements OnInit {
   @Input()
   address = ""
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit() {
   }

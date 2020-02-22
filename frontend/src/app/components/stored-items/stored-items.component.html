@@ -8,15 +8,15 @@
         <div class="list-item">
           
             <div class="item-icon">     
-                <img src="{{item.path}}">  
+                <img class="icon" src="{{item.path}}">  
             </div>
             <div class="col">
                 <h3 class="item-name">{{item.name}}</h3>
                 <div class="item-status">STATUS: <strong class="value">{{item.status}}</strong></div>
             </div>
             <div class="col">
-              <div class="item-size">
-                PRICE: <strong class="value">{{item.price}} cu ft</strong>
+              <div class="item-price">
+                PRICE: <strong class="value">${{item.price}} /mo</strong>
               </div>
             </div>
         </div>

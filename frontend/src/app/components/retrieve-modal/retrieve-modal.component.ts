@@ -30,7 +30,7 @@ export class RetrieveModalComponent implements OnInit {
     {value: new Date(2020, 3, 4), label: 'April 4, 2020'},
   ]
 
-  items = [{"name": "skis"}]
+  items = []
   deliveryMethod = "1";
   email = "";
   itemCheckboxes = new FormArray([], Validators.required);
@@ -48,6 +48,7 @@ export class RetrieveModalComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<RetrieveModalComponent> ,@Inject(MAT_DIALOG_DATA) public data: any, private auth: AuthenticationService) {
     if(data){
+      this.items = data.items
       this.email = data.email;
       let {line1, line2, city, postal_code} = data.address
       this.secondFormGroup.setValue({line1: line1, line2: line2, city: city, postal_code: postal_code});

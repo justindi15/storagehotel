@@ -3,6 +3,7 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 import * as moment from 'moment';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { PRODUCTS, product, storagebox } from 'src/app/products';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,6 +12,8 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
 
+  products = PRODUCTS;
+  storagebox = storagebox;
   name = "-";
   phone = "-";
   email = "-";
@@ -22,6 +25,11 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.getUserData();
+    this.auth.profile().subscribe(user => {
+      this.importItems(user.items);
+    }, (err) => {
+      console.error(err);
+    });
   }
 
   update(){
@@ -30,7 +38,6 @@ export class DashboardComponent implements OnInit {
 
   getUserData() {
     this.auth.profile().subscribe(user => {
-      // this.items = (user.items || []);
       this.email = (user.email || "-");
       this.name = (user.name || "-");
       this.address = (user.address || "-");
@@ -40,6 +47,39 @@ export class DashboardComponent implements OnInit {
     }, (err) => {
       console.error(err);
     });
+  }
+
+  importItems(userItems){
+    userItems.forEach((plan)=>{
+      let item = {
+        "name": '',
+        "path": '',
+        "status": 'In Storage',
+        "price": null,
+      }
+      if(plan.plan_id === 'box'){
+        item.name = storagebox.name;
+        item.path = storagebox.path;
+        item.price = storagebox.price;
+      }else{
+        this.products.forEach((product)=>{
+          if(plan.plan_id == product.plan_id){
+            item.name = product.name;
+            item.path = product.path;
+            item.price = product.price;
+          }
+        })
+      }
+      var options = { year: 'numeric', month: 'long', day: 'numeric' };
+      if((plan.status === 'not_started') && plan.startdate){
+        let date = new Date(plan.startdate * 1000).toLocaleDateString("en-US", options);
+        item.status = 'Pick up on ' + date
+      }
+      for(let i = 0; i < plan.quantity; i++){
+        this.items.push(item);
+      }
+  })
+  console.log(this.items);
   }
 
   onBookingSuccess(success){
