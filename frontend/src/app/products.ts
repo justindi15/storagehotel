@@ -19,7 +19,7 @@ export const PRODUCTS: product[] = [
       name: 'Bicycle',
       plan_id: 'bicycle',
       col: '1',
-      path: 'assets/svg/Bicycle.svg',
+      path: 'assets/item-icons/bike-icon.png',
       price: 20,
     },
     {
