@@ -18,6 +18,10 @@ export interface RegisterPayload {
   email: string;
   payment_method: any;
   address: Address;
+  subscriptions: any;
+  startdate: number;
+  supplyDropAppointment: any;
+  pickupAppointment: any;
 }
 
 export interface LoginPayload {

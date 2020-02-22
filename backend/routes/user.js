@@ -22,13 +22,13 @@ router.post('/register', (req, res) => {
 
   //TODO: validate form input types
 
-  const {name, email, payment_method, address, subscriptions, startdate, phone } = req.body;
+  const {name, email, payment_method, address, subscriptions, startdate, phone, supplyDropAppointment, pickupAppointment } = req.body;
   const {line1, line2, city, postalcode} = address;
-  
+
   //check if user with email already exists
   User.findOne({ email: email}, (err, user) => {
-    if (err) {res.status(400).json({ message: err})}
-    if (user) {res.status(400).json({ message: "User with that email already exists"})}
+    if (err) {res.status(400).json({ message: err}); return}
+    if (user) {res.status(400).json({ message: "User with that email already exists"}); return}
     if (!user) {
 
         //create a stripe customer and attaches payment method in one API call
@@ -53,6 +53,7 @@ router.post('/register', (req, res) => {
               if(err) {
                   console.log(err);
                   res.status(400).json({ message: "stripe api call failed"})
+                  return;
                 }
 
               //save user with stripe customer id to database if stripe call succeeds
@@ -62,8 +63,8 @@ router.post('/register', (req, res) => {
                   stripe_id: customer.id,
                   activated: false,
                   activationToken: uuidv4(),
+                  appointments: [supplyDropAppointment, pickupAppointment]
               })
-
               newUser.save()
               .then(stripe.subscriptionSchedules.create({
                     customer: customer.id,
@@ -100,8 +101,9 @@ router.post('/register', (req, res) => {
                         });
 
                         res.status(200).json({"token": token, "subscription": subscription.status});
+                        return;
                   }))
-              .catch(err => {res.status(400).json({ message: err})});
+              .catch(err => {res.status(400).json({ message: err}); return;});
           });
     }
   })
@@ -112,13 +114,14 @@ router.post('/verifyEmail', (req, res, next) => {
     const { email } = req.body;
 
     User.findOne({ email: email}, (err, user) => {
-        if (err) {res.status(400).json({ message: err})}
-        if (!user) {res.status(400).json({ message: "User with that email does not exist"})}
+        if (err) {res.status(400).json({ message: err}); return;}
+        if (!user) {res.status(400).json({ message: "User with that email does not exist"}); return}
         if (user) {
             if(user.activated){
                 res.status(200).json({message: "success"})
+                return;
             }else{
-                {res.status(401).json({message: "You have not activated your account yet"})}
+                {res.status(401).json({message: "You have not activated your account yet"}); return}
             }
         }
     })
@@ -128,11 +131,12 @@ router.post('/resendEmail', (req, res, next) => {
     const { email } = req.body;
 
     User.findOne({ email: email}, (err, user) => {
-        if (err) {res.status(400).json({ message: err})}
-        if (!user) {res.status(400).json({ message: "User with that email does not exist"})}
+        if (err) {res.status(400).json({ message: err}); return}
+        if (!user) {res.status(400).json({ message: "User with that email does not exist"}); return}
         if (user) {
             if(user.activated){
                 res.status(400).json({message: "Account Already Activated"})
+                return;
             }else{
                 var transporter = nodemailer.createTransport({
                     host: 'smtp.zoho.com',
@@ -152,6 +156,7 @@ router.post('/resendEmail', (req, res, next) => {
                   }
                 });
                 res.status(200).json({message: "Activation Email Resent"});
+                return;
             }
         }
     })
@@ -164,12 +169,13 @@ router.post('/activate', (req, res, next) => {
 
     //check if user exists
     User.findOne({ activationToken: activationToken}, (err, user) => {
-        if (err) {res.status(400).json({ message: err})}
-        if (!user) {res.status(400).json({ message: "User with that email does not exist"})}
+        if (err) {res.status(400).json({ message: err}); return;}
+        if (!user) {res.status(400).json({ message: "User with that email does not exist"}); return}
         if (user) {
             //check if user account is already enabled
             if(user.activated){
                 {res.status(400).json({ message: "This user account has already been activated"})}
+                return;
             }
             //if user exists, is not yet enabled, and the activation token matches, then add a salted password and activate it
             if((user.activated == false) && user.activationToken == activationToken){
@@ -188,6 +194,7 @@ router.post('/activate', (req, res, next) => {
                         user.activationToken = undefined;
                         user.save().then(() => {
                             res.status(200).json({ "message": "successfully activated account"})
+                            return;
                         })
                     });
                 });
@@ -212,9 +219,11 @@ router.post('/login', (req, res, next) => {
         if (user) {
             token = user.generateJwt();
             res.status(200).json({"token": token});
+            return;
         } else {
             // If user is not found
             res.status(401).json(info);
+            return;
         }
     })(req, res, next);
 
@@ -226,12 +235,13 @@ router.post('/appointment', (req, res, next) => {
     const { email, appointment} = req.body;
 
     User.findOne({ email: email}, (err, user)=>{
-        if (err) {res.status(400).json({ message: err})}
-        if (!user) {res.status(400).json({ message: "User with that email does not exist"})}
+        if (err) {res.status(400).json({ message: err}); return}
+        if (!user) {res.status(400).json({ message: "User with that email does not exist"}); return}
         if (user) {
             user.appointments.push(appointment);
             user.save().then(() => {
                 res.status(200).json("Successfully added appointment");
+                return;
             })
         }
     })
@@ -248,8 +258,10 @@ router.post('/deleteappointment', (req, res, next) => {
         { $pull: { appointments: { _id: appointmentId } } }
     ).then(() => {
         res.status(200).json("Successfully deleted appointment");
+        return;
     }).catch(err => {
         console.log(err);
+        return;
     })
 })
 
@@ -258,18 +270,19 @@ router.get('/profile', auth, (req, res) => {
         res.status(401).json({
           "message" : "UnauthorizedError: private profile"
         });
+        return;
       } else {
         User
           .findOne({email: req.payload.email}, (err, user)=>{
-            if (err) {res.status(400).json({ message: err})}
+            if (err) {res.status(400).json({ message: err}); return}
             stripe.customers.retrieve(
                 user.stripe_id,
                 function(err, customer) {
-                    if (err) {res.status(400).json({ message: err})}
+                    if (err) {res.status(400).json({ message: err}); return;}
                     stripe.subscriptionSchedules.list(
                         {customer: user.stripe_id},
                         function(err, subscriptions){
-                            if (err) {res.status(400).json({ message: err})}
+                            if (err) {res.status(400).json({ message: err}); return;}
                             let items = [];
                             subscriptions.data.forEach(subscription => {
                                 subscription.phases.forEach(phase =>{
@@ -291,6 +304,7 @@ router.get('/profile', auth, (req, res) => {
                                 "items": items,
                                 "appointments": user.appointments
                             });
+                            return;
                         }
                     )
                 }

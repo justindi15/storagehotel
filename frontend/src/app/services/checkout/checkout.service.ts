@@ -23,6 +23,7 @@ export class CheckoutService {
   name: string;
   email: string;
   paymentMethodId: any;
+  singleSubtotal = 0;
 
   //TODO: handle these three variables for item plans and appointments
   supplyDropForm: FormGroup;
@@ -52,7 +53,13 @@ export class CheckoutService {
   }
 
   getItems() {
-    return this.cart;
+    let items = []
+    this.cart.forEach(product => {
+      for(let i = 0; i < this.counters[product.name]; i++){
+        items.push(product);
+      }
+    })
+    return items;
   }
 
   increasepriceEstimate(newpriceEstimate: number){
@@ -64,6 +71,8 @@ export class CheckoutService {
   }
 
   pay(): Observable<any> {
+    let boxes = this.getItems().filter((product)=> product.plan_id === 'box').map((product)=> product.name);
+    let items = this.getItems().map((product)=> product.name);
     const postData = {
       name: this.name,
       phone: this.phone,
@@ -77,8 +86,22 @@ export class CheckoutService {
       },
       subscriptions: this.getPlans(this.cart),
       startdate: this.pickupForm.get('date').value.getTime() / 1000,
+      supplyDropAppointment: this.formToAppointment(this.supplyDropForm, boxes,  "SUPPLY DROPOFF"),
+      pickupAppointment: this.formToAppointment(this.pickupForm, items, "PICK UP"),
     }
     return this.auth.register(postData);
+  }
+
+  formToAppointment(form: FormGroup, items: string[], appointmentType: String){
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const appointment = {
+      items: items,
+      address: this.address.value,
+      date: form.get('date').value.toLocaleDateString("en-US", options),
+      time: form.get('time').value,
+      appointmentType: appointmentType,
+    }
+    return appointment;
   }
 
   private getPlans(cart: product[]): subscription[]{

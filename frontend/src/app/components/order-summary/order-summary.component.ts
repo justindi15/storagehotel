@@ -18,22 +18,17 @@ export class OrderSummaryComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'qty', 'price'];
   checkout: OrderItem[] = [];
+  subtotal = 0;
+  singleSubtotal = 0;
 
   constructor( private checkoutService: CheckoutService ) { 
-    this.checkout = checkoutService.getItems().map(item => {
+    this.checkout = checkoutService.cart.map(item => {
       return {img: item.path, name: item.name, qty: checkoutService.counters[item.name], price: item.price}
     })
-
+    this.singleSubtotal = this.checkoutService.singleSubtotal;
+    this.checkoutService.currentpriceEstimate.subscribe(newpriceEstimate => this.subtotal = newpriceEstimate);
   }
 
   ngOnInit() {
-  }
-
-  getTotalPrice() {
-    let result = 0
-    this.checkout.map(item => {
-      result += item.qty * item.price
-    })
-    return result;
   }
 }
