@@ -34,12 +34,12 @@
                 <div class="book-col">
                     <h3>Pickup Location</h3>
                     <p>Where would you like us to pickup your belongings from?</p>
-                    <app-location-picker></app-location-picker>
+                    <app-location-picker (schoolEmitter)="onGetSchool($event)" (confirmedEmitter)="onConfirm($event)"></app-location-picker>
                 </div>
                 <div class="book-col">
                     <h3>Pickup Date</h3>
                     <p>When would you like us to pickup your belongings?</p>
-                    <app-time-picker (nextStep)="stepper.next()"></app-time-picker>
+                    <app-time-picker #TimePicker (nextStep)="stepper.next()"></app-time-picker>
                 </div>
             </div>
         </div>

@@ -37,12 +37,19 @@ export class DashboardComponent implements OnInit {
   }
 
   getUserData() {
+    let today = new Date();
     this.auth.profile().subscribe(user => {
       this.email = (user.email || "-");
       this.name = (user.name || "-");
       this.address = (user.address || "-");
       this.phone = (user.phone || "-");
-      this.appointments = (user.appointments || []);
+      this.appointments = user.appointments.map((appointment)=> {
+        if(appointment.date < today){
+          this.auth.deleteAppointment(user.email, appointment._id);
+        }else{
+          return appointment;
+        }
+      });
       console.log(user);
     }, (err) => {
       console.error(err);

@@ -24,6 +24,7 @@ export class CheckoutService {
   email: string;
   paymentMethodId: any;
   singleSubtotal = 0;
+  school: string;
 
   //TODO: handle these three variables for item plans and appointments
   supplyDropForm: FormGroup;
