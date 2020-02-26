@@ -2,23 +2,33 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 0%;
+    padding-right: 0%;
     padding-top: 2%;
     padding-bottom: 4%;
-    width: 80%;
+    width: 100%;
     background-color: #f8f8f8;
     overflow: auto;
-  }
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.summary-div h2 {
+    margin-bottom: 0px;
+}
+
+th.mat-header-cell {
+    font-family: "Gilroy-Regular";
+}
 
 .summary-div {
-    width: 55%;
+    width: 50%;
     display: flex;
     flex-direction: column;
 }
 
 .table-div {
-    height: 400px;
+    height: 330px;
     overflow: auto;
     width: 98%;
 }
@@ -69,19 +79,20 @@
  }
 
  .mat-header-cell {
-     font-size: x-small !important;
+    font-size: x-small !important;
  }
 
  .mat-footer-cell {
      border-bottom-style: none !important;
-     height: 330px;
+     height: 270px;
      display: flex;
      justify-content: center;
      align-items: center;
+     font-family: "Gilroy-Regular";
  }
 
- .forms-div {
-    width: 40%;
+.forms-div {
+    width: 35%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -89,5 +100,38 @@
 }
 
 app-register {
-    width: 75%;
+    width: 95%;
+}
+
+@media only screen and (max-width: 576px) {
+.main {
+    display: block!important;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    width: 100%;
+    background-color: #f8f8f8;
+    overflow: auto;
+}
+.summary-div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.forms-div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+app-register {
+    width: 100%;
+}
+.summary-div h2 {
+    margin-left: 20px;
+}
 }

@@ -2,11 +2,11 @@
     <mat-card-header>
         <div class="place-div">
             <p>Pickup Location:</p>
-            <strong *ngIf="address; else noAddress">
+            <h4 *ngIf="address; else noAddress">
                 <div *ngIf="(address.get('address2').value != '')">{{address.get('address2').value || ''}}<br></div>
                 {{address.get('address').value}}, {{address.get('city').value}}, BC
                 <br>Canada {{address.get('postalcode').value}}
-            </strong>
+            </h4>
             <ng-template #noAddress>
                 <strong>You forgot to set a pickup address!</strong>
             </ng-template>
