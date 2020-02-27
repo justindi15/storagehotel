@@ -10,7 +10,7 @@ export interface Address {
   line1: string;
   line2: string;
   city: string;
-  postalcode: string;
+  postal_code: string;
 }
 
 export interface RegisterPayload {
@@ -22,6 +22,7 @@ export interface RegisterPayload {
   startdate: number;
   supplyDropAppointment: any;
   pickupAppointment: any;
+  customItems: any;
 }
 
 export interface LoginPayload {

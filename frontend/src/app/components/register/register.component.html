@@ -3,21 +3,23 @@
         <div class="place-div">
             <p>Pickup Location:</p>
             <h4 *ngIf="address; else noAddress">
-                <div *ngIf="(address.get('address2').value != '')">{{address.get('address2').value || ''}}<br></div>
-                {{address.get('address').value}}, {{address.get('city').value}}, BC
-                <br>Canada {{address.get('postalcode').value}}
+                <div *ngIf="(address.get('line2').value != '')">{{address.get('line2').value || ''}}<br></div>
+                {{address.get('line1').value}}, {{address.get('city').value}}, BC
+                <br>Canada {{address.get('postal_code').value}}
             </h4>
             <ng-template #noAddress>
                 <strong>You forgot to set a pickup address!</strong>
             </ng-template>
         </div>
-        <div class="time-div">
-            <p>Supply Dropoff Date & Time:</p>
-            <h4 *ngIf="(supplyDropForm); else noTime">{{getDate(supplyDropForm)}} from {{supplyDropForm.get('time').value}}</h4>
-            <ng-template #noTime>
-                    <strong>You forgot to set a pickup date & time!</strong>
-            </ng-template>
-        </div>
+        <ng-container *ngIf="checkout.hasSupplies()">
+            <div class="time-div">
+                <p>Supply Dropoff Date & Time:</p>
+                <h4 *ngIf="(supplyDropForm); else noTime">{{getDate(supplyDropForm)}} from {{supplyDropForm.get('time').value}}</h4>
+                <ng-template #noTime>
+                        <strong>You forgot to set a pickup date & time!</strong>
+                </ng-template>
+            </div>
+        </ng-container>
         <div class="time-div">
             <p>Pickup Date & Time:</p>
             <h4 *ngIf="(pickupForm); else noTime">{{getDate(pickupForm)}} from {{pickupForm.get('time').value}}</h4>
@@ -48,7 +50,7 @@
                     (click)="onSubmit()" 
                     [disabled]="!(email.valid && paymentCardComplete && address && supplyDropForm && pickupForm)" 
                     color="accent" style="width: 80%;">
-                    PAY ${{price * 1.05}}
+                    PAY ${{(price * 1.05).toFixed(2)}}
             </button>
         </ng-template>
     </mat-card-actions>

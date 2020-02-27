@@ -41,6 +41,7 @@ import { AppointmentsComponent } from './components/appointments/appointments.co
 import { RetrieveModalComponent } from './components/retrieve-modal/retrieve-modal.component';
 import { CheckoutComponent } from './views/checkout/checkout.component';
 import { AutofocusDirective } from './directives/autofocus.directive';
+import { CustomItemComponent } from './components/custom-item/custom-item.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     RetrieveModalComponent,
     CheckoutComponent,
     AutofocusDirective,
+    CustomItemComponent,
   ],
   entryComponents: [
     RetrieveModalComponent,

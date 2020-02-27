@@ -22,7 +22,7 @@ router.post('/register', (req, res) => {
 
   //TODO: validate form input types
 
-  const {name, email, payment_method, address, subscriptions, startdate, phone, supplyDropAppointment, pickupAppointment } = req.body;
+  const {name, email, payment_method, address, subscriptions, startdate, phone, supplyDropAppointment, pickupAppointment, customItems} = req.body;
   const {line1, line2, city, postalcode} = address;
 
   //check if user with email already exists
@@ -63,8 +63,12 @@ router.post('/register', (req, res) => {
                   stripe_id: customer.id,
                   activated: false,
                   activationToken: uuidv4(),
-                  appointments: [supplyDropAppointment, pickupAppointment]
+                  appointments: [pickupAppointment],
+                  customItems: customItems
               })
+              if(supplyDropAppointment){
+                  newUser.push(supplyDropAppointment);
+              }
               newUser.save()
               .then(stripe.subscriptionSchedules.create({
                     customer: customer.id,
@@ -302,6 +306,7 @@ router.get('/profile', auth, (req, res) => {
                                 "email": customer.email,
                                 "address": customer.address,
                                 "items": items,
+                                "customItems": user.customItems,
                                 "appointments": user.appointments
                             });
                             return;

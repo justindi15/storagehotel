@@ -1,0 +1,27 @@
+<form [formGroup]="customItemForm">
+    <div class="col">
+        <mat-form-field appearance="outline" class="name">
+            <mat-label>name of item</mat-label>
+            <input matInput formControlName="name">
+        </mat-form-field>
+        <div class="row">
+            <mat-form-field appearance="outline" class="dimension">
+                <mat-label>length (in.)</mat-label>
+                <input matInput formControlName="length">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="dimension">
+                <mat-label>width (in.)</mat-label>
+                <input matInput formControlName="width">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="dimension">
+                <mat-label>height (in.)</mat-label>
+                <input matInput formControlName="height">
+            </mat-form-field>
+        </div>
+        <div class="row">
+                <span>Total Cubic Feet: {{totalCubicFeet}}</span>
+                <span>${{totalCubicFeet * priceMultiplier}} /mo</span>
+        </div>
+        <button mat-flat-button color="accent" type="button" (click)="addItem()" (submit)="addItem()" [disabled]="((customItemForm.get('name').value === '') || (totalCubicFeet < 1))">add item</button>
+    </div>
+</form>

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList} from '@angular/core';
 import { PRODUCTS, product, storagebox } from 'src/app/products';
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
+import { ProductItemComponent } from '../product-item/product-item.component';
 
 @Component({
   selector: 'app-order-catalog',
@@ -12,6 +13,8 @@ export class OrderCatalogComponent implements OnInit {
   storagebox = storagebox;
   priceEstimate: number;
 
+  @ViewChildren(ProductItemComponent) productComponents: QueryList<ProductItemComponent>
+
   constructor( private checkoutService: CheckoutService ) {
     this.checkoutService.currentpriceEstimate.subscribe(newpriceEstimate => this.priceEstimate = newpriceEstimate);
    }
@@ -19,6 +22,15 @@ export class OrderCatalogComponent implements OnInit {
   ngOnInit() {
   }
 
+  decrementProduct(product){
+    let productComponentArray = this.productComponents.toArray()
+    for(let i = 0; i < productComponentArray.length; i ++){
+      if(productComponentArray[i].name === product.name){
+        productComponentArray[i].decrement();
+        return;
+      }
+    }
 
+  }
 
 }

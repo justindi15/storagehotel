@@ -9,26 +9,26 @@
             </mat-form-field>
         </div>
         <mat-form-field>
-            <input matInput placeholder="Address" formControlName="address" ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
+            <input matInput placeholder="Address" formControlName="line1" ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="Apt/Unit/Floor/House" formControlName="address2">
+            <input matInput placeholder="Apt/Unit/Floor/House" formControlName="line2">
         </mat-form-field>
         <div class="row">
             <mat-form-field class="row-field">
                 <input matInput placeholder="City" formControlName="city">
             </mat-form-field>
             <mat-form-field class="row-field">
-                <input matInput placeholder="Postal Code" formControlName="postalcode">
+                <input matInput placeholder="Postal Code" formControlName="postal_code">
             </mat-form-field>
         </div>
     </form>
     <div [hidden]="!confirmed" class="confirmed-div">
         <h2 align="center" >To be picked up at:</h2>
-        <h3 align="center">{{locationForm.get('address2').value}}
-            <br>{{locationForm.get('address').value}}
+        <h3 align="center">{{locationForm.get('line1').value}}
+            <br>{{locationForm.get('line2').value}}
             <br>{{locationForm.get('city').value}}, BC
-            <br>Canada {{locationForm.get('postalcode').value}}
+            <br>Canada {{locationForm.get('postal_code').value}}
         </h3>
     </div>
     <div class="button-div">
