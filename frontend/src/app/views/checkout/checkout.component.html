@@ -40,20 +40,22 @@
 
     <mat-step #Book>
         <ng-template matStepLabel>Book</ng-template>
-        <div class="content">
-            <div class="book-row">
-                <div class="book-col">
-                    <h3>Pickup Location</h3>
-                    <p>Where would you like us to pickup your belongings from?</p>
-                    <app-location-picker (schoolEmitter)="onGetSchool($event)" (confirmedEmitter)="onConfirmLocation($event)"></app-location-picker>
-                </div>
-                <div class="book-col">
-                    <h3>Pickup Date</h3>
-                    <p>When would you like us to pickup your belongings?</p>
-                    <app-time-picker #TimePicker (BookingCompleted)="onBookingCompleted($event)"></app-time-picker>
+        <ng-container *ngIf="stepper.selected == Book">
+            <div class="content">
+                <div class="book-row">
+                    <div class="book-col">
+                        <h3>Pickup Location</h3>
+                        <p>Where would you like us to pickup your belongings from?</p>
+                        <app-location-picker (schoolEmitter)="onGetSchool($event)" (confirmedEmitter)="onConfirmLocation($event)"></app-location-picker>
+                    </div>
+                    <div class="book-col">
+                        <h3>Pickup Date</h3>
+                        <p>When would you like us to pickup your belongings?</p>
+                        <app-time-picker #TimePicker (BookingCompleted)="onBookingCompleted($event)"></app-time-picker>
+                    </div>
                 </div>
             </div>
-        </div>
+        </ng-container>
     </mat-step>
 
     <mat-step #Checkout [completed]="false">

@@ -11,13 +11,15 @@
                 <strong>You forgot to set a pickup address!</strong>
             </ng-template>
         </div>
-        <div class="time-div">
-            <p>Supply Dropoff Date & Time:</p>
-            <h4 *ngIf="(supplyDropForm); else noTime">{{getDate(supplyDropForm)}} from {{supplyDropForm.get('time').value}}</h4>
-            <ng-template #noTime>
-                    <strong>You forgot to set a pickup date & time!</strong>
-            </ng-template>
-        </div>
+        <ng-container *ngIf="checkout.hasSupplies()">
+            <div class="time-div">
+                <p>Supply Dropoff Date & Time:</p>
+                <h4 *ngIf="(supplyDropForm); else noTime">{{getDate(supplyDropForm)}} from {{supplyDropForm.get('time').value}}</h4>
+                <ng-template #noTime>
+                        <strong>You forgot to set a pickup date & time!</strong>
+                </ng-template>
+            </div>
+        </ng-container>
         <div class="time-div">
             <p>Pickup Date & Time:</p>
             <h4 *ngIf="(pickupForm); else noTime">{{getDate(pickupForm)}} from {{pickupForm.get('time').value}}</h4>

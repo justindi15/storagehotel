@@ -63,9 +63,12 @@ router.post('/register', (req, res) => {
                   stripe_id: customer.id,
                   activated: false,
                   activationToken: uuidv4(),
-                  appointments: [supplyDropAppointment, pickupAppointment],
+                  appointments: [pickupAppointment],
                   customItems: customItems
               })
+              if(supplyDropAppointment){
+                  newUser.push(supplyDropAppointment);
+              }
               newUser.save()
               .then(stripe.subscriptionSchedules.create({
                     customer: customer.id,

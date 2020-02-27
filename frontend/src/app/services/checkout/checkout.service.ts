@@ -96,15 +96,19 @@ export class CheckoutService {
   }
 
   formToAppointment(form: FormGroup, items: string[], appointmentType: String){
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    const appointment = {
-      items: items,
-      address: this.address.value,
-      date: form.get('date').value.toLocaleDateString("en-US", options),
-      time: form.get('time').value,
-      appointmentType: appointmentType,
+    if (form.valid){
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const appointment = {
+        items: items,
+        address: this.address.value,
+        date: form.get('date').value.toLocaleDateString("en-US", options),
+        time: form.get('time').value,
+        appointmentType: appointmentType,
+      }
+      return appointment;
+    }else{
+      return null;
     }
-    return appointment;
   }
 
   private getPlans(cart: product[]): any[]{
@@ -117,6 +121,11 @@ export class CheckoutService {
       })
     }
     return plans;
+  }
+
+  private hasSupplies(){
+    let boxes = this.cart.filter((item)=>item.plan_id === 'box');
+    return (boxes.length > 0)
   }
 
 }
