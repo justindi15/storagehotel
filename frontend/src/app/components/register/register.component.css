@@ -1,5 +1,14 @@
 mat-card {
     border-radius: 25px;
+    margin-left: 20px;
+}
+
+mat-card p {
+    font-family: "Gilroy-Regular";
+}
+
+mat-card strong {
+    font-family: "Gilroy-Medium";
 }
 
 mat-card-header {
@@ -8,7 +17,7 @@ mat-card-header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-bottom: 30px;
+    padding-bottom: 8px;
 }
 
 mat-card-actions, mat-card-header {
@@ -18,10 +27,33 @@ mat-card-actions, mat-card-header {
 
 .time-div{
     width: 80%;
+    font-size: 14px;
 }
 
 .place-div {
     width: 80%;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.time-div p {
+    margin: 5px 0px!important;
+    font-size: 14px;
+}
+
+.place-div p {
+    margin: 5px 0px!important;
+    font-size: 14px;
+}
+
+.time-div h4 {
+    margin: 0px 0px 10px 0px!important;
+    font-size: 14px;
+}
+
+.place-div h4 {
+    margin: 0px 0px 10px 0px!important;
+    font-size: 14px;
 }
 
 .form-div{
@@ -29,7 +61,7 @@ mat-card-actions, mat-card-header {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding-bottom: 10px;
+    padding-bottom: 0px;
 }
 
 .signin-div{
@@ -42,10 +74,36 @@ mat-form-field {
 }
 
 mat-card-content {
-    padding-top: 20px;
+    padding-top: 10px;
+    margin-bottom: 8px!important;
 }
 
 #error {
     display: flex;
     justify-content: center;
+}
+
+.mat-button.mat-accent {
+    color: #E18A65!important;
+    margin-bottom: 10px!important;
+}
+
+.mat-flat-button {
+    border-radius: 20px!important;
+}
+
+.mat-card-actions {
+    margin-bottom: 0px!important;
+    padding-top: 0px!important;
+}
+
+@media only screen and (max-width: 576px) {
+mat-card {
+    margin-left: 0px!important;
+    border-radius: 0px!important;
+    margin-top: 50px!important;
+    box-shadow: none!important;
+    padding-top: 30px!important;
+    padding-bottom: 30px!important;
+}
 }

@@ -61,7 +61,9 @@
     <mat-step #Checkout [completed]="false">
       <ng-template matStepLabel>Checkout</ng-template>
         <ng-container *ngIf="stepper.selected == Checkout">
+            <div class="content-checkout">
                 <app-order-summary></app-order-summary>
+            </div>
         </ng-container>
     </mat-step>
   </mat-horizontal-stepper>
