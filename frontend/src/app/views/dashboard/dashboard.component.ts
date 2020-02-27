@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.getUserData();
     this.auth.profile().subscribe(user => {
-      this.importItems(user.items);
+      this.importItems(user.items, user.customItems);
     }, (err) => {
       console.error(err);
     });
@@ -56,7 +56,8 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  importItems(userItems){
+  importItems(userItems, customItems){
+    var options = { year: 'numeric', month: 'long', day: 'numeric' };
     userItems.forEach((plan)=>{
       let item = {
         "name": '',
@@ -77,16 +78,25 @@ export class DashboardComponent implements OnInit {
           }
         })
       }
-      var options = { year: 'numeric', month: 'long', day: 'numeric' };
       if((plan.status === 'not_started') && plan.startdate){
         let date = new Date(plan.startdate * 1000).toLocaleDateString("en-US", options);
         item.status = 'Pick up on ' + date
       }
-      for(let i = 0; i < plan.quantity; i++){
-        this.items.push(item);
+      if(item.name !== ''){
+        for(let i = 0; i < plan.quantity; i++){
+          this.items.push(item);
+        }
       }
   })
-  console.log(this.items);
+  //add custom items
+  customItems.forEach((item)=>{
+      let today = new Date()
+      if(today < item.startdate){
+        let date = item.startdate.toLocaleDateString("en-US", options);
+        item.status = 'Pick up on ' + date
+      }
+      this.items.push(item);
+    });
   }
 
   onBookingSuccess(success){

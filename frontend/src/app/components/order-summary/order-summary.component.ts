@@ -18,17 +18,34 @@ export class OrderSummaryComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'qty', 'price'];
   checkout: OrderItem[] = [];
-  subtotal = 0;
-  singleSubtotal = 0;
+  recurring = 0;
+  single = 0;
 
   constructor( private checkoutService: CheckoutService ) { 
     this.checkout = checkoutService.cart.map(item => {
       return {img: item.path, name: item.name, qty: checkoutService.counters[item.name], price: item.price}
     })
-    this.singleSubtotal = this.checkoutService.singleSubtotal;
-    this.checkoutService.currentpriceEstimate.subscribe(newpriceEstimate => this.subtotal = newpriceEstimate);
+    this.single = this.getSingleSubtotal();
+    this.checkoutService.currentpriceEstimate.subscribe(newpriceEstimate => this.recurring = newpriceEstimate);
   }
 
   ngOnInit() {
+    console.log(this.checkoutService.subscriptions);
+  }
+
+  getSingleSubtotal(): number{
+    let result = 0;
+
+    let service = this.checkoutService;
+
+    if(service.supplyDropForm && this.checkoutService.supplyDropForm.get('deliveryMethod').value === 'CUSTOM'){
+      result += 45;
+    }
+
+    if(service.pickupForm && service.pickupForm.get('deliveryMethod').value === 'CUSTOM'){
+      result += 45;
+    }
+
+    return result;
   }
 }

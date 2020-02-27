@@ -9,6 +9,7 @@ import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 export class ProductItemComponent implements OnInit {
   @Input() product: any;
   name: string;
+  plan_id: string;
   price: number;
   path: string;
   count: number;
@@ -22,6 +23,7 @@ export class ProductItemComponent implements OnInit {
     this.name = this.product.name;
     this.price = this.product.price;
     this.path = this.product.path;
+    this.plan_id = this.product.plan_id
     this.count = this.checkoutService.counters[this.name] || 0;
   }
 
@@ -30,6 +32,7 @@ export class ProductItemComponent implements OnInit {
     this.checkoutService.addToCart(this.product);
     this.checkoutService.increasepriceEstimate(this.priceEstimate + this.price);
     this.checkoutService.counters[this.name] = this.count;
+    this.checkoutService.subscriptions[this.plan_id] = this.count;
   }
 
   decrement() {
@@ -38,6 +41,7 @@ export class ProductItemComponent implements OnInit {
       this.checkoutService.removeFromCart(this.product);
       this.checkoutService.decreasepriceEstimate(this.priceEstimate - this.price);
       this.checkoutService.counters[this.name] = this.count;
+      this.checkoutService.subscriptions[this.plan_id] = this.count;
     }
   }
 }

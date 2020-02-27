@@ -33,10 +33,10 @@ export class LocationPickerComponent implements OnInit {
   phone = new FormControl('', Validators.required);
 
   locationForm = new FormGroup({
-    address: new FormControl('', [Validators.required]),
-    address2: new FormControl(''),
+    line1: new FormControl('', [Validators.required]),
+    line2: new FormControl(''),
     city: new FormControl('', [Validators.required]),
-    postalcode: new FormControl('', [Validators.required]),
+    postal_code: new FormControl('', [Validators.required]),
   })
 
   constructor( private checkoutService: CheckoutService ) { 
@@ -96,9 +96,9 @@ export class LocationPickerComponent implements OnInit {
       }
     });
     this.locationForm.patchValue({
-      address: streetnumber + " " + streetname,
+      line1: streetnumber + " " + streetname,
       city: city,
-      postalcode: postalcode
+      postal_code: postalcode
     })
   }
 

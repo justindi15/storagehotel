@@ -46,6 +46,14 @@ mat-horizontal-stepper{
     margin-top: 10px;
 }
 
+.calculator-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-top: 1px solid #E0E0E0;
+    padding-top: 15px;
+}
+
 .calculator-col button:hover {
     background-color: #F4AE82;
     box-shadow: 0px 0px;
@@ -53,6 +61,43 @@ mat-horizontal-stepper{
 
 .mat-card-actions {
     margin: 0px!important;
+}
+
+.next-button-div {
+    display: flex;
+    justify-content: center;
+}
+
+.item-summary-list-item{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.item-summary-list-item button{
+    background-color: white;
+    color: #AEAEAE;
+    box-shadow: none;
+    border-width: 0px;
+    padding: 0px 5px;
+    margin: 0px;
+    margin-right: 10px;
+}
+
+.item-summary-list-item button:hover {
+    background-color: white;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.list-item-left{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    align-items: center;
 }
 
 mat-card {
@@ -114,6 +159,7 @@ mat-card {
         top: auto!important;
         padding: 0px 0px 0px 0px;
     }
+
     mat-card {
         border-radius: 0px;
         font-size: 16px;

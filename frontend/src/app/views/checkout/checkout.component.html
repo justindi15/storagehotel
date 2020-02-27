@@ -1,17 +1,28 @@
 <h1 class="logo">storagehotel</h1>
-<mat-horizontal-stepper labelPosition="bottom" #stepper>
-    <mat-step>
+<mat-horizontal-stepper labelPosition="bottom" #stepper linear>
+    <mat-step [completed]="checkoutService.cart.length > 0">
         <ng-template matStepLabel>Select</ng-template>
         <div class="content">
                 <app-order-catalog></app-order-catalog>
                 <div class="calculator-col">
                     <mat-card>
-                        <strong>Item Plan Summary</strong>
-                        <mat-card-subtitle><p>As you add the items you want to store, your subtotal will calculate.</p></mat-card-subtitle>
+                        <h4>Item Plan Summary</h4>
+                        <mat-card-content>
+                            <div *ngFor="let item of checkoutService.getItems()" class="item-summary-list-item">
+                                <div class="list-item-left">
+                                    <button class="remove-item-button" type="button" (click)="removeItem(item)">x</button>
+                                    <span>{{item.name}}</span>
+                                </div>
+                                    <span>${{item.price}}/mo</span>
+                            </div>
+                        </mat-card-content>
                         <mat-card-actions>
-                            <strong>Subtotal: ${{priceEstimate}}</strong>
+                            <div class="calculator-row">
+                                <strong>Subtotal:</strong>
+                                <strong>${{priceEstimate.toFixed(2)}}</strong>
+                            </div>
                         </mat-card-actions>
-                        <mat-card-actions>
+                        <mat-card-actions class="next-button-div">
                             <button mat-flat-button color="accent" matStepperNext>Next</button>
                         </mat-card-actions>
                     </mat-card>
@@ -34,18 +45,18 @@
                 <div class="book-col">
                     <h3>Pickup Location</h3>
                     <p>Where would you like us to pickup your belongings from?</p>
-                    <app-location-picker (schoolEmitter)="onGetSchool($event)" (confirmedEmitter)="onConfirm($event)"></app-location-picker>
+                    <app-location-picker (schoolEmitter)="onGetSchool($event)" (confirmedEmitter)="onConfirmLocation($event)"></app-location-picker>
                 </div>
                 <div class="book-col">
                     <h3>Pickup Date</h3>
                     <p>When would you like us to pickup your belongings?</p>
-                    <app-time-picker #TimePicker (nextStep)="stepper.next()"></app-time-picker>
+                    <app-time-picker #TimePicker (BookingCompleted)="onBookingCompleted($event)"></app-time-picker>
                 </div>
             </div>
         </div>
     </mat-step>
 
-    <mat-step #Checkout>
+    <mat-step #Checkout [completed]="false">
       <ng-template matStepLabel>Checkout</ng-template>
         <ng-container *ngIf="stepper.selected == Checkout">
                 <app-order-summary></app-order-summary>

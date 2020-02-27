@@ -14,6 +14,7 @@ const UserSchema = new Schema({
     activated: { type: Boolean},
     activationToken: { type: String },
     appointments: [{items: [String], address: {line1: String, line2: String, city: String, postal_code: String}, date: String, time: String, appointmentType: String}],
+    customItems: [{name: String, path: String, startdate: Date, status: String, price: Number}]
 });
 
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {

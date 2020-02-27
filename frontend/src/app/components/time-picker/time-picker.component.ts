@@ -10,7 +10,7 @@ import { School, SCHOOLS, FreeDate} from 'src/app/schools';
 })
 export class TimePickerComponent implements OnInit {
  
-  @Output() nextStep: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() BookingCompleted: EventEmitter<boolean> = new EventEmitter<boolean>();
   today = new Date();
   schools: School[] = SCHOOLS
   index: number;
@@ -83,12 +83,10 @@ export class TimePickerComponent implements OnInit {
   onSubmit(){
     this.checkout.supplyDropForm = this.supplyDropForm;
     this.checkout.pickupForm = this.pickupForm;
-    this.nextStep.emit(true);
-    console.log("submitted");
+    this.BookingCompleted.emit(true);
   }
 
   enable(){
-    console.log('enabling');
     this.isDisabled = false;
     this.enableForm(this.supplyDropForm);
     this.enableForm(this.pickupForm);

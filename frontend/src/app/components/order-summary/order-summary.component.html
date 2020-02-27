@@ -43,10 +43,10 @@
                 <div>Total</div>
             </div>
             <div class="price-numbers">
-                <div>${{single}}</div>
-                <div>${{subtotal}}</div>
-                <div>${{subtotal * 0.05}}</div>
-                <div>${{subtotal * 1.05}}</div>
+                <div>${{single.toFixed(2)}}</div>
+                <div>${{recurring.toFixed(2)}}</div>
+                <div>${{((recurring + single) * 0.05).toFixed(2)}}</div>
+                <div>${{((recurring + single) * 1.05).toFixed(2)}}</div>
             </div>
         </div>
     </div>
