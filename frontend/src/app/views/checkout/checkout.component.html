@@ -38,9 +38,9 @@
         </div>
     </mat-step>
 
-    <mat-step #Book>
+    <mat-step #Book [completed]="(timePicker ? timePicker.pickupForm.valid : false)">
         <ng-template matStepLabel>Book</ng-template>
-        <ng-container *ngIf="stepper.selected == Book">
+        <ng-container *ngIf="stepper.selected == Book || stepper.selected == Checkout">
             <div class="content">
                 <div class="book-row">
                     <div class="book-col">
@@ -51,7 +51,7 @@
                     <div class="book-col">
                         <h3>Pickup Date</h3>
                         <p>When would you like us to pickup your belongings?</p>
-                        <app-time-picker #TimePicker (BookingCompleted)="onBookingCompleted($event)"></app-time-picker>
+                        <app-time-picker #timePicker (BookingCompleted)="stepper.next()"></app-time-picker>
                     </div>
                 </div>
             </div>

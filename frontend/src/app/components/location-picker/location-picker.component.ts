@@ -40,9 +40,17 @@ export class LocationPickerComponent implements OnInit {
   })
 
   constructor( private checkoutService: CheckoutService ) { 
+
+    if(this.checkoutService.name){
+      this.name.setValue(this.checkoutService.name);
+    }
+
+    if(this.checkoutService.phone){
+      this.phone.setValue(this.checkoutService.phone);
+    }
+
     if(this.checkoutService.address) {
       this.locationForm = this.checkoutService.address;
-      this.handleClick();
     }
   }
 

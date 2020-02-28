@@ -88,10 +88,12 @@ export class RegisterComponent implements AfterViewInit {
   }
 
   getDate(form: FormGroup): String{
-    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    if(form){
-      let date = form.get('date').value
-      return date.toLocaleDateString("en-US", options);
+    if(form.valid){
+      var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      if(form){
+        let date = form.get('date').value
+        return date.toLocaleDateString("en-US", options);
+      }
     }
   }
 }

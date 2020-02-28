@@ -123,7 +123,7 @@ export class CheckoutService {
     return plans;
   }
 
-  private hasSupplies(){
+  public hasSupplies(){
     let boxes = this.cart.filter((item)=>item.plan_id === 'box');
     return (boxes.length > 0)
   }

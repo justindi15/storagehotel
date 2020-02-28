@@ -17,7 +17,7 @@ import { MatStepper, MatStep } from '@angular/material';
 })
 export class CheckoutComponent implements OnInit {
 
-  @ViewChild('TimePicker', {static: false}) private timePicker: TimePickerComponent;
+  @ViewChild('timePicker', {static: false}) private timePicker: TimePickerComponent;
   @ViewChild(OrderCatalogComponent, {static: false}) private orderCatalog: OrderCatalogComponent;
   @ViewChild('stepper', {static: false}) stepper: MatStepper;
   @ViewChild('Book', {static: false}) book: MatStep;
@@ -69,12 +69,4 @@ export class CheckoutComponent implements OnInit {
       this.checkoutService.subscriptions[product.plan_id]--
     }
   }
-
-  onBookingCompleted(event){
-    this.book.completed = true;
-    this.stepper.next()
-  }
-
-
-
 }

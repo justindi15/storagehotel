@@ -1,7 +1,14 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { School, SCHOOLS, FreeDate} from 'src/app/schools';
+
+export const atleastOneDate: ValidatorFn = (form: FormGroup): ValidationErrors | null => {
+  const freeDate = form.get('freeDate');
+  const customDate = form.get('customDate');
+
+  return freeDate || customDate ? null: { 'atleastOneDate': true }
+};
 
 @Component({
   selector: 'app-time-picker',
@@ -14,7 +21,8 @@ export class TimePickerComponent implements OnInit {
   today = new Date();
   schools: School[] = SCHOOLS
   index: number;
-  isDisabled: boolean;
+  isFirstTabDisabled: boolean;
+  isSecondTabDisabled: boolean;
   FreePickupDates: FreeDate[] = []
   SupplyDropDates: FreeDate[] = []
   preferredTimes = [
@@ -28,24 +36,39 @@ export class TimePickerComponent implements OnInit {
 
   supplyDropForm = new FormGroup({
     deliveryMethod: new FormControl('FREE', Validators.required),
-    date: new FormControl('', Validators.required),
+    freeDate: new FormControl(''),
+    customDate: new FormControl(''),
     time: new FormControl('', Validators.required),
-  })
+  }, {validators: atleastOneDate})
 
   pickupForm = new FormGroup({
     deliveryMethod: new FormControl({value: 'FREE', disabled: true}, Validators.required),
-    date: new FormControl({value: '', disabled: true}, Validators.required),
+    freeDate: new FormControl({value: '', disabled: true}),
+    customDate: new FormControl({value: '', disabled: true}),
     time: new FormControl({value: '', disabled: true}, Validators.required),
-  })
+  }, {validators: atleastOneDate})
 
   constructor(private checkout: CheckoutService) { 
   }
 
   ngOnInit() {
-    this.isDisabled = true;
+    this.index = 0;
+    this.isFirstTabDisabled = true;
+    this.isSecondTabDisabled = true;
     this.supplyDropForm.get('deliveryMethod').disable()
-    this.supplyDropForm.get('date').disable()
+    this.supplyDropForm.get('freeDate').disable()
+    this.supplyDropForm.get('customDate').disable()
     this.supplyDropForm.get('time').disable()
+    this.onPickupFormChange();
+  }
+
+  onPickupFormChange(){
+    this.pickupForm.statusChanges.subscribe(val=>{
+      if(val === 'VALID'){
+        console.log(this.pickupForm.value);
+        this.checkout.pickupForm = this.submitForm(this.pickupForm);
+      }
+    })
   }
 
   myFilter = (date: Date | null): boolean => {
@@ -74,50 +97,82 @@ export class TimePickerComponent implements OnInit {
     return result;
   }
 
+  submitForm(form: FormGroup): FormGroup{
+    let deliveryMethod = form.get('deliveryMethod').value
+    let time = form.get('time').value;
+    let submissionForm = new FormGroup({});
+    submissionForm.addControl('time', new FormControl(time));
+    submissionForm.addControl('deliveryMethod', new FormControl(deliveryMethod));
+    if(deliveryMethod === 'FREE'){
+      submissionForm.addControl('date', new FormControl(form.get('freeDate').value));
+    }else{
+      submissionForm.addControl('date', new FormControl(form.get('customDate').value));
+    }
+    return submissionForm;
+  }
 
   onNext(){
+    this.resetForm(this.pickupForm);
+    this.checkout.supplyDropForm = this.submitForm(this.supplyDropForm);
+    this.isSecondTabDisabled = false;
     this.index = 1;
-    this.checkout.supplyDropForm = this.supplyDropForm;
+    this.isFirstTabDisabled = true;
+  }
+
+  onBack(){
+    this.isFirstTabDisabled = false;
+    this.index = 0;
+    this.isSecondTabDisabled = true;
   }
 
   onSubmit(){
-    this.checkout.supplyDropForm = this.supplyDropForm;
-    this.checkout.pickupForm = this.pickupForm;
+    this.checkout.supplyDropForm = this.submitForm(this.supplyDropForm);
+    this.checkout.pickupForm = this.submitForm(this.pickupForm);
     this.BookingCompleted.emit(true);
   }
 
   enable(){
-    this.isDisabled = false;
+    if(this.checkout.hasSupplies()){
+      this.isFirstTabDisabled = false;
+      this.isSecondTabDisabled = true;
+    }else{
+      this.isSecondTabDisabled = false;
+    }
+    this.isFirstTabDisabled = false;
+    this.isSecondTabDisabled = true;
     this.enableForm(this.supplyDropForm);
     this.enableForm(this.pickupForm);
   }
 
   enableForm(form: FormGroup){
-    form.get('deliveryMethod').enable();
-    form.get('date').enable();
-    form.get('time').enable();
+    form.get('deliveryMethod').enable({emitEvent: false});
+    form.get('freeDate').enable({emitEvent: false});
+    form.get('customDate').enable({emitEvent: false});
+    form.get('time').enable({emitEvent: false});
   }
 
   disableForm(form: FormGroup){
-    form.get('deliveryMethod').disable();
-    form.get('date').disable();
-    form.get('time').disable();
+    form.get('deliveryMethod').disable({emitEvent: false});
+    form.get('freeDate').disable({emitEvent: false});
+    form.get('customDate').disable({emitEvent: false});
+    form.get('time').disable({emitEvent: false});
   }
 
   resetForm(form: FormGroup){
     form.get('deliveryMethod').patchValue('FREE')
-    form.get('date').reset();
+    form.get('freeDate').reset();
+    form.get('customDate').reset();
     form.get('time').reset();
   }
 
   reset(){
-    console.log('resetting')
     this.index = 0;
-    this.isDisabled = true;
     this.resetForm(this.supplyDropForm);
     this.resetForm(this.pickupForm);
     this.disableForm(this.supplyDropForm);
     this.disableForm(this.pickupForm);
+    this.isFirstTabDisabled = true;
+    this.isSecondTabDisabled = true;
   }
 
   setFreePickupDates(schoolname: string){
@@ -132,9 +187,17 @@ export class TimePickerComponent implements OnInit {
     this.SupplyDropDates = [];
   }
 
-  minDate(supplyDropDate: Date): Date{
-    let mindate = new Date(supplyDropDate)
-    mindate.setDate(mindate.getDate() + 1);
-    return mindate;
+  pickupMinDate(): Date{
+    if(this.checkout.hasSupplies()){
+      return new Date();
+    }
+    let supplyDropDate = this.checkout.supplyDropForm && this.checkout.supplyDropForm.get('date').value;
+    if(supplyDropDate){
+      let mindate = new Date(supplyDropDate)
+      mindate.setDate(mindate.getDate() + 1);
+      return mindate;
+    }else{
+      return new Date();
+    }
   }
 }
