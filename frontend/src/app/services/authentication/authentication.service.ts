@@ -16,7 +16,7 @@ export interface Address {
 export interface RegisterPayload {
   name: string;
   email: string;
-  payment_method: any;
+  paymentMethod: any;
   address: Address;
   subscriptions: any;
   startdate: number;
@@ -34,6 +34,8 @@ export interface UserDetails {
   _id: string;
   email: string;
   name: string;
+  stripe_id: string;
+  paymentMethod: any;
   items: {
     name: string;
     path: string;
@@ -163,5 +165,9 @@ export class AuthenticationService {
     }
     console.log(postData);
     return this.http.post(`http://localhost:3000/users/deleteappointment`, postData);
+  }
+
+  public addItemsToUser(postData: any){
+    return this.http.post(`http://localhost:3000/users/addItemsToUser`, postData);
   }
 }

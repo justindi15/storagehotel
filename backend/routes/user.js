@@ -22,7 +22,7 @@ router.post('/register', (req, res) => {
 
   //TODO: validate form input types
 
-  const {name, email, payment_method, address, subscriptions, startdate, phone, supplyDropAppointment, pickupAppointment, customItems} = req.body;
+  const {name, email, paymentMethod, address, subscriptions, startdate, phone, supplyDropAppointment, pickupAppointment, customItems} = req.body;
   const {line1, line2, city, postalcode} = address;
 
   //check if user with email already exists
@@ -44,9 +44,9 @@ router.post('/register', (req, res) => {
                 "postal_code": postalcode,
                 "state": "BC",
             },
-            payment_method: payment_method,
+            payment_method: paymentMethod.id,
             invoice_settings: {
-                default_payment_method: payment_method,
+                default_payment_method: paymentMethod.id,
               },
           }, function(err, customer){
               //send a failed response if stripe api call fails
@@ -64,10 +64,11 @@ router.post('/register', (req, res) => {
                   activated: false,
                   activationToken: uuidv4(),
                   appointments: [pickupAppointment],
-                  customItems: customItems
+                  customItems: customItems,
+                  paymentMethod: paymentMethod
               })
               if(supplyDropAppointment){
-                  newUser.push(supplyDropAppointment);
+                  newUser.appointments.push(supplyDropAppointment);
               }
               newUser.save()
               .then(stripe.subscriptionSchedules.create({
@@ -81,7 +82,7 @@ router.post('/register', (req, res) => {
 
                     ]
                   }, function(err, subscription){
-                    if(err) console.log(err);
+                    if(err) {res.status(400).json({ message: err}); return}
                         var token;
                         token = newUser.generateJwt();
                         var activationToken = newUser.activationToken;
@@ -112,6 +113,56 @@ router.post('/register', (req, res) => {
     }
   })
 });
+
+//Creates a customer on stripe and in the database
+router.post('/addItemsToUser', (req, res) => {
+
+    //TODO: validate form input types
+  
+    const { email, stripe_id, address, subscriptions, startdate, supplyDropAppointment, pickupAppointment, customItems} = req.body;
+    const {line1, line2, city, postalcode} = address;
+  
+    User.findOne({ email: email}, (err, user) => {
+      if (err) {res.status(400).json({ message: err}); return}
+      if (!user) {res.status(400).json({ message: "User with that email does not exist"}); return}
+      if (user) {
+            if(supplyDropAppointment){
+                newUser.appointments.push(supplyDropAppointment);
+            }
+          user.appointments.push(pickupAppointment);
+          user.customItems = user.customItems.concat(customItems)
+          user.save().then(stripe.subscriptionSchedules.create({
+            customer: stripe_id,
+            start_date: startdate,
+            phases: [
+                {
+                    plans: subscriptions,
+                    default_tax_rates: ['txr_1GEQ8iJ9qNaYrnZunLqjMhC1']
+                }
+
+            ]
+          }, function(err, subscription){
+            stripe.customers.update(
+                stripe_id,
+                {address: {
+                    "line1": line1,
+                    "city": city,
+                    "country": "CA",
+                    "line2": line2,
+                    "postal_code": postalcode,
+                    "state": "BC",
+                    }
+                },
+                function(err, customer) {
+                  if(err) {res.status(400).json({ message: err}); return}
+                  res.status(200).json({"subscription": subscription.status});
+                  return;
+                }
+              );
+          }))
+      }
+    })
+  });
 
 
 router.post('/verifyEmail', (req, res, next) => {
@@ -230,7 +281,6 @@ router.post('/login', (req, res, next) => {
             return;
         }
     })(req, res, next);
-
 });
 
 //add an appointment to a user

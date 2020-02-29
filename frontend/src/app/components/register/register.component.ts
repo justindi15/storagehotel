@@ -2,6 +2,7 @@ import { Component, AfterViewInit, Output, ViewChild, ElementRef } from '@angula
 import {FormControl, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
+import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 declare var Stripe: any;
 
 
@@ -14,6 +15,9 @@ export class RegisterComponent implements AfterViewInit {
 
   @ViewChild('cardElement', {static: false}) cardElement: ElementRef;
 
+  creditcard: any;
+  isLoggedIn: boolean = false;
+  hasAccount: boolean = false;
   errorMessage = "";
   paymentCardComplete = false;
   price: number;
@@ -25,8 +29,13 @@ export class RegisterComponent implements AfterViewInit {
   address: FormGroup;
   email = new FormControl('', [Validators.required, Validators.email])
 
+  loginForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required])
+  })
 
-  constructor(private router: Router, private checkout: CheckoutService) { 
+
+  constructor(private router: Router, private checkout: CheckoutService, private auth: AuthenticationService) { 
     this.checkout.currentpriceEstimate.subscribe(newpriceEstimate => this.price = newpriceEstimate);
     if(this.checkout.supplyDropForm){
       this.supplyDropForm = this.checkout.supplyDropForm;
@@ -73,7 +82,7 @@ export class RegisterComponent implements AfterViewInit {
         this.errorMessage = result.error.message;
       } else {
         this.loading = true;
-        this.checkout.paymentMethodId = result.paymentMethod.id;
+        this.checkout.paymentMethod = result.paymentMethod;
         this.checkout.email = this.email.value;
         this.checkout.pay().subscribe(() => {
           alert('successfully subscribed!')
@@ -95,5 +104,36 @@ export class RegisterComponent implements AfterViewInit {
         return date.toLocaleDateString("en-US", options);
       }
     }
+  }
+
+  login() {
+    const postData = this.loginForm.value
+    event.preventDefault();
+    this.loading = true
+    this.auth.login(postData).subscribe((res) => {
+      this.loading = false;
+      if(this.auth.isLoggedIn()){
+        let userDetails = this.auth.getUserDetails();
+        this.creditcard = userDetails.paymentMethod.card;
+        this.isLoggedIn = true;
+      }
+    }, (err) => {
+      console.log(err);
+      this.errorMessage = err.error.message;
+      this.loading = false
+    });
+  }
+
+  addItemsToUser(){
+    this.loading = true;
+    let userDetails = this.auth.getUserDetails();
+    this.checkout.addItemsToUser(userDetails.email ,userDetails.stripe_id).subscribe(() => {
+      alert('successfully subscribed!')
+      this.loading = false;
+    }, (err) => {
+      console.log(err);
+      this.errorMessage = err.error.message;
+      this.loading = false
+    });
   }
 }

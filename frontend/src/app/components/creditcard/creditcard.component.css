@@ -1,0 +1,28 @@
+mat-card {
+    width: 17.5em;
+    height: 8em;
+    border-radius: 5px;
+    background-color: orange;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    margin: 2em;
+}
+
+.brand-row {
+    height: 50%;
+    width: 90%;
+    font-size: 16px;
+}
+
+.number-row{
+    align-items: center;
+    height: 25%;
+    width: 90%;
+    letter-spacing: 0.25em;
+}
+
+.expiry-row{
+    height: 25%;
+    width: 90%;
+}

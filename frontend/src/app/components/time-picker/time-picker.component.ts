@@ -126,7 +126,9 @@ export class TimePickerComponent implements OnInit {
   }
 
   onSubmit(){
-    this.checkout.supplyDropForm = this.submitForm(this.supplyDropForm);
+    if(this.checkout.hasSupplies()){
+      this.checkout.supplyDropForm = this.submitForm(this.supplyDropForm);
+    }
     this.checkout.pickupForm = this.submitForm(this.pickupForm);
     this.BookingCompleted.emit(true);
   }
@@ -135,12 +137,10 @@ export class TimePickerComponent implements OnInit {
     if(this.checkout.hasSupplies()){
       this.isFirstTabDisabled = false;
       this.isSecondTabDisabled = true;
+      this.enableForm(this.supplyDropForm);
     }else{
       this.isSecondTabDisabled = false;
     }
-    this.isFirstTabDisabled = false;
-    this.isSecondTabDisabled = true;
-    this.enableForm(this.supplyDropForm);
     this.enableForm(this.pickupForm);
   }
 

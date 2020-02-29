@@ -29,7 +29,11 @@
         </div>
     </mat-card-header>
     <mat-card-content>
-        <form class="form-div" action="/charge" method="post" id="payment-form">
+        <div [hidden]="hasAccount || isLoggedIn">
+            <div class="button-div">
+                <button mat-button color="accent" type="button" (click)="hasAccount = true">already have an account?</button>
+            </div>
+            <form class="form-div" action="/charge" method="post" id="payment-form">
                 <mat-form-field>
                     <input matInput placeholder="Email" [formControl]="email">
                 </mat-form-field>
@@ -39,23 +43,65 @@
                     </span>
                 </mat-form-field>
             </form>
+        </div>
+        <div [hidden]="!hasAccount || isLoggedIn">
+            <div class="button-div">
+                <button mat-button color="accent" type="button" (click)="hasAccount = false">pay with a new account instead</button>
+            </div>
+            <form class="form-div" [formGroup]="loginForm">
+                <mat-form-field>
+                    <input matInput placeholder="Email" type="email" formControlName="email">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="Password" type="password" formControlName="password">
+                </mat-form-field>
+            </form>
+        </div>
+        <div [hidden]="!isLoggedIn" *ngIf="isLoggedIn && creditcard" class="form-div">
+            <button mat-button color="accent" type="button" (click)="hasAccount = false; isLoggedIn = false">pay with a new account instead</button>
+            To be charged to this card:
+            <app-creditcard [creditcard]="creditcard"></app-creditcard>
+        </div>
             <mat-error id="error">{{errorMessage}}</mat-error>
     </mat-card-content>
     <mat-card-actions>
-        <mat-spinner *ngIf="loading; else payButtonTemplate" color="accent" diameter="50"></mat-spinner>
-        <ng-template #payButtonTemplate>
-            <button mat-flat-button 
-                    id="payment-button" 
-                    type="button" 
-                    (click)="onSubmit()" 
-                    [disabled]="!(email.valid && paymentCardComplete && address && supplyDropForm && pickupForm)" 
-                    color="accent" style="width: 80%;">
-                    PAY ${{(price * 1.05).toFixed(2)}}
-            </button>
-        </ng-template>
-    </mat-card-actions>
-    <mat-card-actions>
-        <button mat-button color="accent" type="button">already have an account?</button>
+        <div [hidden]="hasAccount || isLoggedIn" class="action-div">
+            <mat-spinner *ngIf="loading; else payButtonTemplate" color="accent" diameter="50"></mat-spinner>
+            <ng-template #payButtonTemplate>
+                <button mat-flat-button 
+                        id="payment-button" 
+                        type="button" 
+                        (click)="onSubmit()"
+                        [disabled]="!(email.valid && paymentCardComplete && address && (supplyDropForm.valid || checkout.hasSupplies()) && pickupForm.valid)" 
+                        color="accent" style="width: 100%;">
+                        PAY ${{(price * 1.05).toFixed(2)}}
+                </button>
+            </ng-template>
+        </div>
+        <div [hidden]="!hasAccount || isLoggedIn" class="action-div">
+            <mat-spinner *ngIf="loading; else loginButtonTemplate" color="accent" diameter="50"></mat-spinner>
+            <ng-template #loginButtonTemplate>
+                <button mat-flat-button
+                        type="button" 
+                        (click)="login()" 
+                        [disabled]="!loginForm.valid"
+                        color="accent" style="width: 100%;">
+                        LOGIN
+                </button>
+            </ng-template>
+        </div>
+        <div [hidden]="!isLoggedIn" class="action-div">
+            <mat-spinner *ngIf="loading; else payWithAccountButtonTemplate" color="accent" diameter="50"></mat-spinner>
+            <ng-template #payWithAccountButtonTemplate>
+                <button mat-flat-button
+                        type="button" 
+                        (click)="addItemsToUser()"
+                        [disabled]="!isLoggedIn || !(address && (supplyDropForm || checkout.hasSupplies()) && pickupForm)"
+                        color="accent" style="width: 100%;">
+                        PAY ${{(price * 1.05).toFixed(2)}}
+                </button>
+            </ng-template>
+        </div>
     </mat-card-actions>
     <mat-card-footer>
     </mat-card-footer>

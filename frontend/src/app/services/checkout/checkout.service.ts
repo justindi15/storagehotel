@@ -23,7 +23,7 @@ export class CheckoutService {
   phone: string;
   name: string;
   email: string;
-  paymentMethodId: any;
+  paymentMethod: any;
   singleSubtotal = 0;
   school: string;
   supplyDropForm: FormGroup;
@@ -73,12 +73,11 @@ export class CheckoutService {
   pay(): Observable<any> {
     let boxes = this.getItems().filter((product)=> product.plan_id === 'box').map((product)=> product.name);
     let items = this.getItems().map((product)=> product.name);
-    let options = { year: 'numeric', month: 'long', day: 'numeric' };
     const postData = {
       name: this.name,
       phone: this.phone,
       email: this.email,
-      payment_method: this.paymentMethodId,
+      paymentMethod: this.paymentMethod,
       address: {
         line1: this.address.get('line1').value,
         line2: this.address.get('line2').value,
@@ -96,7 +95,7 @@ export class CheckoutService {
   }
 
   formToAppointment(form: FormGroup, items: string[], appointmentType: String){
-    if (form.valid){
+    if (form.get('date').value !== '' && form.get('time').value !== ''){
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       const appointment = {
         items: items,
@@ -109,6 +108,27 @@ export class CheckoutService {
     }else{
       return null;
     }
+  }
+
+  addItemsToUser(email: string, stripe_id: string): Observable<any>{
+    let boxes = this.getItems().filter((product)=> product.plan_id === 'box').map((product)=> product.name);
+    let items = this.getItems().map((product)=> product.name);
+    const postData = {
+      email: email,
+      stripe_id: stripe_id,
+      address: {
+        line1: this.address.get('line1').value,
+        line2: this.address.get('line2').value,
+        city: this.address.get('city').value,
+        postal_code: this.address.get('postal_code').value,
+      },
+      subscriptions: this.getPlans(this.cart),
+      startdate: this.pickupForm.get('date').value.getTime() / 1000,
+      supplyDropAppointment: this.formToAppointment(this.supplyDropForm, boxes,  "SUPPLY DROPOFF"),
+      pickupAppointment: this.formToAppointment(this.pickupForm, items, "PICK UP"),
+      customItems: this.customItems.map((item)=>{item.startdate = this.pickupForm.get('date').value; return item;})
+    }
+    return this.auth.addItemsToUser(postData);
   }
 
   private getPlans(cart: product[]): any[]{

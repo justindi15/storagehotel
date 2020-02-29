@@ -42,6 +42,7 @@ import { RetrieveModalComponent } from './components/retrieve-modal/retrieve-mod
 import { CheckoutComponent } from './views/checkout/checkout.component';
 import { AutofocusDirective } from './directives/autofocus.directive';
 import { CustomItemComponent } from './components/custom-item/custom-item.component';
+import { CreditcardComponent } from './components/creditcard/creditcard.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { CustomItemComponent } from './components/custom-item/custom-item.compon
     CheckoutComponent,
     AutofocusDirective,
     CustomItemComponent,
+    CreditcardComponent,
   ],
   entryComponents: [
     RetrieveModalComponent,
