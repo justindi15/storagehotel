@@ -105,6 +105,34 @@ mat-card-content {
     width: 80%;
 }
 
+.loading-div{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.agreement-div{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 25px;
+    padding-bottom: 20px;
+    font-size: small;
+    color: gray;
+}
+
+.terms-of-service{
+    color: orange;
+    font-size: small;
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+}
+
+.terms-of-service:hover{
+    color: darkorange;
+    font-size: small;
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+}
+
 @media only screen and (max-width: 576px) {
 mat-card {
     margin-left: 0px!important;

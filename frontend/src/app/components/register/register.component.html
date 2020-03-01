@@ -66,20 +66,28 @@
     </mat-card-content>
     <mat-card-actions>
         <div [hidden]="hasAccount || isLoggedIn" class="action-div">
-            <mat-spinner *ngIf="loading; else payButtonTemplate" color="accent" diameter="50"></mat-spinner>
+            <div class="loading-div" *ngIf="loading; else payButtonTemplate">
+                <mat-spinner color="accent" diameter="50"></mat-spinner>
+            </div>
             <ng-template #payButtonTemplate>
+                <div class="agreement-div">
+                    <mat-checkbox [(ngModel)]="agreedToTermsOfService" class="agree-checkbox">I have read and agree to the <a href="https://www.storagehotel.ca/terms-of-use" target="_blank" class="terms-of-service">Storagehotel Terms of Service</a>
+                    </mat-checkbox>
+                </div>
                 <button mat-flat-button 
                         id="payment-button" 
                         type="button" 
                         (click)="onSubmit()"
-                        [disabled]="!(email.valid && paymentCardComplete && address && (supplyDropForm.valid || !checkout.hasSupplies()) && pickupForm.valid)" 
+                        [disabled]="!(agreedToTermsOfService && email.valid && paymentCardComplete && address && (supplyDropForm.valid || !checkout.hasSupplies()) && pickupForm.valid)" 
                         color="accent" style="width: 100%;">
                         PAY ${{((price + single) * 1.05).toFixed(2)}}
                 </button>
             </ng-template>
         </div>
         <div [hidden]="!hasAccount || isLoggedIn" class="action-div">
-            <mat-spinner *ngIf="loading; else loginButtonTemplate" color="accent" diameter="50"></mat-spinner>
+            <div class="loading-div" *ngIf="loading; else loginButtonTemplate">
+                <mat-spinner color="accent" diameter="50"></mat-spinner>
+            </div>
             <ng-template #loginButtonTemplate>
                 <button mat-flat-button
                         type="button" 
@@ -91,12 +99,18 @@
             </ng-template>
         </div>
         <div [hidden]="!isLoggedIn" class="action-div">
-            <mat-spinner *ngIf="loading; else payWithAccountButtonTemplate" color="accent" diameter="50"></mat-spinner>
+            <div class="loading-div" *ngIf="loading; else payWithAccountButtonTemplate">
+                <mat-spinner color="accent" diameter="50"></mat-spinner>
+            </div>
             <ng-template #payWithAccountButtonTemplate>
+                <div class="agreement-div">
+                    <mat-checkbox [(ngModel)]="agreedToTermsOfService" class="agree-checkbox">I have read and agree to the <a href="https://www.storagehotel.ca/terms-of-use" target="_blank" class="terms-of-service">Storagehotel Terms of Service</a>
+                    </mat-checkbox>
+                </div>
                 <button mat-flat-button
                         type="button" 
                         (click)="addItemsToUser()"
-                        [disabled]="!isLoggedIn || !(address && (supplyDropForm || !checkout.hasSupplies()) && pickupForm)"
+                        [disabled]="!isLoggedIn || !(agreedToTermsOfService && address && (supplyDropForm || !checkout.hasSupplies()) && pickupForm)"
                         color="accent" style="width: 100%;">
                         PAY ${{((price + single) * 1.05).toFixed(2)}}
                 </button>

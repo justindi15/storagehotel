@@ -16,6 +16,7 @@ export class RegisterComponent implements AfterViewInit {
   @ViewChild('cardElement', {static: false}) cardElement: ElementRef;
   @Input() single: number = 0;
 
+  agreedToTermsOfService: boolean = false;
   creditcard: any;
   isLoggedIn: boolean = false;
   hasAccount: boolean = false;
