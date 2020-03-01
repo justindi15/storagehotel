@@ -3,7 +3,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
-    padding: 20px 0px;
+    padding: 10px 0px;
   }
   
   .col {
@@ -66,14 +66,25 @@ button {
   height: 30px;
 }
 
-.storagebox-name,
+.storagebox-name {
+  font-size: 21px;
+  line-height: 18px;
+  margin-bottom: -20px;
+}
+
+.storagebox-description {
+    font-size: 14px;
+    font-family: "Gilroy-Regular";
+    padding-top: 0px;
+}
+
 .storagebox-price {
-  font-size: 24px;
-  line-height: 24px;
+    font-size: 18px;
+    margin-top: -15px;
 }
 
 .storagebox-name {
-  font-weight: bold;
+  font-family: "Gilroy-Bold";
 }
 
 .storagebox-icon {
@@ -100,11 +111,22 @@ button {
     .storagebox-name,
     .storagebox-price {
         font-size: 16px;
-        line-height: 20px;
     }
+    .storagebox-name {
+  margin-bottom: 0px;
+}
+    .storagebox-price {
+    margin-top: 0px;
+}
+    .storagebox-description {
+    font-size: 12px;
+        line-height: 16px;
+}
     .item-name,
     .item-price{
         font-size: 16px;
-        line-height: 20px;
     }
+    .col {
+    width: 80%;
+  }
 }

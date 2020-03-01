@@ -48,7 +48,7 @@ mat-horizontal-stepper{
     width: 25vw;
     position: sticky;
     top: 0;
-    padding: 40px 0px;
+    padding: 30px 0px;
     padding-left: 1vw;
   }
 
@@ -68,6 +68,7 @@ mat-horizontal-stepper{
     justify-content: space-between;
     border-top: 1px solid #E0E0E0;
     padding-top: 15px;
+    font-family: "Gilroy-Medium";
 }
 
 .calculator-col button:hover {
@@ -84,13 +85,18 @@ mat-horizontal-stepper{
     justify-content: center;
 }
 
+.select-summary {
+    height: 23vh;
+    overflow: auto;
+}
+
 .item-summary-list-item{
     display: flex;
     width: 100%;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 10px;   
 }
 
 .item-summary-list-item button{
@@ -117,16 +123,32 @@ mat-horizontal-stepper{
 }
 
 mat-card {
-    padding: 30px 40px;
+    padding: 28px 28px;
     border-radius: 25px;
 }
 
 .book-row {
-    padding-top: 3%;
+    padding-top: 0px;
     display: flex;
     flex-direction: row;
     width: 70%;
     justify-content: space-between;
+}
+
+.book-row h3 {
+    font-family: "Gilroy-Bold";
+    font-size: 21px;
+    margin-bottom: 8px;
+    width: 400px;
+    padding-left: 10px;
+}
+
+.book-row p {
+    font-family: "Gilroy-Regular";
+    font-size: 14px;
+    margin-top: 0px;
+    width: 400px;
+    padding-left: 10px;
 }
 
 .book-col {
@@ -134,19 +156,35 @@ mat-card {
 }
 
 .contact-info {
-    margin: 30px 0px 0px 20px;
+    margin: 20px 0px 0px 20px;
 }
 
 .contact-info h3 {
-    font-size: 23px;
+    font-size: 21px;
     padding: 0px;
-    margin: 0px 0px 10px 0px;
+    margin: 0px 0px 5px 0px;
+}
+
+.contact-info a {
+    color: #E18A65;
+    font-family: "Gilroy-Regular";
+    font-size: 14px;
+    text-decoration: none;
+    line-height: 20px;
+}
+
+.contact-info a:hover {
+    color: #F4AE82;
 }
 
 .contact-info p {
     font-size: 16px;
     padding: 0px;
     margin: 0px;
+}
+
+.item-summary-list-item button {
+    margin-right: 1px!important;
 }
 
 @media only screen and (max-width: 576px) {
@@ -200,10 +238,23 @@ mat-card {
         flex-direction: row;
         width: 100%;
     }
-
+    .book-row h3 {
+    font-family: "Gilroy-Bold";
+    font-size: 18px;
+    margin-bottom: 8px;
+    width: auto;
+    padding-left: 0px;
+}
+.book-row p {
+    font-family: "Gilroy-Regular";
+    font-size: 14px;
+    margin-top: 0px;
+    width: auto;
+    padding-left: 0px;
+}
     .book-col {
         height: 60vh;
-        margin-bottom:88px;
+        margin-bottom:15vh;
     }
     
     .book-col h3 {
@@ -212,5 +263,9 @@ mat-card {
     
     .book-col p {
         padding: 0px 20px 0px 20px;
+    }
+    .select-summary {
+        height: auto;
+        overflow: auto;
     }
 }

@@ -6,8 +6,9 @@
                 <app-order-catalog></app-order-catalog>
                 <div class="calculator-col">
                     <mat-card>
-                        <h4>Item Plan Summary</h4>
+                        <h4>Item Summary</h4>
                         <mat-card-content>
+                            <div class="select-summary">
                             <div *ngFor="let item of checkoutService.getItems()" class="item-summary-list-item">
                                 <div class="list-item-left">
                                     <button class="remove-item-button" type="button" (click)="removeItem(item)">x</button>
@@ -15,11 +16,12 @@
                                 </div>
                                     <span>${{item.price}}/mo</span>
                             </div>
+                            </div>
                         </mat-card-content>
                         <mat-card-actions>
                             <div class="calculator-row">
                                 <strong>Subtotal:</strong>
-                                <strong>${{priceEstimate.toFixed(2)}}</strong>
+                                <strong style="letter-spacing: 1px;">${{priceEstimate.toFixed(2)}}/mo</strong>
                             </div>
                         </mat-card-actions>
                         <mat-card-actions>
@@ -36,11 +38,11 @@
                     </mat-card>
                     <div class="contact-info">
                         <h3>Questions?</h3>
-                        <p>Contact us
-                            <br>778-820-0377
-                            <br>info@storagehotel.ca
-                            <br>Chat
-                        </p>
+                        <a href="tel:7788200377">778-820-0377</a>
+                        <br>
+                        <a href="mailto:info@storagehotel.ca">info@storagehotel.ca</a>
+                        <br>
+                        <a href="http://m.me/storagehotel" target="_blank">Live Chat</a>
                     </div>
                 </div>
         </div>
@@ -52,13 +54,13 @@
             <div class="content">
                 <div class="book-row">
                     <div class="book-col">
-                        <h3>Pickup Location</h3>
-                        <p>Where would you like us to pickup your belongings from?</p>
+                        <h3>Supply Drop-Off & Pick Up Location</h3>
+                        <p>Where would you like us to drop off your supplies and pick up your items from?</p>
                         <app-location-picker (schoolEmitter)="onGetSchool($event)" (confirmedEmitter)="onConfirmLocation($event)"></app-location-picker>
                     </div>
                     <div class="book-col">
-                        <h3>Pickup Date</h3>
-                        <p>When would you like us to pickup your belongings?</p>
+                        <h3>Supply Drop-Off & Pick Up Date</h3>
+                        <p>When would you like us to pick up your items?</p>
                         <app-time-picker #timePicker (BookingCompleted)="stepper.next()"></app-time-picker>
                     </div>
                 </div>

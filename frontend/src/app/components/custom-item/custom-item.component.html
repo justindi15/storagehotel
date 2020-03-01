@@ -18,10 +18,10 @@
                 <input matInput formControlName="height">
             </mat-form-field>
         </div>
-        <div class="row">
+        <div class="row customItemTotal">
                 <span>Total Cubic Feet: {{totalCubicFeet}}</span>
-                <span>${{totalCubicFeet * priceMultiplier}} /mo</span>
+                <span style="letter-spacing: 0.5px;">${{totalCubicFeet * priceMultiplier}}/month</span>
         </div>
-        <button mat-flat-button color="accent" type="button" (click)="addItem()" (submit)="addItem()" [disabled]="((customItemForm.get('name').value === '') || (totalCubicFeet < 1))">add item</button>
+        <button mat-flat-button color="accent" type="button" (click)="addItem()" (submit)="addItem()" [disabled]="((customItemForm.get('name').value === '') || (totalCubicFeet < 1))">add custom item</button>
     </div>
 </form>
