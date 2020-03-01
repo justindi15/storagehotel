@@ -24,6 +24,22 @@
                 </div>
             </div>
 
+            <!-- Mattresses Section -->
+            <h1 class="section-header">Mattresses</h1>
+            <p class="section-subheader"> FREE protective mattress bag included</p>
+            <div class="row" style="transform: translateX(-12px);">
+                <div class="col" id="col-1">
+                    <ng-container *ngFor="let product of products">
+                            <app-product-item *ngIf="product.col === 'mattress-1'" [product]="product"></app-product-item>
+                    </ng-container>
+                </div>
+                <div class="col" id="col-2">
+                    <ng-container *ngFor="let product of products">
+                            <app-product-item *ngIf="product.col === 'mattress-2'" [product]="product"></app-product-item>
+                    </ng-container>
+                </div>
+            </div>
+
             <!-- Custom Item Section -->
             <h1 class="section-header">Don't see your item?</h1>
             <p class="section-subheader">Enter the dimensions of your item below or contact us

@@ -71,4 +71,32 @@ export const PRODUCTS: product[] = [
       path: 'assets/item-icons/large-duffle-icon.png',
       price: 25,
     },
+    {
+      name: 'Twin Mattress',
+      plan_id: 'twin-mattress',
+      col: 'mattress-1',
+      path: 'assets/item-icons/twin-mattress-icon.png',
+      price: 25,
+    },
+    {
+      name: 'Queen Mattress',
+      plan_id: 'queen-mattress',
+      col: 'mattress-1',
+      path: 'assets/item-icons/queen-mattress-icon.png',
+      price: 30,
+    },
+    {
+      name: 'Full Mattress',
+      plan_id: 'full-mattress',
+      col: 'mattress-2',
+      path: 'assets/item-icons/full-mattress-icon.png',
+      price: 27,
+    },
+    {
+      name: 'King Mattress',
+      plan_id: 'king-mattress',
+      col: 'mattress-2',
+      path: 'assets/item-icons/king-mattress-icon.png',
+      price: 35,
+    },
   ];
