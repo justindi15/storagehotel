@@ -1,6 +1,6 @@
 .component-wrapper {
-    padding-top: 40px;
-    padding-bottom: 200px;
+    padding-top: 30px;
+    padding-bottom: 60px;
 }
 
 .row {
@@ -33,16 +33,30 @@
     border-radius: 25px;
   }
 
-  .note {
-    font-size: small;
-  }
+.section-header {
+    margin: 0px 0px 10px 0px;
+    line-height: 38px;
+}
+
+.section-subheader {
+    font-size: 14px;
+    margin: 0px 0px;
+    padding-right: 12vw;
+}
+
+.note {
+    font-size: 12px;
+    margin-top: 0px;
+    margin-bottom: 25px;
+    padding-right: 18vw;
+}
 
 @media only screen and (max-width: 576px) {
     .component-wrapper{
-        padding: 20px 0px 200px 0px;
+        padding: 18px 0px 200px 0px;
     }
     .items-col {
-        width: 80vw;
+        width: 83vw;
         padding: 0px 30px 0px 20px;
         margin: 0px;
     }
@@ -50,4 +64,10 @@
         padding: 50px;
         border-radius: 25px;
     }
+    .section-subheader {
+    padding-right: 0px;
+}
+.note {
+    padding-right: 0px;
+}
 }

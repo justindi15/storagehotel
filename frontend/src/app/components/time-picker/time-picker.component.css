@@ -6,6 +6,7 @@
     flex-direction: column;
     width: 400px;
     height: 404px;
+    margin-top: 30px;
 }
 
 .radio-group {
@@ -47,9 +48,28 @@ button:hover {
     background-color: #F4AE82!important;
 }
 
+.preferred-time-note {
+    padding: 0px 40px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+.preferred-time-note p {
+    margin: 0px 0px;
+    padding: 0px 0px;
+    font-family: "Gilroy-Light";
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.pick-up-buttons button {
+    margin: 0px 23px;
+}
+
 @media only screen and (max-width: 576px) {
     .wrapper {
         width: 90%;
         margin-left: 20px;
+        margin-top: 0px;
     }
 }

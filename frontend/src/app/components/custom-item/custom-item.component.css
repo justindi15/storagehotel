@@ -1,8 +1,8 @@
 .col {
-    width: 40%;
+    width: 60%;
     display: flex;
     flex-direction: column;
-    padding-left: 2%;
+    padding-left: 0%;
 }
 
 .total-col{
@@ -19,6 +19,7 @@
 
 .name {
     width: 100%;
+    margin-bottom: -20px;
 }
 
 .dimension {
@@ -31,9 +32,34 @@ button {
     font-size: 16px;
     padding: 0px 30px;
     font-family: "Gilroy-Medium";
-    margin-top: 15px;
+    margin-top: 25px;
+    margin-bottom: 30px;
+    width: 230px;
 }
 
 button:hover {
     background-color: #F4AE82!important;
+}
+
+.customItemTotal {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: "Gilroy-Medium";
+}
+
+mat-label {
+    font-size: 14px!important;
+    font-family: "Gilroy-Regular";
+}
+
+@media only screen and (max-width: 576px) {
+.col {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-left: 0%;
+}
+mat-label {
+    font-size: 12px!important;
+}
 }
