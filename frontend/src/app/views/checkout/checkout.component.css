@@ -22,6 +22,15 @@ mat-horizontal-stepper{
     overflow: auto;
 }
 
+.room-service-button{
+    font-size: small;
+}
+
+.room-service-note{
+    font-size: x-small;
+    padding-left: 25px;
+}
+
 .content-checkout {
     width: 100%;
     height: 100%;

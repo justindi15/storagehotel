@@ -15,7 +15,7 @@ const UserSchema = new Schema({
     activationToken: { type: String },
     appointments: [{items: [String], address: {line1: String, line2: String, city: String, postal_code: String}, date: String, time: String, appointmentType: String}],
     customItems: [{name: String, path: String, startdate: Date, status: String, price: Number}],
-    paymentMethod: {}
+    creditCard: {}
 });
 
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
@@ -34,7 +34,7 @@ UserSchema.methods.generateJwt =  function() {
       email: this.email,
       name: this.name,
       stripe_id: this.stripe_id,
-      paymentMethod: this.paymentMethod,
+      creditCard: this.creditCard,
       exp: parseInt(expiry.getTime() / 1000),
     }, process.env.PRIVATE_KEY);
 }

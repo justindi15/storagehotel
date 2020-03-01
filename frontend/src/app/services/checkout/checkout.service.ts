@@ -18,12 +18,13 @@ export interface SubscriptionMap {
 export class CheckoutService {
   subscriptions: SubscriptionMap = {};
   customItems = [];
+  addRoomService: boolean;
   counters: CounterMap = {};
   address: FormGroup;
   phone: string;
   name: string;
   email: string;
-  paymentMethod: any;
+  cardToken: any;
   singleSubtotal = 0;
   school: string;
   supplyDropForm: FormGroup;
@@ -77,7 +78,7 @@ export class CheckoutService {
       name: this.name,
       phone: this.phone,
       email: this.email,
-      paymentMethod: this.paymentMethod,
+      cardToken: this.cardToken,
       address: {
         line1: this.address.get('line1').value,
         line2: this.address.get('line2').value,
@@ -88,14 +89,15 @@ export class CheckoutService {
       startdate: this.pickupForm.get('date').value.getTime() / 1000,
       supplyDropAppointment: this.formToAppointment(this.supplyDropForm, boxes,  "SUPPLY DROPOFF"),
       pickupAppointment: this.formToAppointment(this.pickupForm, items, "PICK UP"),
-      customItems: this.customItems.map((item)=>{item.startdate = this.pickupForm.get('date').value; return item;})
+      customItems: this.customItems.map((item)=>{item.startdate = this.pickupForm.get('date').value; return item;}),
+      addOns: this.buildAddOns()
     }
     console.log(postData);
     return this.auth.register(postData);
   }
 
   formToAppointment(form: FormGroup, items: string[], appointmentType: String){
-    if (form.get('date').value !== '' && form.get('time').value !== ''){
+    if (form && form.valid && form.get('date').value !== '' && form.get('time').value !== ''){
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       const appointment = {
         items: items,
@@ -126,7 +128,8 @@ export class CheckoutService {
       startdate: this.pickupForm.get('date').value.getTime() / 1000,
       supplyDropAppointment: this.formToAppointment(this.supplyDropForm, boxes,  "SUPPLY DROPOFF"),
       pickupAppointment: this.formToAppointment(this.pickupForm, items, "PICK UP"),
-      customItems: this.customItems.map((item)=>{item.startdate = this.pickupForm.get('date').value; return item;})
+      customItems: this.customItems.map((item)=>{item.startdate = this.pickupForm.get('date').value; return item;}),
+      addOns: this.buildAddOns()
     }
     return this.auth.addItemsToUser(postData);
   }
@@ -147,5 +150,33 @@ export class CheckoutService {
     let boxes = this.cart.filter((item)=>item.plan_id === 'box');
     return (boxes.length > 0)
   }
+
+  buildAddOns(){
+    let addOns = []
+    if(this.hasSupplies() && this.supplyDropForm && (this.supplyDropForm.get('date').value !== '') && (this.supplyDropForm.get('time').value !== '') && this.supplyDropForm.get('deliveryMethod').value === 'CUSTOM'){
+      addOns.push({
+        description: 'Custom Supply Drop Date',
+        amount: 4500
+      })
+    }
+
+    if(this.pickupForm && (this.pickupForm.get('date').value !== '') && (this.pickupForm.get('time').value !== '') && this.pickupForm.get('deliveryMethod').value === 'CUSTOM'){
+      addOns.push({
+        description: 'Custom Pickup Date',
+        amount: 4500
+      })
+    }
+
+    if(this.addRoomService){
+      addOns.push({
+        description: 'Room Service',
+        amount: 2500
+      })
+    }
+
+    return addOns;
+  }
+
+
 
 }

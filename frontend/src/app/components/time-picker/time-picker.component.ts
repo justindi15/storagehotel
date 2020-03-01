@@ -55,6 +55,8 @@ export class TimePickerComponent implements OnInit {
     this.index = 0;
     this.isFirstTabDisabled = true;
     this.isSecondTabDisabled = true;
+    this.checkout.supplyDropForm = this.supplyDropForm;
+    this.checkout.pickupForm = this.pickupForm;
     this.supplyDropForm.get('deliveryMethod').disable()
     this.supplyDropForm.get('freeDate').disable()
     this.supplyDropForm.get('customDate').disable()
@@ -65,7 +67,6 @@ export class TimePickerComponent implements OnInit {
   onPickupFormChange(){
     this.pickupForm.statusChanges.subscribe(val=>{
       if(val === 'VALID'){
-        console.log(this.pickupForm.value);
         this.checkout.pickupForm = this.submitForm(this.pickupForm);
       }
     })
@@ -128,6 +129,14 @@ export class TimePickerComponent implements OnInit {
   onSubmit(){
     if(this.checkout.hasSupplies()){
       this.checkout.supplyDropForm = this.submitForm(this.supplyDropForm);
+    }else{
+      this.supplyDropForm.reset({
+        deliveryMethod: new FormControl('FREE', Validators.required),
+        freeDate: new FormControl(''),
+        customDate: new FormControl(''),
+        time: new FormControl('', Validators.required),
+      })
+      this.checkout.supplyDropForm = this.supplyDropForm;
     }
     this.checkout.pickupForm = this.submitForm(this.pickupForm);
     this.BookingCompleted.emit(true);
@@ -188,7 +197,7 @@ export class TimePickerComponent implements OnInit {
   }
 
   pickupMinDate(): Date{
-    if(this.checkout.hasSupplies()){
+    if(!this.checkout.hasSupplies()){
       return new Date();
     }
     let supplyDropDate = this.checkout.supplyDropForm && this.checkout.supplyDropForm.get('date').value;

@@ -72,9 +72,9 @@
                         id="payment-button" 
                         type="button" 
                         (click)="onSubmit()"
-                        [disabled]="!(email.valid && paymentCardComplete && address && (supplyDropForm.valid || checkout.hasSupplies()) && pickupForm.valid)" 
+                        [disabled]="!(email.valid && paymentCardComplete && address && (supplyDropForm.valid || !checkout.hasSupplies()) && pickupForm.valid)" 
                         color="accent" style="width: 100%;">
-                        PAY ${{(price * 1.05).toFixed(2)}}
+                        PAY ${{((price + single) * 1.05).toFixed(2)}}
                 </button>
             </ng-template>
         </div>
@@ -96,9 +96,9 @@
                 <button mat-flat-button
                         type="button" 
                         (click)="addItemsToUser()"
-                        [disabled]="!isLoggedIn || !(address && (supplyDropForm || checkout.hasSupplies()) && pickupForm)"
+                        [disabled]="!isLoggedIn || !(address && (supplyDropForm || !checkout.hasSupplies()) && pickupForm)"
                         color="accent" style="width: 100%;">
-                        PAY ${{(price * 1.05).toFixed(2)}}
+                        PAY ${{((price + single) * 1.05).toFixed(2)}}
                 </button>
             </ng-template>
         </div>

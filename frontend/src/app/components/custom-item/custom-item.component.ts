@@ -49,7 +49,7 @@ export class CustomItemComponent implements OnInit {
       name: this.customItemForm.get('name').value + " (" + this.totalCubicFeet.toString() + " cu. ft)",
       plan_id: this.totalCubicFeet.toString(),
       col: '0',
-      path: 'assets/item-icons/bike-icon.png',
+      path: 'assets/item-icons/custom-item-icon.png',
       price: this.totalCubicFeet * this.priceMultiplier
     }
 

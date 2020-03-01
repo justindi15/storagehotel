@@ -16,13 +16,14 @@ export interface Address {
 export interface RegisterPayload {
   name: string;
   email: string;
-  paymentMethod: any;
+  cardToken: any;
   address: Address;
   subscriptions: any;
   startdate: number;
   supplyDropAppointment: any;
   pickupAppointment: any;
   customItems: any;
+  addOns: any;
 }
 
 export interface LoginPayload {
@@ -35,7 +36,7 @@ export interface UserDetails {
   email: string;
   name: string;
   stripe_id: string;
-  paymentMethod: any;
+  creditCard: any;
   items: {
     name: string;
     path: string;

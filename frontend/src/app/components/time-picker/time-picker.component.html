@@ -47,7 +47,7 @@
             <mat-form-field appearance="outline" *ngIf="(pickupForm.get('deliveryMethod').value==='FREE')">
               <mat-label>Select a FREE Pickup Date</mat-label>
               <mat-select formControlName="freeDate">
-                <mat-option *ngFor="let date of FreePickupDates" [value]="date.value" [disabled]="(checkout.supplyDropForm && (date.value <= checkout.supplyDropForm.get('date').value))">
+                <mat-option *ngFor="let date of FreePickupDates" [value]="date.value" [disabled]="(checkout.hasSupplies() && checkout.supplyDropForm.get('date') && (date.value <= checkout.supplyDropForm.get('date').value))">
                   {{date.label}}
                 </mat-option>
                 <mat-option *ngIf="FreePickupDates.length === 0" [value]="N/A" disabled>

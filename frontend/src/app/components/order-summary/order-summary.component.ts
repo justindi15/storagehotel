@@ -6,7 +6,7 @@ export interface OrderItem {
   img: string;
   name: string;
   qty: number;
-  price: number;
+  price: string;
 }
 
 @Component({
@@ -23,8 +23,9 @@ export class OrderSummaryComponent implements OnInit {
 
   constructor( private checkoutService: CheckoutService ) { 
     this.checkout = checkoutService.cart.map(item => {
-      return {img: item.path, name: item.name, qty: checkoutService.counters[item.name], price: item.price}
+      return {img: item.path, name: item.name, qty: checkoutService.counters[item.name], price: (checkoutService.counters[item.name] * item.price).toString() + '/mo'}
     })
+    this.applyAddOns();
     this.single = this.getSingleSubtotal();
     this.checkoutService.currentpriceEstimate.subscribe(newpriceEstimate => this.recurring = newpriceEstimate);
   }
@@ -33,17 +34,47 @@ export class OrderSummaryComponent implements OnInit {
     console.log(this.checkoutService.subscriptions);
   }
 
+  applyAddOns(){
+    let service = this.checkoutService;
+    if(service.supplyDropForm && service.supplyDropForm.get('deliveryMethod').value === 'CUSTOM'){
+      this.addSingleLineItem('assets/item-icons/custom-item-icon.png', 'Custom Supply Drop Date', 45)
+    }
+
+    if(service.pickupForm && service.pickupForm.get('deliveryMethod').value === 'CUSTOM'){
+      this.addSingleLineItem('assets/item-icons/custom-item-icon.png', 'Custom Pickup Date', 45)
+    }
+
+    if(service.addRoomService){
+      this.addSingleLineItem('assets/item-icons/room-service-icon.png', 'Room Service', 25)
+    }
+  }
+
+  addSingleLineItem(path: string, name: string, price: number){
+    let singleLineItem = {
+      img: path,
+      name: name,
+      qty: 1,
+      price: price.toString(),
+    }
+    this.checkout.push(singleLineItem);
+    return;
+  }
+
   getSingleSubtotal(): number{
     let result = 0;
 
     let service = this.checkoutService;
 
-    if(service.supplyDropForm && this.checkoutService.supplyDropForm.get('deliveryMethod').value === 'CUSTOM'){
+    if(service.supplyDropForm && service.supplyDropForm.get('deliveryMethod').value === 'CUSTOM'){
       result += 45;
     }
 
     if(service.pickupForm && service.pickupForm.get('deliveryMethod').value === 'CUSTOM'){
       result += 45;
+    }
+
+    if(service.addRoomService){
+      result += 25;
     }
 
     return result;

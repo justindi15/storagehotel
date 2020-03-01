@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Output, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, Input, ViewChild, ElementRef } from '@angular/core';
 import {FormControl, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
@@ -14,6 +14,7 @@ declare var Stripe: any;
 export class RegisterComponent implements AfterViewInit {
 
   @ViewChild('cardElement', {static: false}) cardElement: ElementRef;
+  @Input() single: number = 0;
 
   creditcard: any;
   isLoggedIn: boolean = false;
@@ -74,15 +75,13 @@ export class RegisterComponent implements AfterViewInit {
   onSubmit(){
     console.log('form submitted!')
     event.preventDefault();
-    this.stripe.createPaymentMethod({
-      type: 'card',
-      card: this.card,
-    }).then(result => {
+
+    this.stripe.createToken(this.card).then((result)=>{
       if (result.error) {
         this.errorMessage = result.error.message;
       } else {
         this.loading = true;
-        this.checkout.paymentMethod = result.paymentMethod;
+        this.checkout.cardToken = result.token;
         this.checkout.email = this.email.value;
         this.checkout.pay().subscribe(() => {
           alert('successfully subscribed!')
@@ -93,7 +92,7 @@ export class RegisterComponent implements AfterViewInit {
           this.loading = false
         });
       }
-    });
+    })
   }
 
   getDate(form: FormGroup): String{
@@ -114,7 +113,7 @@ export class RegisterComponent implements AfterViewInit {
       this.loading = false;
       if(this.auth.isLoggedIn()){
         let userDetails = this.auth.getUserDetails();
-        this.creditcard = userDetails.paymentMethod.card;
+        this.creditcard = userDetails.creditCard;
         this.isLoggedIn = true;
       }
     }, (err) => {

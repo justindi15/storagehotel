@@ -22,7 +22,7 @@ router.post('/register', (req, res) => {
 
   //TODO: validate form input types
 
-  const {name, email, paymentMethod, address, subscriptions, startdate, phone, supplyDropAppointment, pickupAppointment, customItems} = req.body;
+  const {name, email, cardToken, address, subscriptions, startdate, phone, supplyDropAppointment, pickupAppointment, customItems, addOns} = req.body;
   const {line1, line2, city, postalcode} = address;
 
   //check if user with email already exists
@@ -44,10 +44,6 @@ router.post('/register', (req, res) => {
                 "postal_code": postalcode,
                 "state": "BC",
             },
-            payment_method: paymentMethod.id,
-            invoice_settings: {
-                default_payment_method: paymentMethod.id,
-              },
           }, function(err, customer){
               //send a failed response if stripe api call fails
               if(err) {
@@ -56,59 +52,96 @@ router.post('/register', (req, res) => {
                   return;
                 }
 
-              //save user with stripe customer id to database if stripe call succeeds
-              const newUser = new User({
-                  email: customer.email,
-                  name: customer.name,
-                  stripe_id: customer.id,
-                  activated: false,
-                  activationToken: uuidv4(),
-                  appointments: [pickupAppointment],
-                  customItems: customItems,
-                  paymentMethod: paymentMethod
-              })
-              if(supplyDropAppointment){
-                  newUser.appointments.push(supplyDropAppointment);
-              }
-              newUser.save()
-              .then(stripe.subscriptionSchedules.create({
-                    customer: customer.id,
-                    start_date: startdate,
-                    phases: [
-                        {
-                            plans: subscriptions,
-                            default_tax_rates: ['txr_1GEQ8iJ9qNaYrnZunLqjMhC1']
+                stripe.customers.createSource(
+                    customer.id,
+                    {source: cardToken.id},
+                    function(err, card) {
+
+                        for(lineItem of addOns){
+                            (async () => {
+                                try {
+                                  return await stripe.invoiceItems.create({
+                                    customer: customer.id,
+                                    amount: lineItem.amount,
+                                    currency: 'cad',
+                                    description: lineItem.description,
+                                  });
+                                } catch (err) {
+                                    console.log(err)
+                                }
+                              })();
                         }
 
-                    ]
-                  }, function(err, subscription){
-                    if(err) {res.status(400).json({ message: err}); return}
-                        var token;
-                        token = newUser.generateJwt();
-                        var activationToken = newUser.activationToken;
-                        //send activation email TODO: refactor this out
-                        var transporter = nodemailer.createTransport({
-                            host: 'smtp.zoho.com',
-                            port: 465,
-                            secure: true, // use SSL
-                            auth: {
-                                user: process.env.EMAIL,
-                                pass: process.env.PASSWORD,
-                            }
-                        });
-                        
-                        transporter.sendMail(mailOptions(email, activationToken, name), function (error, info) {
-                          if (error) {
-                              console.log(error);
-                          } else {
-                              console.log('Email sent: ' + info.response);
-                          }
-                        });
+                          (async ()=>{
+                                try {
+                                    const invoice = await stripe.invoices.create({
+                                        customer: customer.id,
+                                        auto_advance: true,
+                                        collection_method: "charge_automatically",
+                                        default_tax_rates: ['txr_1GEQ8iJ9qNaYrnZunLqjMhC1'],
+                                      });
+                                    const finalizedInvoice = await stripe.invoices.finalizeInvoice(invoice.id);
+                                    const payedInvoice = await stripe.invoices.pay(finalizedInvoice.id)
+                                } catch (err){
+                                    console.log(err)
+                                }
+                          })()
 
-                        res.status(200).json({"token": token, "subscription": subscription.status});
-                        return;
-                  }))
-              .catch(err => {res.status(400).json({ message: err}); return;});
+                        //save user with stripe customer id to database if stripe call succeeds
+                        const newUser = new User({
+                            email: customer.email,
+                            name: customer.name,
+                            stripe_id: customer.id,
+                            activated: false,
+                            activationToken: uuidv4(),
+                            appointments: [pickupAppointment],
+                            customItems: customItems,
+                            creditCard: card,
+                        })
+                        if (supplyDropAppointment) {
+                            newUser.appointments.push(supplyDropAppointment);
+                        }
+                        newUser.save()
+                        .then(stripe.subscriptionSchedules.create({
+                              customer: customer.id,
+                              start_date: startdate,
+                              phases: [
+                                  {
+                                      plans: subscriptions,
+                                      default_tax_rates: ['txr_1GEQ8iJ9qNaYrnZunLqjMhC1']
+                                  }
+          
+                              ]
+                            }, function(err, subscription){
+                              if(err) {res.status(400).json({ message: err}); return}
+                                  var token;
+                                  token = newUser.generateJwt();
+                                  var activationToken = newUser.activationToken;
+                                  //send activation email TODO: refactor this out
+                                  var transporter = nodemailer.createTransport({
+                                      host: 'smtp.zoho.com',
+                                      port: 465,
+                                      secure: true, // use SSL
+                                      auth: {
+                                          user: process.env.EMAIL,
+                                          pass: process.env.PASSWORD,
+                                      }
+                                  });
+                                  
+                                  transporter.sendMail(mailOptions(email, activationToken, name), function (error, info) {
+                                    if (error) {
+                                        console.log(error);
+                                    } else {
+                                        console.log('Email sent: ' + info.response);
+                                    }
+                                  });
+          
+                                  res.status(200).json({"token": token, "subscription": subscription.status});
+                                  return;
+                            }))
+                        .catch(err => {res.status(400).json({ message: err}); return;});
+                    }
+                  );
           });
     }
   })
@@ -119,15 +152,52 @@ router.post('/addItemsToUser', (req, res) => {
 
     //TODO: validate form input types
   
-    const { email, stripe_id, address, subscriptions, startdate, supplyDropAppointment, pickupAppointment, customItems} = req.body;
+    const { email, stripe_id, address, subscriptions, startdate, supplyDropAppointment, pickupAppointment, customItems, addOns} = req.body;
     const {line1, line2, city, postalcode} = address;
   
     User.findOne({ email: email}, (err, user) => {
       if (err) {res.status(400).json({ message: err}); return}
       if (!user) {res.status(400).json({ message: "User with that email does not exist"}); return}
       if (user) {
+
+        for(lineItem of addOns){
+            (async () => {
+                try {
+                    console.log('creating invoice item');
+                  return await stripe.invoiceItems.create({
+                    customer: user.stripe_id,
+                    amount: lineItem.amount,
+                    currency: 'cad',
+                    description: lineItem.description,
+                  });
+                  console.log('finished invoice item')
+                } catch (err) {
+                    console.log(err)
+                }
+              })();
+        }
+
+          (async ()=>{
+                try {
+                    console.log('creating invoice')
+                    const invoice = await stripe.invoices.create({
+                        customer: user.stripe_id,
+                        auto_advance: true,
+                        collection_method: "charge_automatically",
+                        default_tax_rates: ['txr_1GEQ8iJ9qNaYrnZunLqjMhC1'],
+                      });
+                    console.log('finalizing');
+                    const finalizedInvoice = await stripe.invoices.finalizeInvoice(invoice.id);
+                    console.log('finished finalizing')
+                    const payedInvoice = await stripe.invoices.pay(finalizedInvoice.id)
+                    console.log('paid invoice');
+                } catch (err){
+                    res.status(400).json({ message: err}); return
+                }
+          })()
+
             if(supplyDropAppointment){
-                newUser.appointments.push(supplyDropAppointment);
+                user.appointments.push(supplyDropAppointment);
             }
           user.appointments.push(pickupAppointment);
           user.customItems = user.customItems.concat(customItems)

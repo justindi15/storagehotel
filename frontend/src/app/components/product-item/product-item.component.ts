@@ -36,12 +36,20 @@ export class ProductItemComponent implements OnInit {
   }
 
   decrement() {
-    if(this.count >= 1){
+    if(this.count > 1){
       this.count--;
       this.checkoutService.removeFromCart(this.product);
       this.checkoutService.decreasepriceEstimate(this.priceEstimate - this.price);
       this.checkoutService.counters[this.name] = this.count;
       this.checkoutService.subscriptions[this.plan_id] = this.count;
+    }else{
+      if(this.count == 1){
+        this.count--;
+        this.checkoutService.removeFromCart(this.product);
+        this.checkoutService.decreasepriceEstimate(this.priceEstimate - this.price);
+        delete this.checkoutService.counters[this.name];
+        delete this.checkoutService.subscriptions[this.plan_id];
+      }
     }
   }
 }

@@ -22,6 +22,14 @@
                                 <strong>${{priceEstimate.toFixed(2)}}</strong>
                             </div>
                         </mat-card-actions>
+                        <mat-card-actions>
+                            <mat-checkbox (change)="addRoomService($event)" class="room-service-button">Add Room Service ($25)</mat-checkbox>
+                            <p class="room-service-note">
+                                By default, our staff will meet you at the nearest common area
+                                or loading zone to your building. With our <strong>Room Service</strong>,
+                                our staff will carry your items directly from your room!
+                            </p>
+                        </mat-card-actions>
                         <mat-card-actions class="next-button-div">
                             <button mat-flat-button color="accent" matStepperNext>Next</button>
                         </mat-card-actions>

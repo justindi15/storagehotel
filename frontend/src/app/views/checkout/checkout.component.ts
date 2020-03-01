@@ -33,6 +33,14 @@ export class CheckoutComponent implements OnInit {
   ngOnInit() {
   }
 
+  addRoomService(event){
+    if(event.checked){
+      this.checkoutService.addRoomService = true;
+    }else{
+      this.checkoutService.addRoomService = false;
+    }
+  }
+
   onConfirmLocation(event){
     if(event){
       this.timePicker.enable();
@@ -62,11 +70,20 @@ export class CheckoutComponent implements OnInit {
     }
     this.checkoutService.removeFromCart(product);
     this.checkoutService.decreasepriceEstimate(this.priceEstimate - product.price);
-    if(this.checkoutService.counters[product.name] && this.checkoutService.counters[product.name] >= 1){
+    if(this.checkoutService.counters[product.name] && this.checkoutService.counters[product.name] > 1){
       this.checkoutService.counters[product.name]--
+    }else{
+      if(this.checkoutService.counters[product.name] && this.checkoutService.counters[product.name] == 1){
+        delete this.checkoutService.counters[product.name]
+      }  
     }
-    if(this.checkoutService.subscriptions[product.plan_id] && this.checkoutService.subscriptions[product.plan_id] >= 1){
+
+    if(this.checkoutService.subscriptions[product.plan_id] && this.checkoutService.subscriptions[product.plan_id] > 1){
       this.checkoutService.subscriptions[product.plan_id]--
+    }else{
+      if(this.checkoutService.subscriptions[product.plan_id] && this.checkoutService.subscriptions[product.plan_id] == 1){
+        delete this.checkoutService.subscriptions[product.plan_id]
+      }
     }
   }
 }

@@ -21,7 +21,7 @@
 
             <ng-container matColumnDef="price">
                 <th mat-header-cell *matHeaderCellDef>PRICE</th>
-                <td mat-cell *matCellDef="let item"><h4>${{item.price * item.qty}}/mo</h4></td>
+                <td mat-cell *matCellDef="let item"><h4>${{item.price}}</h4></td>
             </ng-container>
 
             <ng-container matColumnDef="noRecord">
@@ -51,6 +51,6 @@
         </div>
     </div>
     <div class="forms-div">
-            <app-register></app-register>
+            <app-register [single]="single"></app-register>
     </div>
 </div>
